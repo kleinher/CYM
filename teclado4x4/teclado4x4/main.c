@@ -29,6 +29,7 @@ int main(void)
 		}
     }
 }
+/*SETUP DE LA PANTALLA LCD*/
 void setup(){
 	LCDinit();
 	LCDclr();

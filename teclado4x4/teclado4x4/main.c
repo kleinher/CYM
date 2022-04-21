@@ -17,26 +17,25 @@ int main(void)
 {
     /* Replace with your application code */
     uint8_t key=0x00;
-	uint8_t cod1[12]={' ','C','D','y','M',' ','P','r','u','e','b','a'};
-	uint8_t cod2[7]={' ','T','e','c','l','a',':'};
-	LCDinit();
-	LCDclr();
-	//LCDhome();
-	LCDstring(cod1,12);
-	LCDGotoXY(0,1);
-	LCDstring(cod2,7);
+	
+	setup();
+
 	while (1) 
     {
 		if(KEYPAD_Update (&key)){
 			LCDsendChar(key);//se manda key al lcd
-			LCDGotoXY(7,1);
-			_delay_ms(50);
-		}
-		else
-		{
-			//no se apreto ninguna tecla
+			LCDGotoXY(6,1);
+			_delay_ms(5);
 		}
     }
+}
+void setup(){
+	LCDinit();
+	LCDclr();
+	//LCDhome();
+	LCDstring("CDyM PRUEBA",11);
+	LCDGotoXY(0,1);
+	LCDstring("Tecla:",6);
 }
 /********************************************************
 FUNCION PARA ESCANEAR UN TECLADO MATRICIAL Y DEVOLVER LA
@@ -66,29 +65,27 @@ uint8_t KEYPAD_Update (uint8_t *pkey)
 	return 0;
 }
 
+const uint8_t filas[4] =   {0b00010000,0b00001000,0b00000001,0b10000000};
+const uint8_t columna[4] = {0b00001000,0b00100000,0b00010000,0b00000100};
+const char codChar[4][4] = {{'1','2','3','A'},
+							{'4','5','6','B'},
+							{'7','8','9','C'},
+							{'0','*','#','D'}};
+
 uint8_t KEYPAD_scan (uint8_t *key){
-	uint8_t c,r;
 	PORTD=0b01111111;
-	//uint8_t codAscii[4][4] = {{0x31,0x32,0x33,0x41},{0x34,0x35,0x36,0x42},{0x37,0x38,0x39,0x43},{0x30,0x2A,0x23,0x44}};
-	uint8_t codAscii[4][4] = {{0b110001,0b110010,0b110011,0b1000001},
-							  {0b110100,0b110101,0b110110,0b1000010},
-							  {0b110111,0b111000,0b111001,0b1000011},
-							  {0b110000,0b101010,0b100011,0b1000100}};
-	uint8_t filas[4] = {0b00010000,0b00001000,0b00000001,0b10000000};
-	uint8_t columna[4] = {0b00001000,0b00100000,0b00010000,0b00000100};
-	for(c=0;c<4;c++){
+	
+	for(int c=0;c<4;c++){
 		//poner en cero las filas
 		DDRD &= ~(0b10000000);
 		DDRB &= ~(0b00011001);
-		if(c==3){
-			DDRD |= filas[c];
-		}
-		else{
-			DDRB |= filas[c];
-		}
-		for(r=0; r<4; r++){
+		
+		if(c==3) DDRD |= filas[c];
+		else     DDRB |= filas[c];
+		
+		for(int r=0; r<4; r++){
 			if(!(PIND & columna[r])){
-				*key=(codAscii[c][r]);
+				*key = codChar[c][r];
 				return(1);
 			}
 		}

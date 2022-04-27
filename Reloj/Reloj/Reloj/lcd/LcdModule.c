@@ -13,7 +13,7 @@
 uint8_t KEYPAD_scan (uint8_t *);
 uint8_t KEYPAD_Update (uint8_t *);
 
-int main(void)
+int mainLcd(void)
 {
     /* Replace with your application code */
     uint8_t key=0x00;

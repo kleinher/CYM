@@ -10,10 +10,10 @@
 #define F_CPU 16000000UL // Especifico la frecuencia de reloj del MCU en 8MHz
 #include <util/delay.h> // Retardos por software – Macros: depende de F_CPU
 #include "lcd.h"
-uint8_t KEYPAD_scan (uint8_t *);
-uint8_t KEYPAD_Update (uint8_t *);
+static uint8_t KEYPAD_scan (uint8_t *);
+static uint8_t KEYPAD_Update (uint8_t *);
 
-int main(void)
+int mainTeclado(void)
 {
     /* Replace with your application code */
     uint8_t key=0x00;
@@ -28,7 +28,7 @@ int main(void)
     }
 }
 /*SETUP DE LA PANTALLA LCD*/
-void setup(){
+static void setup(){
 	LCDinit();
 	LCDclr();
 	LCDhome();
@@ -44,7 +44,7 @@ DEVUELVE:
 0 -> NO HAYNUEVA TECLA PRESIONADA
 1 -> HAY NUEVA TECLA PRESIONADA Y ES *pkey
 ********************************************************/
-uint8_t KEYPAD_Update (uint8_t *pkey)
+static uint8_t KEYPAD_Update (uint8_t *pkey)
 {
 	static uint8_t Old_key;
 	uint8_t Key, Last_valid_key=0xFF; // no hay tecla presionada
@@ -64,14 +64,14 @@ uint8_t KEYPAD_Update (uint8_t *pkey)
 	return 0;
 }
 
-const uint8_t filas[4] =   {0b00010000,0b00001000,0b00000001,0b10000000};
-const uint8_t columna[4] = {0b00001000,0b00100000,0b00010000,0b00000100};
-const char codChar[4][4] = {{'1','2','3','A'},
+static const uint8_t filas[4] =   {0b00010000,0b00001000,0b00000001,0b10000000};
+static const uint8_t columna[4] = {0b00001000,0b00100000,0b00010000,0b00000100};
+static const char codChar[4][4] = {{'1','2','3','A'},
 							{'4','5','6','B'},
 							{'7','8','9','C'},
 							{'0','*','#','D'}};
 
-uint8_t KEYPAD_scan (uint8_t *key){
+static uint8_t KEYPAD_scan (uint8_t *key){
 	PORTD=0b01111111;
 	
 	for(int c=0;c<4;c++){

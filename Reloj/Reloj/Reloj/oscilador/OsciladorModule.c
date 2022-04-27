@@ -20,7 +20,7 @@ ISR(TIMER0_OVF_vect)
 	
 }
 
-int main(void)
+int mainOscilador(void)
 {
 	DDRB=0b00100000;//PB5 como salida
 	TCCR0B=(1<<CS02)|(1<<CS00);//configurar el registro del timer0 como temporizador con prescalador de 1024

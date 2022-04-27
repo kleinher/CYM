@@ -120,9 +120,39 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.c">
+    <Compile Include="lcd\lcd.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="lcd\LcdModule.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="librerias\lcd.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="librerias\lcd.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="librerias\reloj.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RelojModule.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="oscilador\OsciladorModule.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="teclado\lcd.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="teclado\TecladoModule.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lcd" />
+    <Folder Include="librerias" />
+    <Folder Include="teclado" />
+    <Folder Include="oscilador" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

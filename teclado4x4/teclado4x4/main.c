@@ -7,9 +7,10 @@
 
 /* Inclusión de cabeceras de bibliotecas de código */
 #include <avr/io.h> // Definición de Registros del microcontrolador
-#define F_CPU 16000000UL // Especifico la frecuencia de reloj del MCU en 8MHz
+#define F_CPU 8000000UL // Especifico la frecuencia de reloj del MCU en 8MHz
 #include <util/delay.h> // Retardos por software – Macros: depende de F_CPU
 #include "lcd.h"
+void setup();
 uint8_t KEYPAD_scan (uint8_t *);
 uint8_t KEYPAD_Update (uint8_t *);
 
@@ -17,24 +18,25 @@ int main(void)
 {
     /* Replace with your application code */
     uint8_t key=0x00;
-	LCDinit();
-	LCDclr();
-	//setup();
-	LCDhome();
-	LCDsendChar('a');
-	LCDcursorOnBlink();
+	
+	setup();
+
 	while (1) 
     {
+		if(KEYPAD_Update (&key)){
+			LCDsendChar(key);//se manda key al lcd
+			LCDGotoXY(7,1);
+		}
     }
 }
 /*SETUP DE LA PANTALLA LCD*/
 void setup(){
 	LCDinit();
 	LCDclr();
-	LCDhome();
-	LCDstring((uint8_t *)"CDyM PRUEBA",11);
+	//LCDhome();
+	LCDstring((uint8_t*)"CDyM PRUEBA",11);
 	LCDGotoXY(0,1);
-	LCDstring((uint8_t *)"Tecla:",6);
+	LCDstring((uint8_t*)"Tecla:",6);
 }
 /********************************************************
 FUNCION PARA ESCANEAR UN TECLADO MATRICIAL Y DEVOLVER LA
@@ -72,7 +74,7 @@ const char codChar[4][4] = {{'1','2','3','A'},
 							{'0','*','#','D'}};
 
 uint8_t KEYPAD_scan (uint8_t *key){
-	PORTD=0b01111111;
+	PORTD=0b01111100;
 	
 	for(int c=0;c<4;c++){
 		//poner en cero las filas
@@ -85,6 +87,7 @@ uint8_t KEYPAD_scan (uint8_t *key){
 		for(int r=0; r<4; r++){
 			if(!(PIND & columna[r])){
 				*key = codChar[c][r];
+				_delay_ms(20);
 				return(1);
 			}
 		}

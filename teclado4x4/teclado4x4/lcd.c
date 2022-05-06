@@ -4,7 +4,7 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
-#define F_CPU 16000000UL // Especifico la frecuencia de reloj del MCU en 8MHz
+
 #define LCD_DATAWR(Data)		{LDP1 = (LDP1 & 0xF9) | ((Data & 0x40) >> 4) | ((Data & 0X80) >> 6); LDP2 = (LDP2 & 0xF9) | ((Data & 0X10) >> 3) | ((Data & 0X20) >> 3);}
 
 extern volatile unsigned int temp;
@@ -199,7 +199,6 @@ register uint8_t i;
 	for(i=0; i<nBytes; i++)
 	{
 		LCDsendChar(data[i]);
-		_delay_us(50);
 	}
 }
 void LCDGotoXY(uint8_t x, uint8_t y)	//Cursor to X Y position

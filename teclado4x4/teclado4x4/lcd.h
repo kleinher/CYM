@@ -1,6 +1,6 @@
 #ifndef LCD_H
 #define LCD_H
-#define F_CPU 16000000UL // Especifico la frecuencia de reloj del MCU en 8MHz
+
 #include <inttypes.h>
 
 	//#include "main.h"

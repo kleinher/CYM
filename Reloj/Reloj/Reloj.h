@@ -7,17 +7,17 @@
 #include "lcd.h"
 
 typedef struct{
-	unsigned char second;
-	unsigned char minute;
-	unsigned char hour;
-	unsigned char date;
-	unsigned char month;
-	unsigned char year;
+	signed char second;
+	signed char minute;
+	signed char hour;
+	signed char date;
+	signed char month;
+	signed char year;
 }time;
 volatile uint8_t FlagLcd=0;
 volatile uint8_t FlagCambio=0;
-volatile time t={10,29,14,19,4,98};
-volatile time t_Parcial={10,29,14,19,4,21};
+volatile time t={01,01,01,01,01,01};
+volatile time t_Parcial={01,01,01,01,01,01};
 static char not_leap(void);
 static char not_leap_Parcial(void);
 #define DIA_HORA 4
@@ -28,8 +28,11 @@ state estado;
 volatile uint8_t posicion[2]={0,0};
 volatile uint8_t FlagCursor=0;
 void salidaA(uint8_t eje_Y,uint8_t eje_X);
-	void salidaD(uint8_t eje_Y,uint8_t eje_X);
-	void actualizarCampo(char campo,uint8_t estado);
-	void efecto_Apagado();
-	void actualizarTiempo();
-	void imprimir();
+void salidaD(uint8_t eje_Y,uint8_t eje_X);
+void actualizarCampo(char campo,uint8_t estado);
+void efecto_Apagado();
+void actualizarTiempo();
+void imprimir();
+void actualizarDia(int8_t dir);
+uint8_t KEYPAD_scan (uint8_t *);
+ void actualizarCampo2(volatile signed char *asdf,int8_t dir,uint8_t maximo,int8_t minimo);

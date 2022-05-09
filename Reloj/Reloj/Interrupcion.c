@@ -9,7 +9,7 @@
 
 void setupTimer(){
 	DDRB=0b00100000;//PB5 como salida
-	TCCR0B=(1<<CS02)|(1<<CS00);//configurar el registro del timer0 como temporizador con prescalador de 1024
+	TCCR0B=(1<<CS02)|(0<<CS00);//configurar el registro del timer0 como temporizador con prescalador de 1024
 	TCNT0=99;//el registro empieza con valor 99
 	TIMSK0|= (1<<TOIE0);//habilita la interrupcion por desbordamiento del timer0
 	sei();//habilita interrupciones globales

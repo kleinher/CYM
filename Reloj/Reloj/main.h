@@ -9,7 +9,6 @@
 #include <avr/sleep.h>
 #include "lcd.h"
 
-
 void setupLCD();
 void setupTimer();
 
@@ -23,14 +22,7 @@ void imprimir();
 void efecto_Apagado();
 void relojFuncion();
 
-
-
-
-
 volatile uint8_t actualizar=0;
-	
-
-
 
 #ifndef MAIN_H_
 #define MAIN_H_

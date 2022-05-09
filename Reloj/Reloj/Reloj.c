@@ -88,23 +88,22 @@ void iniciar_MEF(){
 
 void actualizar_MEF(){
 	uint8_t key='#';
-	uint8_t static nuevo=0;
-	nuevo=KEYPAD_scan (&key);
+
 	efecto_Apagado();
 	switch (estado){
 		case S0:
 		switch (key){
-			case 'A': t_Parcial=t; estado=S1; salida(1,1,ANO_SEGUNDO);
+			case 'A': t_Parcial=t; estado=S1; salidaA(1,ANO_SEGUNDO);
 			break;
-			case 'D': estado=S0; salida(0,1,ANO_SEGUNDO);
+			case 'D': estado=S0; salidaD(1,ANO_SEGUNDO);
 			default: actualizarTiempo();
 		}
 		break;
 		case S1:
 		switch (key){
-			case 'A': estado=S2; salida(1,1,MES_MINUTO);
+			case 'A': estado=S2; salidaA(1,MES_MINUTO);
 			break;
-			case 'D': estado=S0; salida(0,1,MES_MINUTO);
+			case 'D': estado=S0; salidaD(1,MES_MINUTO);
 			break;
 			case 'B': actualizarCampo('A',1); imprimir(); LCDGotoXY(ANO_SEGUNDO,1);
 			break;
@@ -113,9 +112,9 @@ void actualizar_MEF(){
 		break;
 		case S2:
 		switch (key){
-			case 'A': estado=S3; salida(1,1,DIA_HORA);
+			case 'A': estado=S3; salidaA(1,DIA_HORA);
 			break;
-			case 'D': estado=S0; salida(0,1,DIA_HORA);
+			case 'D': estado=S0; salidaD(1,DIA_HORA);
 			break;
 			case 'B': actualizarCampo('M',1); imprimir(); LCDGotoXY(MES_MINUTO,1);
 			break;
@@ -124,9 +123,9 @@ void actualizar_MEF(){
 		break;
 		case S3:
 		switch (key){
-			case 'A': estado=S4; salida(1,0,DIA_HORA);
+			case 'A': estado=S4; salidaA(0,DIA_HORA);
 			break;
-			case 'D': estado=S0; salida(0,0,DIA_HORA);
+			case 'D': estado=S0; salidaD(0,DIA_HORA);
 			break;
 			case 'B': actualizarCampo('D',1); imprimir(); LCDGotoXY(DIA_HORA,1);
 			break;
@@ -135,9 +134,9 @@ void actualizar_MEF(){
 		break;
 		case S4:
 		switch (key){
-			case 'A': estado=S5; salida(1,0,MES_MINUTO);
+			case 'A': estado=S5; salidaA(0,MES_MINUTO);
 			break;
-			case 'D': estado=S0; salida(0,0,MES_MINUTO);
+			case 'D': estado=S0; salidaD(0,MES_MINUTO);
 			break;
 			case 'B': actualizarCampo('h',1); imprimir(); LCDGotoXY(DIA_HORA,0);
 			break;
@@ -146,9 +145,9 @@ void actualizar_MEF(){
 		break;
 		case S5:
 		switch (key){
-			case 'A': estado=S6; salida(1,0,ANO_SEGUNDO);
+			case 'A': estado=S6; salidaA(0,ANO_SEGUNDO);
 			break;
-			case 'D': estado=S0; salida(0,0,ANO_SEGUNDO);
+			case 'D': estado=S0; salidaD(0,ANO_SEGUNDO);
 			break;
 			case 'B': actualizarCampo('n',1); imprimir(); LCDGotoXY(MES_MINUTO,0);
 			break;
@@ -157,9 +156,9 @@ void actualizar_MEF(){
 		break;
 		case S6:
 		switch (key){
-			case 'A': estado=S0; salida(1,0,ANO_SEGUNDO); salida(0,0,ANO_SEGUNDO);
+			case 'A': estado=S0; salidaA(0,ANO_SEGUNDO); salidaD(0,ANO_SEGUNDO);
 			break;
-			case 'D': estado=S0; salida(0,0,ANO_SEGUNDO);
+			case 'D': estado=S0; salidaD(0,ANO_SEGUNDO);
 			break;
 			case 'B': actualizarCampo('s',1); imprimir(); LCDGotoXY(ANO_SEGUNDO,0);
 			break;
@@ -204,22 +203,20 @@ void imprimir(){
 	}
 }
 
-void salida(uint8_t z,uint8_t eje_Y,uint8_t eje_X){
-	if(z){
+void salidaA(uint8_t eje_Y,uint8_t eje_X){
 		t=t_Parcial;
 		imprimir();
 		LCDGotoXY(eje_X,eje_Y);
 		posicion[0]=eje_X;
 		posicion[1]=eje_Y;
 		FlagCursor=1;
-	}
-	else{
+}
+void salidaD(uint8_t eje_Y,uint8_t eje_X){
 		t_Parcial=t;
 		LCDGotoXY(eje_X,eje_Y);
 		posicion[0]=eje_X;
 		posicion[1]=eje_Y;
 		FlagCursor=0;
-	}
 }
 void actualizarCampo(char campo,uint8_t estado){
 	switch (campo){

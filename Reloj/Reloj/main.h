@@ -6,6 +6,8 @@
  */ 
 #include <avr/io.h>			// Definición de Registros del microcontrolador
 #include <avr/interrupt.h>
+#define F_CPU 16000000UL // Especifico la frecuencia de reloj del MCU en 8MHz
+#include <util/delay.h>
 #include <avr/sleep.h>
 #include "lcd.h"
 
@@ -27,8 +29,7 @@ volatile uint8_t actualizar=0;
 #ifndef MAIN_H_
 #define MAIN_H_
 
-#define F_CPU 16000000UL // Especifico la frecuencia de reloj del MCU en 8MHz
-#include <util/delay.h>
+
 
 
 #endif /* MAIN_H_ */

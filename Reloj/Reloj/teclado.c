@@ -47,8 +47,11 @@ uint8_t KEYPAD_scan (uint8_t *key){
 		
 		for(int r=0; r<4; r++){
 			if(!(PIND & columna[r])){
-				*key = codChar[c][r];
-				_delay_ms(500);
+				_delay_ms(20);
+				if(!(PIND & columna[r])){
+					*key = codChar[c][r];
+					_delay_ms(500);
+				}
 				return(1);
 			}
 		}

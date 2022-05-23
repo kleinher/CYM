@@ -25,7 +25,6 @@ void setupLCD(){
 	LCDinit();
 	LCDclr();
 	LCDcursorOFF();
-
 }
 
 

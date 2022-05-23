@@ -75,14 +75,17 @@ static char not_leap(time t)      //check for leap year
 void iniciar_MEF(){
 	estado=S0;t_Parcial=t;
 }
-
+/*
+	Actualiza la maquina de estados dependiendo 
+	de la tecla precionada
+*/
 void actualizar_MEF(){
 	uint8_t key='#';
 	KEYPAD_scan (&key);
-	efecto_Apagado();
-	switch (estado){
-		case S0:
-			switch (key){
+	efecto_Apagado();   //Efecto de encendido y apagado del campo modificandose
+	switch (estado){	//Maquina de estados
+		case S0:		//Estado 0, default
+			switch (key){ 
 				case 'A': t_Parcial=t; estado=S1; salidaA(ano);
 				break;
 				default: actualizarTiempo(t);
@@ -90,9 +93,9 @@ void actualizar_MEF(){
 		break;
 		case S1:
 		switch (key){
-			case 'A': estado=S2; salidaA(mes);
+			case 'A': estado=S2; salidaA(mes); 
 			break;
-			case 'D': estado=S0; salidaD(mes);
+			case 'D': estado=S0; salidaD(mes); 
 			break;
 			case 'B': actualizarCampo2(&t_Parcial.year,1,100,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,1);
 			break;
@@ -101,13 +104,13 @@ void actualizar_MEF(){
 		break;
 		case S2:
 		switch (key){
-			case 'A': estado=S3; salidaA(dia);
+			case 'A': estado=S3; salidaA(dia); actualizarDia(0);
 			break;
 			case 'D': estado=S0; salidaD(dia);
 			break;
 			case 'B': actualizarCampo2(&t_Parcial.month,1,12,0,0); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,1);
 			break;
-			case 'C': actualizarCampo2(&t_Parcial.month,-1,12,0,0); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,1);
+			case 'C': actualizarCampo2(&t_Parcial.month,-1,12,0,0);  actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,1);
 		}
 		break;
 		case S3:
@@ -156,7 +159,11 @@ void actualizar_MEF(){
 		break;
 	}
 }
-
+/*
+Actualiza el valor impreso en la pantalla LCD
+Parametros:
+	t: valor de tiempo a imprimir en pantalla
+*/
 void actualizarTiempo(time t){
 	if(FlagLcd){
 		FlagLcd=0;
@@ -174,6 +181,11 @@ void actualizarTiempo(time t){
 		LCDescribeDato(t.second,2);
 	}
 }
+/*
+	Se encarga de pasar el siguiente estado de modificación
+	Parametro:
+		posi: posicion donde se imprime el siguiente campo
+*/
 void salidaA(pos posi){
 	t=t_Parcial;
 	actualizarTiempo(t_Parcial);
@@ -182,6 +194,12 @@ void salidaA(pos posi){
 	posicion[1]=posi.y;
 	FlagCursor=1;
 }
+/*
+	Resulver la logica asociada a volver 
+	al estado default luego de la modificación
+	Parametro:
+		posi: posicion donde se imprime el siguiente campo
+*/
 void salidaD(pos posi){
 	t_Parcial=t;
 	LCDGotoXY(posi.x,posi.y);
@@ -189,21 +207,34 @@ void salidaD(pos posi){
 	posicion[1]=posi.y;
 	FlagCursor=0;
 }
-
-
+/*
+	Actualiza el valor del día, contemplando año biciestos
+	Parámetro:
+		dir: 1 si se quiere incrementar, -1 si se quiere decrementar.
+*/
 void actualizarDia(int8_t dir){
 	switch (t_Parcial.month)
 	{
 		case 2:
 			if(not_leap(t_Parcial)){
-				t_Parcial.date = (t_Parcial.date+dir) % 28;
-				if(t_Parcial.date == 0)
+				if(t_Parcial.date < 29)
+					t_Parcial.date = (t_Parcial.date+dir) % 28;
+					if(t_Parcial.date == 0)
+						t_Parcial.date = 28;
+				else{
 					t_Parcial.date = 28;
+				}
+				
 			}
 			else{
-				t_Parcial.date = (t_Parcial.date+dir) % 29;
-				if(t_Parcial.date == 0)
+				if(t_Parcial.date < 30){
+					t_Parcial.date = (t_Parcial.date+dir) % 29;
+					if(t_Parcial.date == 0)
 					t_Parcial.date = 29;
+				}
+				else{
+					t_Parcial.date = 29;
+				}
 			}
 		break;
 		case 4:
@@ -221,16 +252,51 @@ void actualizarDia(int8_t dir){
 		break;
 		
 	}
-
-
 }
- void actualizarCampo2(volatile signed char *asdf,int8_t dir,uint8_t maximo,int8_t minimo,int8_t is_month){
-	*asdf = (*asdf+dir) % maximo;
-	if(*asdf == minimo)
-		*asdf = maximo-is_month;
+/************************************************************************/
+/*   Verificación de máximo día cuando se actualiza el mes              */
+/************************************************************************/
+void verificacion(){
+	switch (t_Parcial.month)
+	{
+		case 2:
+		if(not_leap(t_Parcial)){
+			if(!t_Parcial.date < 29)
+				t_Parcial.date = 28;
+		}
+		else{
+			if(!t_Parcial.date < 30)
+				t_Parcial.date = 29;
+
+		}
+		break;
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			if(!t_Parcial.date < 31)
+				t_Parcial.date = 30;
+		break;
+	}
+}
+/************************************************************************/
+/* Actualiza el valor del campo del reloj
+	Parámetros:
+		dir: 1 para aumentar, -1 para decrementar
+		actual: valor actual que tiene la variable a modificar  
+		máximo: valor máximo que puede tomar el campo
+		minimo: valor minimo que puede tomar el campo
+		is_month: diferencia los meses                                       */
+/************************************************************************/
+void actualizarCampo2(volatile signed char *actual,int8_t dir,uint8_t maximo,int8_t minimo,int8_t is_month){
+	*actual = (*actual+dir) % maximo;
+	if(*actual == minimo)
+		*actual = maximo-is_month;
 		return;
 }
-
+/************************************************************************/
+/* Efecto de parpadeo del campo en la modificación                     */
+/************************************************************************/
 void efecto_Apagado(){
 	if(FlagCursor){
 		if(FlagCambio){

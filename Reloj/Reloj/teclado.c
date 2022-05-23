@@ -1,8 +1,5 @@
 /*
  * Teclado.c
- *
- * Created: 5/9/2022 12:13:09 AM
- *  Author: Hernan
  */ 
 
 #include "Teclado.h"
@@ -11,7 +8,7 @@ FUNCION PARA ESCANEAR UN TECLADO MATRICIAL Y DEVOLVER LA
 TECLA PRESIONADA UNA SOLA VEZ. TIENE DOBLE VERIFICACION Y
 MEMORIZA LA ULTIMA TECLA PRESIONADA
 DEVUELVE:
-0 -> NO HAYNUEVA TECLA PRESIONADA
+0 -> NO HAY NUEVA TECLA PRESIONADA
 1 -> HAY NUEVA TECLA PRESIONADA Y ES *pkey
 ********************************************************/
 uint8_t KEYPAD_Update (uint8_t *pkey)
@@ -47,11 +44,8 @@ uint8_t KEYPAD_scan (uint8_t *key){
 		
 		for(int r=0; r<4; r++){
 			if(!(PIND & columna[r])){
-				_delay_ms(20);
-				if(!(PIND & columna[r])){
-					*key = codChar[c][r];
-					_delay_ms(500);
-				}
+				*key = codChar[c][r];
+				_delay_ms(8);
 				return(1);
 			}
 		}

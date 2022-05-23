@@ -1,8 +1,5 @@
 /*
  * main.h
- *
- * Created: 2/5/2022 15:40:58
- *  Author: Barcala
  */ 
 #include <avr/io.h>			// Definición de Registros del microcontrolador
 #include <avr/interrupt.h>
@@ -17,14 +14,6 @@ void setupTimer();
 void actualizar_MEF();
 void iniciar_MEF();
 
-void salida(uint8_t,uint8_t,uint8_t);
-void actualizarTiempo();
-void actualizarCampo(char,uint8_t);
-void imprimir();
-void efecto_Apagado();
-void relojFuncion();
-
-volatile uint8_t actualizar=0;
 
 #ifndef MAIN_H_
 #define MAIN_H_

@@ -1,8 +1,5 @@
 /*
  * Teclado.h
- *
- * Created: 5/9/2022 12:13:43 AM
- *  Author: Hernan
  */ 
 #include <avr/sleep.h>
 #include <avr/io.h>
@@ -16,5 +13,6 @@ const char codChar[4][4] =  {{'1','2','3','A'},
 							{'4','5','6','B'},
 							{'7','8','9','C'},
 							{'0','*','#','D'}};
+
 uint8_t KEYPAD_scan (uint8_t *);
 uint8_t KEYPAD_Update (uint8_t *);

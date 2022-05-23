@@ -1,8 +1,5 @@
 /*
  * Reloj.c
- *
- * Created: 5/8/2022 11:47:28 PM
- *  Author: Hernan
  */ 
 #include "Reloj.h"
 void relojFuncion()
@@ -81,7 +78,7 @@ void iniciar_MEF(){
 */
 void actualizar_MEF(){
 	uint8_t key='#';
-	KEYPAD_scan (&key);
+	KEYPAD_Update (&key); //leer la entrada
 	efecto_Apagado();   //Efecto de encendido y apagado del campo modificandose
 	switch (estado){	//Maquina de estados
 		case S0:		//Estado 0, default
@@ -92,71 +89,71 @@ void actualizar_MEF(){
 			}
 		break;
 		case S1:
-		switch (key){
-			case 'A': estado=S2; salidaA(mes); 
-			break;
-			case 'D': estado=S0; salidaD(mes); 
-			break;
-			case 'B': actualizarCampo2(&t_Parcial.year,1,100,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,1);
-			break;
-			case 'C': actualizarCampo2(&t_Parcial.year,-1,100,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,1);
-		}
+			switch (key){
+				case 'A': estado=S2; salidaA(mes); 
+				break;
+				case 'D': estado=S0; salidaD(mes); 
+				break;
+				case 'B': actualizarCampo2(&t_Parcial.year,1,100,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,1);
+				break;
+				case 'C': actualizarCampo2(&t_Parcial.year,-1,100,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,1);
+			}
 		break;
 		case S2:
-		switch (key){
-			case 'A': estado=S3; salidaA(dia); actualizarDia(0);
+			switch (key){
+				case 'A': estado=S3; salidaA(dia); actualizarDia(0);
+				break;
+				case 'D': estado=S0; salidaD(dia);
+				break;
+				case 'B': actualizarCampo2(&t_Parcial.month,1,12,0,0); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,1);
+				break;
+				case 'C': actualizarCampo2(&t_Parcial.month,-1,12,0,0);  actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,1);
+			}
 			break;
-			case 'D': estado=S0; salidaD(dia);
-			break;
-			case 'B': actualizarCampo2(&t_Parcial.month,1,12,0,0); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,1);
-			break;
-			case 'C': actualizarCampo2(&t_Parcial.month,-1,12,0,0);  actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,1);
-		}
-		break;
 		case S3:
-		switch (key){
-			case 'A': estado=S4; salidaA(hora);
+			switch (key){
+				case 'A': estado=S4; salidaA(hora);
+				break;
+				case 'D': estado=S0; salidaD(hora);
+				break;
+				case 'B': actualizarDia(1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,1);
+				break;
+				case 'C': actualizarDia(-1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,1);
+			}
 			break;
-			case 'D': estado=S0; salidaD(hora);
-			break;
-			case 'B': actualizarDia(1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,1);
-			break;
-			case 'C': actualizarDia(-1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,1);
-		}
-		break;
 		case S4:
-		switch (key){
-			case 'A': estado=S5; salidaA(minuto);
+			switch (key){
+				case 'A': estado=S5; salidaA(minuto);
+				break;
+				case 'D': estado=S0; salidaD(minuto);
+				break;
+				case 'B': actualizarCampo2(&t_Parcial.hour,1,24,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,0);
+				break;
+				case 'C': actualizarCampo2(&t_Parcial.hour,-1,24,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,0);
+			}
 			break;
-			case 'D': estado=S0; salidaD(minuto);
-			break;
-			case 'B': actualizarCampo2(&t_Parcial.hour,1,24,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,0);
-			break;
-			case 'C': actualizarCampo2(&t_Parcial.hour,-1,24,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(DIA_HORA,0);
-		}
-		break;
 		case S5:
-		switch (key){
-			case 'A': estado=S6; salidaA(segundo);
+			switch (key){
+				case 'A': estado=S6; salidaA(segundo);
+				break;
+				case 'D': estado=S0; salidaD(segundo);
+				break;
+				case 'B': actualizarCampo2(&t_Parcial.minute,1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,0);
+				break;
+				case 'C': actualizarCampo2(&t_Parcial.minute,-1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,0);
+			}
 			break;
-			case 'D': estado=S0; salidaD(segundo);
-			break;
-			case 'B': actualizarCampo2(&t_Parcial.minute,1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,0);
-			break;
-			case 'C': actualizarCampo2(&t_Parcial.minute,-1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(MES_MINUTO,0);
-		}
-		break;
 		case S6:
-		switch (key){
-			case 'A': estado=S0; salidaA(segundo); salidaD(segundo);
+			switch (key){
+				case 'A': estado=S0; salidaA(segundo); salidaD(segundo);
+				break;
+				case 'D': estado=S0; salidaD(segundo);
+				break;
+				case 'B': actualizarCampo2(&t_Parcial.second,1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,0);
+				break;
+				case 'C': actualizarCampo2(&t_Parcial.second,-1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,0);
+			}
 			break;
-			case 'D': estado=S0; salidaD(segundo);
-			break;
-			case 'B': actualizarCampo2(&t_Parcial.second,1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,0);
-			break;
-			case 'C': actualizarCampo2(&t_Parcial.second,-1,60,-1,1); actualizarTiempo(t_Parcial); LCDGotoXY(ANO_SEGUNDO,0);
-		}
-		break;
 	}
 }
 /*
@@ -261,11 +258,11 @@ void verificacion(){
 	{
 		case 2:
 		if(not_leap(t_Parcial)){
-			if(!t_Parcial.date < 29)
+			if(t_Parcial.date < 29)
 				t_Parcial.date = 28;
 		}
 		else{
-			if(!t_Parcial.date < 30)
+			if(t_Parcial.date < 30)
 				t_Parcial.date = 29;
 
 		}
@@ -274,7 +271,7 @@ void verificacion(){
 		case 6:
 		case 9:
 		case 11:
-			if(!t_Parcial.date < 31)
+			if(t_Parcial.date < 31)
 				t_Parcial.date = 30;
 		break;
 	}

@@ -1,8 +1,5 @@
 /*
  * Reloj.c
- *
- * Created: 25/4/2022 14:54:59
- * Author : Barcala
  */  
 
 /* Inclusión de cabeceras de bibliotecas de código */

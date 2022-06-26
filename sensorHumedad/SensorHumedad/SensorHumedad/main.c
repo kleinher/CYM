@@ -11,6 +11,11 @@
  #include <util/delay.h>
  #include "main.h"
   volatile int checkSensorHumidity;
+  volatile int ProcesarInstruccion;
+  char BufferRX[32];
+  char BufferTX[32];
+  int ON = false;
+  int RST = false;
 int main(void)
 {
 	checkSensorHumidity = true;
@@ -18,32 +23,42 @@ int main(void)
 	SerialPort_Init(103);
 	SerialPort_TX_Enable();
 	SerialPort_RX_Enable();
+	SerialPort_RX_Interrupt_Enable();
+	sei();
 	displayMenu();
 	while(1)
 	{
-		char arreglo[4] ="";
-		int i = 0;
-		int cont = 1;
-		char test = SerialPort_Recive_Data();
-		while(test != '\r' && i < 4){
-			arreglo[i] = test;
-			if(cont == 1 ){
-					SerialPort_Send_Data(test);
-					cont = 0;
-			}
-			
-			 i++;
-			 SerialPort_Wait_Until_New_Data();
-			 test = SerialPort_Recive_Data();
-			 
+		
+		if(RST){
+			RST = false;
+			ON = false;
+			displayMenu();
 		}
-		
-		
-		if(checkSensorHumidity){
+		if(ProcesarInstruccion){
+			ProcesarInstruccion = false;
+			procesarEntrada();
+			
+		}
+		if(checkSensorHumidity && ON){
 			updateHumidity();
 			checkSensorHumidity = false;
 		}
 	}
 
+}
+void procesarEntrada(){
+	if(strcmp((char *) BufferRX,"ON") ==0){
+		ON = true;
+	}
+	else if(strcmp((char *) BufferRX,"OFF") ==0){
+		ON = false;
+	}
+	else if(strcmp((char *) BufferRX,"RST") ==0){
+		RST = true;
+	}
+	else {
+		sprintf((char *) BufferTX,"%s","Comando no valido\n\r");
+		SerialPort_Send_String(BufferTX);
+	}
 }
 

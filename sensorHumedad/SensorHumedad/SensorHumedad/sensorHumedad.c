@@ -65,7 +65,6 @@ void updateHumidity(){
 	 }
 	 else
 	 {
-		 test();
 		 itoa(I_RH,data,10);
 		 SerialPort_Send_String("Humedad: ");
 		 SerialPort_Send_String(data);

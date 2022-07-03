@@ -4,7 +4,8 @@
  * http://www.electronicwings.com
  */ 
 # define F_CPU 16000000UL
-#define DHT11_PIN 6
+#define DHT11_PIN 0
+#include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,42 +15,40 @@
 
 void Request()				/* Microcontroller send start pulse/request */
 {
-	DDRD |= (1<<DHT11_PIN);
-	_delay_ms(20);	
-	PORTD &= ~(1<<DHT11_PIN);	/* set to low pin */
-	_delay_ms(20);			/* wait for 20ms */
-	PORTD |= (1<<DHT11_PIN);	/* set to high pin */
+	DDRC |= (1<<DHT11_PIN);
+	PORTC &= ~(1<<DHT11_PIN);	/* set to low pin */
+	_delay_ms(25);			/* wait for 20ms */
+	PORTC |= (1<<DHT11_PIN);	/* set to high pin */
 	_delay_us(40);	
 }
 
 void Response()				/* receive response from DHT11 */
 {
-	DDRD &= ~(1<<DHT11_PIN);
-	while(PIND & (1<<DHT11_PIN));//Limpia el 1 de la salida nuestra
+	DDRC &= ~(1<<DHT11_PIN);
+	while(PINC & (1<<DHT11_PIN));//Limpia el 1 de la salida nuestra
+	while((PINC & (1<<DHT11_PIN))==0); //limpia el 1 del sensor
 	
-	while((PIND & (1<<DHT11_PIN))==0); //limpia el 1 del sensor
-	
-	while(PIND & (1<<DHT11_PIN));//limpia el 0 del sensor
+	while(PINC & (1<<DHT11_PIN));//limpia el 0 del sensor
 }
 
 uint8_t Receive_data()			/* receive data */
 {	
 	for (int q=0; q<8; q++)
 	{
-		while((PIND & (1<<DHT11_PIN)) == 0);  /* check received bit 0 or 1 */
+		while((PINC & (1<<DHT11_PIN)) == 0);  /* check received bit 0 or 1 */
 		_delay_us(30);
-		if(PIND & (1<<DHT11_PIN))/* if high pulse is greater than 30ms */
+		if(PINC & (1<<DHT11_PIN))/* if high pulse is greater than 30ms */
 		c = (c<<1)|(0x01);	/* then its logic HIGH */
 		else			/* otherwise its logic LOW */
 		c = (c<<1);
-		while(PIND & (1<<DHT11_PIN));
+		while(PINC & (1<<DHT11_PIN));
 	}
 	return c;
 }
 
 void updateHumidity(){
 	char data[5];
-	
+	cli();
 	 Request();
 	 /* Microcontroller send start pulse/request */
 	 Response();		// receive response
@@ -58,7 +57,7 @@ void updateHumidity(){
 	 I_Temp=Receive_data();	// store next eight bit in I_Temp
 	 D_Temp=Receive_data();	// store next eight bit in D_Temp
 	 CheckSum=Receive_data();// store next eight bit in CheckSum
-	 
+	 sei();
 	 if ((I_RH + D_RH + I_Temp + D_Temp) != CheckSum)
 	 {
 		 SerialPort_Send_String("ERROR EN EL SENSOR DE HUMEDAD!!!!");

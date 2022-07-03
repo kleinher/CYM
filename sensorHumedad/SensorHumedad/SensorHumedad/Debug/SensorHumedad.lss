@@ -3,31 +3,31 @@ SensorHumedad.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         000000e6  00800100  00000562  000005f6  2**0
+  0 .data         000000e6  00800100  00000556  000005ea  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000562  00000000  00000000  00000094  2**1
+  1 .text         00000556  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000051  008001e6  008001e6  000006dc  2**0
+  2 .bss          00000051  008001e6  008001e6  000006d0  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000006dc  2**0
+  3 .comment      00000030  00000000  00000000  000006d0  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000070c  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000700  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000160  00000000  00000000  0000074c  2**0
+  5 .debug_aranges 00000160  00000000  00000000  00000740  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000016aa  00000000  00000000  000008ac  2**0
+  6 .debug_info   00001671  00000000  00000000  000008a0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000b7a  00000000  00000000  00001f56  2**0
+  7 .debug_abbrev 00000b7a  00000000  00000000  00001f11  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000aae  00000000  00000000  00002ad0  2**0
+  8 .debug_line   00000aae  00000000  00000000  00002a8b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000032c  00000000  00000000  00003580  2**2
+  9 .debug_frame  0000032c  00000000  00000000  0000353c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000007b4  00000000  00000000  000038ac  2**0
+ 10 .debug_str    000007b4  00000000  00000000  00003868  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000829  00000000  00000000  00004060  2**0
+ 11 .debug_loc    000007e1  00000000  00000000  0000401c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000120  00000000  00000000  00004889  2**0
+ 12 .debug_ranges 00000120  00000000  00000000  000047fd  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,7 +72,7 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e2 e6       	ldi	r30, 0x62	; 98
+  7a:	e6 e5       	ldi	r30, 0x56	; 86
   7c:	f5 e0       	ldi	r31, 0x05	; 5
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
@@ -95,7 +95,7 @@ Disassembly of section .text:
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
   9a:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
-  9e:	0c 94 af 02 	jmp	0x55e	; 0x55e <_exit>
+  9e:	0c 94 a9 02 	jmp	0x552	; 0x552 <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -142,10 +142,11 @@ ISR(TIMER0_OVF_vect)
 	TCNT0=99;//reinicio contador del timer0
   d4:	83 e6       	ldi	r24, 0x63	; 99
   d6:	86 bd       	out	0x26, r24	; 38
-	if(cont==100){
+	if(cont==200){
   d8:	80 91 e8 01 	lds	r24, 0x01E8	; 0x8001e8 <cont.1655>
-  dc:	84 36       	cpi	r24, 0x64	; 100
+  dc:	88 3c       	cpi	r24, 0xC8	; 200
   de:	41 f4       	brne	.+16     	; 0xf0 <__vector_16+0x34>
+	
 		checkSensorHumidity = true;
   e0:	81 e0       	ldi	r24, 0x01	; 1
   e2:	90 e0       	ldi	r25, 0x00	; 0
@@ -252,7 +253,7 @@ void procesarEntrada(){
  18e:	71 e0       	ldi	r23, 0x01	; 1
  190:	80 e1       	ldi	r24, 0x10	; 16
  192:	92 e0       	ldi	r25, 0x02	; 2
- 194:	0e 94 71 02 	call	0x4e2	; 0x4e2 <strcmp>
+ 194:	0e 94 6b 02 	call	0x4d6	; 0x4d6 <strcmp>
  198:	89 2b       	or	r24, r25
  19a:	39 f4       	brne	.+14     	; 0x1aa <procesarEntrada+0x1e>
 		ON = true;
@@ -267,7 +268,7 @@ void procesarEntrada(){
  1ac:	71 e0       	ldi	r23, 0x01	; 1
  1ae:	80 e1       	ldi	r24, 0x10	; 16
  1b0:	92 e0       	ldi	r25, 0x02	; 2
- 1b2:	0e 94 71 02 	call	0x4e2	; 0x4e2 <strcmp>
+ 1b2:	0e 94 6b 02 	call	0x4d6	; 0x4d6 <strcmp>
  1b6:	89 2b       	or	r24, r25
  1b8:	29 f4       	brne	.+10     	; 0x1c4 <procesarEntrada+0x38>
 		ON = false;
@@ -280,7 +281,7 @@ void procesarEntrada(){
  1c6:	71 e0       	ldi	r23, 0x01	; 1
  1c8:	80 e1       	ldi	r24, 0x10	; 16
  1ca:	92 e0       	ldi	r25, 0x02	; 2
- 1cc:	0e 94 71 02 	call	0x4e2	; 0x4e2 <strcmp>
+ 1cc:	0e 94 6b 02 	call	0x4d6	; 0x4d6 <strcmp>
  1d0:	89 2b       	or	r24, r25
  1d2:	39 f4       	brne	.+14     	; 0x1e2 <procesarEntrada+0x56>
 		RST = true;
@@ -304,7 +305,7 @@ void procesarEntrada(){
 		SerialPort_Send_String(BufferTX);
  1f4:	8e ee       	ldi	r24, 0xEE	; 238
  1f6:	91 e0       	ldi	r25, 0x01	; 1
- 1f8:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 1f8:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
  1fc:	08 95       	ret
 
 000001fe <main>:
@@ -322,17 +323,17 @@ int main(void)
  20a:	0e 94 53 00 	call	0xa6	; 0xa6 <setupTimer>
 	SerialPort_Init(103);
  20e:	87 e6       	ldi	r24, 0x67	; 103
- 210:	0e 94 22 02 	call	0x444	; 0x444 <SerialPort_Init>
+ 210:	0e 94 1c 02 	call	0x438	; 0x438 <SerialPort_Init>
 	SerialPort_TX_Enable();
- 214:	0e 94 2a 02 	call	0x454	; 0x454 <SerialPort_TX_Enable>
+ 214:	0e 94 24 02 	call	0x448	; 0x448 <SerialPort_TX_Enable>
 	SerialPort_RX_Enable();
- 218:	0e 94 30 02 	call	0x460	; 0x460 <SerialPort_RX_Enable>
+ 218:	0e 94 2a 02 	call	0x454	; 0x454 <SerialPort_RX_Enable>
 	SerialPort_RX_Interrupt_Enable();
- 21c:	0e 94 36 02 	call	0x46c	; 0x46c <SerialPort_RX_Interrupt_Enable>
+ 21c:	0e 94 30 02 	call	0x460	; 0x460 <SerialPort_RX_Interrupt_Enable>
 	sei();
  220:	78 94       	sei
 	displayMenu();
- 222:	0e 94 60 02 	call	0x4c0	; 0x4c0 <displayMenu>
+ 222:	0e 94 5a 02 	call	0x4b4	; 0x4b4 <displayMenu>
 	while(1)
 	{
 		
@@ -348,7 +349,7 @@ int main(void)
  23a:	10 92 ec 01 	sts	0x01EC, r1	; 0x8001ec <ON+0x1>
  23e:	10 92 eb 01 	sts	0x01EB, r1	; 0x8001eb <ON>
 			displayMenu();
- 242:	0e 94 60 02 	call	0x4c0	; 0x4c0 <displayMenu>
+ 242:	0e 94 5a 02 	call	0x4b4	; 0x4b4 <displayMenu>
 		}
 		if(ProcesarInstruccion){
  246:	80 91 30 02 	lds	r24, 0x0230	; 0x800230 <ProcesarInstruccion>
@@ -372,7 +373,7 @@ int main(void)
  272:	89 2b       	or	r24, r25
  274:	c1 f2       	breq	.-80     	; 0x226 <main+0x28>
 			updateHumidity();
- 276:	0e 94 8e 01 	call	0x31c	; 0x31c <updateHumidity>
+ 276:	0e 94 85 01 	call	0x30a	; 0x30a <updateHumidity>
 			checkSensorHumidity = false;
  27a:	10 92 0f 02 	sts	0x020F, r1	; 0x80020f <checkSensorHumidity+0x1>
  27e:	10 92 0e 02 	sts	0x020E, r1	; 0x80020e <checkSensorHumidity>
@@ -384,462 +385,453 @@ int main(void)
 
 void Request()				/* Microcontroller send start pulse/request */
 {
-	DDRD |= (1<<DHT11_PIN);
- 284:	8a b1       	in	r24, 0x0a	; 10
- 286:	80 64       	ori	r24, 0x40	; 64
- 288:	8a b9       	out	0x0a, r24	; 10
+	DDRC |= (1<<DHT11_PIN);
+ 284:	87 b1       	in	r24, 0x07	; 7
+ 286:	81 60       	ori	r24, 0x01	; 1
+ 288:	87 b9       	out	0x07, r24	; 7
+	PORTC &= ~(1<<DHT11_PIN);	/* set to low pin */
+ 28a:	88 b1       	in	r24, 0x08	; 8
+ 28c:	8e 7f       	andi	r24, 0xFE	; 254
+ 28e:	88 b9       	out	0x08, r24	; 8
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 28a:	2f ef       	ldi	r18, 0xFF	; 255
- 28c:	89 ef       	ldi	r24, 0xF9	; 249
- 28e:	90 e0       	ldi	r25, 0x00	; 0
- 290:	21 50       	subi	r18, 0x01	; 1
- 292:	80 40       	sbci	r24, 0x00	; 0
- 294:	90 40       	sbci	r25, 0x00	; 0
- 296:	e1 f7       	brne	.-8      	; 0x290 <Request+0xc>
- 298:	00 c0       	rjmp	.+0      	; 0x29a <Request+0x16>
- 29a:	00 00       	nop
-	_delay_ms(20);	
-	PORTD &= ~(1<<DHT11_PIN);	/* set to low pin */
- 29c:	8b b1       	in	r24, 0x0b	; 11
- 29e:	8f 7b       	andi	r24, 0xBF	; 191
- 2a0:	8b b9       	out	0x0b, r24	; 11
- 2a2:	2f ef       	ldi	r18, 0xFF	; 255
- 2a4:	89 ef       	ldi	r24, 0xF9	; 249
- 2a6:	90 e0       	ldi	r25, 0x00	; 0
- 2a8:	21 50       	subi	r18, 0x01	; 1
- 2aa:	80 40       	sbci	r24, 0x00	; 0
- 2ac:	90 40       	sbci	r25, 0x00	; 0
- 2ae:	e1 f7       	brne	.-8      	; 0x2a8 <Request+0x24>
- 2b0:	00 c0       	rjmp	.+0      	; 0x2b2 <Request+0x2e>
- 2b2:	00 00       	nop
-	_delay_ms(20);			/* wait for 20ms */
-	PORTD |= (1<<DHT11_PIN);	/* set to high pin */
- 2b4:	8b b1       	in	r24, 0x0b	; 11
- 2b6:	80 64       	ori	r24, 0x40	; 64
- 2b8:	8b b9       	out	0x0b, r24	; 11
+ 290:	2f e7       	ldi	r18, 0x7F	; 127
+ 292:	88 e3       	ldi	r24, 0x38	; 56
+ 294:	91 e0       	ldi	r25, 0x01	; 1
+ 296:	21 50       	subi	r18, 0x01	; 1
+ 298:	80 40       	sbci	r24, 0x00	; 0
+ 29a:	90 40       	sbci	r25, 0x00	; 0
+ 29c:	e1 f7       	brne	.-8      	; 0x296 <Request+0x12>
+ 29e:	00 c0       	rjmp	.+0      	; 0x2a0 <Request+0x1c>
+ 2a0:	00 00       	nop
+	_delay_ms(25);			/* wait for 20ms */
+	PORTC |= (1<<DHT11_PIN);	/* set to high pin */
+ 2a2:	88 b1       	in	r24, 0x08	; 8
+ 2a4:	81 60       	ori	r24, 0x01	; 1
+ 2a6:	88 b9       	out	0x08, r24	; 8
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 2ba:	25 ed       	ldi	r18, 0xD5	; 213
- 2bc:	2a 95       	dec	r18
- 2be:	f1 f7       	brne	.-4      	; 0x2bc <Request+0x38>
- 2c0:	00 00       	nop
- 2c2:	08 95       	ret
+ 2a8:	25 ed       	ldi	r18, 0xD5	; 213
+ 2aa:	2a 95       	dec	r18
+ 2ac:	f1 f7       	brne	.-4      	; 0x2aa <Request+0x26>
+ 2ae:	00 00       	nop
+ 2b0:	08 95       	ret
 
-000002c4 <Response>:
+000002b2 <Response>:
 	_delay_us(40);	
 }
 
 void Response()				/* receive response from DHT11 */
 {
-	DDRD &= ~(1<<DHT11_PIN);
- 2c4:	8a b1       	in	r24, 0x0a	; 10
- 2c6:	8f 7b       	andi	r24, 0xBF	; 191
- 2c8:	8a b9       	out	0x0a, r24	; 10
-	while(PIND & (1<<DHT11_PIN));//Limpia el 1 de la salida nuestra
- 2ca:	4e 99       	sbic	0x09, 6	; 9
- 2cc:	fe cf       	rjmp	.-4      	; 0x2ca <Response+0x6>
+	DDRC &= ~(1<<DHT11_PIN);
+ 2b2:	87 b1       	in	r24, 0x07	; 7
+ 2b4:	8e 7f       	andi	r24, 0xFE	; 254
+ 2b6:	87 b9       	out	0x07, r24	; 7
+	while(PINC & (1<<DHT11_PIN));//Limpia el 1 de la salida nuestra
+ 2b8:	30 99       	sbic	0x06, 0	; 6
+ 2ba:	fe cf       	rjmp	.-4      	; 0x2b8 <Response+0x6>
+	while((PINC & (1<<DHT11_PIN))==0); //limpia el 1 del sensor
+ 2bc:	30 9b       	sbis	0x06, 0	; 6
+ 2be:	fe cf       	rjmp	.-4      	; 0x2bc <Response+0xa>
 	
-	while((PIND & (1<<DHT11_PIN))==0); //limpia el 1 del sensor
- 2ce:	4e 9b       	sbis	0x09, 6	; 9
- 2d0:	fe cf       	rjmp	.-4      	; 0x2ce <Response+0xa>
-	
-	while(PIND & (1<<DHT11_PIN));//limpia el 0 del sensor
- 2d2:	4e 99       	sbic	0x09, 6	; 9
- 2d4:	fe cf       	rjmp	.-4      	; 0x2d2 <Response+0xe>
+	while(PINC & (1<<DHT11_PIN));//limpia el 0 del sensor
+ 2c0:	30 99       	sbic	0x06, 0	; 6
+ 2c2:	fe cf       	rjmp	.-4      	; 0x2c0 <Response+0xe>
 }
- 2d6:	08 95       	ret
+ 2c4:	08 95       	ret
 
-000002d8 <Receive_data>:
+000002c6 <Receive_data>:
 
 uint8_t Receive_data()			/* receive data */
 {	
 	for (int q=0; q<8; q++)
- 2d8:	20 e0       	ldi	r18, 0x00	; 0
- 2da:	30 e0       	ldi	r19, 0x00	; 0
- 2dc:	19 c0       	rjmp	.+50     	; 0x310 <Receive_data+0x38>
+ 2c6:	20 e0       	ldi	r18, 0x00	; 0
+ 2c8:	30 e0       	ldi	r19, 0x00	; 0
+ 2ca:	19 c0       	rjmp	.+50     	; 0x2fe <Receive_data+0x38>
 	{
-		while((PIND & (1<<DHT11_PIN)) == 0);  /* check received bit 0 or 1 */
- 2de:	4e 9b       	sbis	0x09, 6	; 9
- 2e0:	fe cf       	rjmp	.-4      	; 0x2de <Receive_data+0x6>
- 2e2:	80 ea       	ldi	r24, 0xA0	; 160
- 2e4:	8a 95       	dec	r24
- 2e6:	f1 f7       	brne	.-4      	; 0x2e4 <Receive_data+0xc>
+		while((PINC & (1<<DHT11_PIN)) == 0);  /* check received bit 0 or 1 */
+ 2cc:	30 9b       	sbis	0x06, 0	; 6
+ 2ce:	fe cf       	rjmp	.-4      	; 0x2cc <Receive_data+0x6>
+ 2d0:	80 ea       	ldi	r24, 0xA0	; 160
+ 2d2:	8a 95       	dec	r24
+ 2d4:	f1 f7       	brne	.-4      	; 0x2d2 <Receive_data+0xc>
 		_delay_us(30);
-		if(PIND & (1<<DHT11_PIN))/* if high pulse is greater than 30ms */
- 2e8:	4e 9b       	sbis	0x09, 6	; 9
- 2ea:	09 c0       	rjmp	.+18     	; 0x2fe <Receive_data+0x26>
+		if(PINC & (1<<DHT11_PIN))/* if high pulse is greater than 30ms */
+ 2d6:	30 9b       	sbis	0x06, 0	; 6
+ 2d8:	09 c0       	rjmp	.+18     	; 0x2ec <Receive_data+0x26>
 		c = (c<<1)|(0x01);	/* then its logic HIGH */
- 2ec:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <c>
- 2f0:	90 e0       	ldi	r25, 0x00	; 0
- 2f2:	88 0f       	add	r24, r24
- 2f4:	99 1f       	adc	r25, r25
- 2f6:	81 60       	ori	r24, 0x01	; 1
- 2f8:	80 93 ed 01 	sts	0x01ED, r24	; 0x8001ed <c>
- 2fc:	05 c0       	rjmp	.+10     	; 0x308 <Receive_data+0x30>
+ 2da:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <c>
+ 2de:	90 e0       	ldi	r25, 0x00	; 0
+ 2e0:	88 0f       	add	r24, r24
+ 2e2:	99 1f       	adc	r25, r25
+ 2e4:	81 60       	ori	r24, 0x01	; 1
+ 2e6:	80 93 ed 01 	sts	0x01ED, r24	; 0x8001ed <c>
+ 2ea:	05 c0       	rjmp	.+10     	; 0x2f6 <Receive_data+0x30>
 		else			/* otherwise its logic LOW */
 		c = (c<<1);
- 2fe:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <c>
- 302:	88 0f       	add	r24, r24
- 304:	80 93 ed 01 	sts	0x01ED, r24	; 0x8001ed <c>
-		while(PIND & (1<<DHT11_PIN));
- 308:	4e 99       	sbic	0x09, 6	; 9
- 30a:	fe cf       	rjmp	.-4      	; 0x308 <Receive_data+0x30>
-	while(PIND & (1<<DHT11_PIN));//limpia el 0 del sensor
+ 2ec:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <c>
+ 2f0:	88 0f       	add	r24, r24
+ 2f2:	80 93 ed 01 	sts	0x01ED, r24	; 0x8001ed <c>
+		while(PINC & (1<<DHT11_PIN));
+ 2f6:	30 99       	sbic	0x06, 0	; 6
+ 2f8:	fe cf       	rjmp	.-4      	; 0x2f6 <Receive_data+0x30>
+	while(PINC & (1<<DHT11_PIN));//limpia el 0 del sensor
 }
 
 uint8_t Receive_data()			/* receive data */
 {	
 	for (int q=0; q<8; q++)
- 30c:	2f 5f       	subi	r18, 0xFF	; 255
- 30e:	3f 4f       	sbci	r19, 0xFF	; 255
- 310:	28 30       	cpi	r18, 0x08	; 8
- 312:	31 05       	cpc	r19, r1
- 314:	24 f3       	brlt	.-56     	; 0x2de <Receive_data+0x6>
+ 2fa:	2f 5f       	subi	r18, 0xFF	; 255
+ 2fc:	3f 4f       	sbci	r19, 0xFF	; 255
+ 2fe:	28 30       	cpi	r18, 0x08	; 8
+ 300:	31 05       	cpc	r19, r1
+ 302:	24 f3       	brlt	.-56     	; 0x2cc <Receive_data+0x6>
 		else			/* otherwise its logic LOW */
 		c = (c<<1);
-		while(PIND & (1<<DHT11_PIN));
+		while(PINC & (1<<DHT11_PIN));
 	}
 	return c;
 }
- 316:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <c>
- 31a:	08 95       	ret
+ 304:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <c>
+ 308:	08 95       	ret
 
-0000031c <updateHumidity>:
+0000030a <updateHumidity>:
 
 void updateHumidity(){
- 31c:	cf 93       	push	r28
- 31e:	df 93       	push	r29
- 320:	00 d0       	rcall	.+0      	; 0x322 <updateHumidity+0x6>
- 322:	00 d0       	rcall	.+0      	; 0x324 <updateHumidity+0x8>
- 324:	1f 92       	push	r1
- 326:	cd b7       	in	r28, 0x3d	; 61
- 328:	de b7       	in	r29, 0x3e	; 62
+ 30a:	cf 93       	push	r28
+ 30c:	df 93       	push	r29
+ 30e:	00 d0       	rcall	.+0      	; 0x310 <updateHumidity+0x6>
+ 310:	00 d0       	rcall	.+0      	; 0x312 <updateHumidity+0x8>
+ 312:	1f 92       	push	r1
+ 314:	cd b7       	in	r28, 0x3d	; 61
+ 316:	de b7       	in	r29, 0x3e	; 62
 	char data[5];
-	
+	cli();
+ 318:	f8 94       	cli
 	 Request();
- 32a:	0e 94 42 01 	call	0x284	; 0x284 <Request>
+ 31a:	0e 94 42 01 	call	0x284	; 0x284 <Request>
 	 /* Microcontroller send start pulse/request */
 	 Response();		// receive response
- 32e:	0e 94 62 01 	call	0x2c4	; 0x2c4 <Response>
+ 31e:	0e 94 59 01 	call	0x2b2	; 0x2b2 <Response>
 	 I_RH=Receive_data();	// store first eight bit in I_RH
- 332:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <Receive_data>
- 336:	80 93 35 02 	sts	0x0235, r24	; 0x800235 <I_RH>
+ 322:	0e 94 63 01 	call	0x2c6	; 0x2c6 <Receive_data>
+ 326:	80 93 35 02 	sts	0x0235, r24	; 0x800235 <I_RH>
 	 D_RH=Receive_data();	// store next eight bit in D_RH
- 33a:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <Receive_data>
- 33e:	80 93 32 02 	sts	0x0232, r24	; 0x800232 <D_RH>
+ 32a:	0e 94 63 01 	call	0x2c6	; 0x2c6 <Receive_data>
+ 32e:	80 93 32 02 	sts	0x0232, r24	; 0x800232 <D_RH>
 	 I_Temp=Receive_data();	// store next eight bit in I_Temp
- 342:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <Receive_data>
- 346:	80 93 34 02 	sts	0x0234, r24	; 0x800234 <I_Temp>
+ 332:	0e 94 63 01 	call	0x2c6	; 0x2c6 <Receive_data>
+ 336:	80 93 34 02 	sts	0x0234, r24	; 0x800234 <I_Temp>
 	 D_Temp=Receive_data();	// store next eight bit in D_Temp
- 34a:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <Receive_data>
- 34e:	80 93 36 02 	sts	0x0236, r24	; 0x800236 <D_Temp>
+ 33a:	0e 94 63 01 	call	0x2c6	; 0x2c6 <Receive_data>
+ 33e:	80 93 36 02 	sts	0x0236, r24	; 0x800236 <D_Temp>
 	 CheckSum=Receive_data();// store next eight bit in CheckSum
- 352:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <Receive_data>
- 356:	80 93 33 02 	sts	0x0233, r24	; 0x800233 <CheckSum>
-	 
+ 342:	0e 94 63 01 	call	0x2c6	; 0x2c6 <Receive_data>
+ 346:	80 93 33 02 	sts	0x0233, r24	; 0x800233 <CheckSum>
+	 sei();
+ 34a:	78 94       	sei
 	 if ((I_RH + D_RH + I_Temp + D_Temp) != CheckSum)
- 35a:	e0 91 35 02 	lds	r30, 0x0235	; 0x800235 <I_RH>
- 35e:	f0 e0       	ldi	r31, 0x00	; 0
- 360:	90 91 32 02 	lds	r25, 0x0232	; 0x800232 <D_RH>
- 364:	9f 01       	movw	r18, r30
- 366:	29 0f       	add	r18, r25
- 368:	31 1d       	adc	r19, r1
- 36a:	90 91 34 02 	lds	r25, 0x0234	; 0x800234 <I_Temp>
- 36e:	29 0f       	add	r18, r25
- 370:	31 1d       	adc	r19, r1
- 372:	90 91 36 02 	lds	r25, 0x0236	; 0x800236 <D_Temp>
- 376:	29 0f       	add	r18, r25
- 378:	31 1d       	adc	r19, r1
- 37a:	48 2f       	mov	r20, r24
- 37c:	50 e0       	ldi	r21, 0x00	; 0
- 37e:	24 17       	cp	r18, r20
- 380:	35 07       	cpc	r19, r21
- 382:	29 f0       	breq	.+10     	; 0x38e <updateHumidity+0x72>
+ 34c:	80 91 35 02 	lds	r24, 0x0235	; 0x800235 <I_RH>
+ 350:	90 e0       	ldi	r25, 0x00	; 0
+ 352:	20 91 32 02 	lds	r18, 0x0232	; 0x800232 <D_RH>
+ 356:	ac 01       	movw	r20, r24
+ 358:	42 0f       	add	r20, r18
+ 35a:	51 1d       	adc	r21, r1
+ 35c:	9a 01       	movw	r18, r20
+ 35e:	40 91 34 02 	lds	r20, 0x0234	; 0x800234 <I_Temp>
+ 362:	24 0f       	add	r18, r20
+ 364:	31 1d       	adc	r19, r1
+ 366:	40 91 36 02 	lds	r20, 0x0236	; 0x800236 <D_Temp>
+ 36a:	24 0f       	add	r18, r20
+ 36c:	31 1d       	adc	r19, r1
+ 36e:	40 91 33 02 	lds	r20, 0x0233	; 0x800233 <CheckSum>
+ 372:	50 e0       	ldi	r21, 0x00	; 0
+ 374:	24 17       	cp	r18, r20
+ 376:	35 07       	cpc	r19, r21
+ 378:	29 f0       	breq	.+10     	; 0x384 <updateHumidity+0x7a>
 	 {
 		 SerialPort_Send_String("ERROR EN EL SENSOR DE HUMEDAD!!!!");
- 384:	8f e1       	ldi	r24, 0x1F	; 31
- 386:	91 e0       	ldi	r25, 0x01	; 1
- 388:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
- 38c:	53 c0       	rjmp	.+166    	; 0x434 <__EEPROM_REGION_LENGTH__+0x34>
+ 37a:	8f e1       	ldi	r24, 0x1F	; 31
+ 37c:	91 e0       	ldi	r25, 0x01	; 1
+ 37e:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
+ 382:	52 c0       	rjmp	.+164    	; 0x428 <__EEPROM_REGION_LENGTH__+0x28>
     } else if (__radix < 2 || __radix > 36) {
 	*__s = 0;
 	return __s;
     } else {
 	extern char *__itoa_ncheck (int, char *, unsigned char);
 	return __itoa_ncheck (__val, __s, __radix);
- 38e:	4a e0       	ldi	r20, 0x0A	; 10
- 390:	be 01       	movw	r22, r28
- 392:	6f 5f       	subi	r22, 0xFF	; 255
- 394:	7f 4f       	sbci	r23, 0xFF	; 255
- 396:	cf 01       	movw	r24, r30
- 398:	0e 94 7a 02 	call	0x4f4	; 0x4f4 <__itoa_ncheck>
+ 384:	4a e0       	ldi	r20, 0x0A	; 10
+ 386:	be 01       	movw	r22, r28
+ 388:	6f 5f       	subi	r22, 0xFF	; 255
+ 38a:	7f 4f       	sbci	r23, 0xFF	; 255
+ 38c:	0e 94 74 02 	call	0x4e8	; 0x4e8 <__itoa_ncheck>
 	 }
 	 else
 	 {
 		 itoa(I_RH,data,10);
 		 SerialPort_Send_String("Humedad: ");
- 39c:	81 e4       	ldi	r24, 0x41	; 65
- 39e:	91 e0       	ldi	r25, 0x01	; 1
- 3a0:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 390:	81 e4       	ldi	r24, 0x41	; 65
+ 392:	91 e0       	ldi	r25, 0x01	; 1
+ 394:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String(data);
- 3a4:	ce 01       	movw	r24, r28
- 3a6:	01 96       	adiw	r24, 0x01	; 1
- 3a8:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 398:	ce 01       	movw	r24, r28
+ 39a:	01 96       	adiw	r24, 0x01	; 1
+ 39c:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String(".");
- 3ac:	8b e4       	ldi	r24, 0x4B	; 75
- 3ae:	91 e0       	ldi	r25, 0x01	; 1
- 3b0:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 3a0:	8b e4       	ldi	r24, 0x4B	; 75
+ 3a2:	91 e0       	ldi	r25, 0x01	; 1
+ 3a4:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 itoa(D_RH,data,10);
- 3b4:	80 91 32 02 	lds	r24, 0x0232	; 0x800232 <D_RH>
- 3b8:	4a e0       	ldi	r20, 0x0A	; 10
- 3ba:	be 01       	movw	r22, r28
- 3bc:	6f 5f       	subi	r22, 0xFF	; 255
- 3be:	7f 4f       	sbci	r23, 0xFF	; 255
- 3c0:	90 e0       	ldi	r25, 0x00	; 0
- 3c2:	0e 94 7a 02 	call	0x4f4	; 0x4f4 <__itoa_ncheck>
+ 3a8:	80 91 32 02 	lds	r24, 0x0232	; 0x800232 <D_RH>
+ 3ac:	4a e0       	ldi	r20, 0x0A	; 10
+ 3ae:	be 01       	movw	r22, r28
+ 3b0:	6f 5f       	subi	r22, 0xFF	; 255
+ 3b2:	7f 4f       	sbci	r23, 0xFF	; 255
+ 3b4:	90 e0       	ldi	r25, 0x00	; 0
+ 3b6:	0e 94 74 02 	call	0x4e8	; 0x4e8 <__itoa_ncheck>
 		 SerialPort_Send_String(data);
- 3c6:	ce 01       	movw	r24, r28
- 3c8:	01 96       	adiw	r24, 0x01	; 1
- 3ca:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 3ba:	ce 01       	movw	r24, r28
+ 3bc:	01 96       	adiw	r24, 0x01	; 1
+ 3be:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String("\r\n");
- 3ce:	8d e4       	ldi	r24, 0x4D	; 77
- 3d0:	91 e0       	ldi	r25, 0x01	; 1
- 3d2:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 3c2:	8d e4       	ldi	r24, 0x4D	; 77
+ 3c4:	91 e0       	ldi	r25, 0x01	; 1
+ 3c6:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String("Temperatura: ");
- 3d6:	80 e5       	ldi	r24, 0x50	; 80
- 3d8:	91 e0       	ldi	r25, 0x01	; 1
- 3da:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 3ca:	80 e5       	ldi	r24, 0x50	; 80
+ 3cc:	91 e0       	ldi	r25, 0x01	; 1
+ 3ce:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 itoa(I_Temp,data,10);
- 3de:	80 91 34 02 	lds	r24, 0x0234	; 0x800234 <I_Temp>
- 3e2:	4a e0       	ldi	r20, 0x0A	; 10
- 3e4:	be 01       	movw	r22, r28
- 3e6:	6f 5f       	subi	r22, 0xFF	; 255
- 3e8:	7f 4f       	sbci	r23, 0xFF	; 255
- 3ea:	90 e0       	ldi	r25, 0x00	; 0
- 3ec:	0e 94 7a 02 	call	0x4f4	; 0x4f4 <__itoa_ncheck>
+ 3d2:	80 91 34 02 	lds	r24, 0x0234	; 0x800234 <I_Temp>
+ 3d6:	4a e0       	ldi	r20, 0x0A	; 10
+ 3d8:	be 01       	movw	r22, r28
+ 3da:	6f 5f       	subi	r22, 0xFF	; 255
+ 3dc:	7f 4f       	sbci	r23, 0xFF	; 255
+ 3de:	90 e0       	ldi	r25, 0x00	; 0
+ 3e0:	0e 94 74 02 	call	0x4e8	; 0x4e8 <__itoa_ncheck>
 		 SerialPort_Send_String(data);
- 3f0:	ce 01       	movw	r24, r28
- 3f2:	01 96       	adiw	r24, 0x01	; 1
- 3f4:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 3e4:	ce 01       	movw	r24, r28
+ 3e6:	01 96       	adiw	r24, 0x01	; 1
+ 3e8:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String(".");
- 3f8:	8b e4       	ldi	r24, 0x4B	; 75
- 3fa:	91 e0       	ldi	r25, 0x01	; 1
- 3fc:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 3ec:	8b e4       	ldi	r24, 0x4B	; 75
+ 3ee:	91 e0       	ldi	r25, 0x01	; 1
+ 3f0:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 itoa(D_Temp,data,10);
- 400:	80 91 36 02 	lds	r24, 0x0236	; 0x800236 <D_Temp>
- 404:	4a e0       	ldi	r20, 0x0A	; 10
- 406:	be 01       	movw	r22, r28
- 408:	6f 5f       	subi	r22, 0xFF	; 255
- 40a:	7f 4f       	sbci	r23, 0xFF	; 255
- 40c:	90 e0       	ldi	r25, 0x00	; 0
- 40e:	0e 94 7a 02 	call	0x4f4	; 0x4f4 <__itoa_ncheck>
+ 3f4:	80 91 36 02 	lds	r24, 0x0236	; 0x800236 <D_Temp>
+ 3f8:	4a e0       	ldi	r20, 0x0A	; 10
+ 3fa:	be 01       	movw	r22, r28
+ 3fc:	6f 5f       	subi	r22, 0xFF	; 255
+ 3fe:	7f 4f       	sbci	r23, 0xFF	; 255
+ 400:	90 e0       	ldi	r25, 0x00	; 0
+ 402:	0e 94 74 02 	call	0x4e8	; 0x4e8 <__itoa_ncheck>
 		 SerialPort_Send_String(data);
- 412:	ce 01       	movw	r24, r28
- 414:	01 96       	adiw	r24, 0x01	; 1
- 416:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 406:	ce 01       	movw	r24, r28
+ 408:	01 96       	adiw	r24, 0x01	; 1
+ 40a:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String("\r\n");
- 41a:	8d e4       	ldi	r24, 0x4D	; 77
- 41c:	91 e0       	ldi	r25, 0x01	; 1
- 41e:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 40e:	8d e4       	ldi	r24, 0x4D	; 77
+ 410:	91 e0       	ldi	r25, 0x01	; 1
+ 412:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 itoa(CheckSum,data,10);
- 422:	80 91 33 02 	lds	r24, 0x0233	; 0x800233 <CheckSum>
- 426:	4a e0       	ldi	r20, 0x0A	; 10
- 428:	be 01       	movw	r22, r28
- 42a:	6f 5f       	subi	r22, 0xFF	; 255
- 42c:	7f 4f       	sbci	r23, 0xFF	; 255
- 42e:	90 e0       	ldi	r25, 0x00	; 0
- 430:	0e 94 7a 02 	call	0x4f4	; 0x4f4 <__itoa_ncheck>
+ 416:	80 91 33 02 	lds	r24, 0x0233	; 0x800233 <CheckSum>
+ 41a:	4a e0       	ldi	r20, 0x0A	; 10
+ 41c:	be 01       	movw	r22, r28
+ 41e:	6f 5f       	subi	r22, 0xFF	; 255
+ 420:	7f 4f       	sbci	r23, 0xFF	; 255
+ 422:	90 e0       	ldi	r25, 0x00	; 0
+ 424:	0e 94 74 02 	call	0x4e8	; 0x4e8 <__itoa_ncheck>
 	
 	 }
 	 }
- 434:	0f 90       	pop	r0
- 436:	0f 90       	pop	r0
- 438:	0f 90       	pop	r0
- 43a:	0f 90       	pop	r0
- 43c:	0f 90       	pop	r0
- 43e:	df 91       	pop	r29
- 440:	cf 91       	pop	r28
- 442:	08 95       	ret
+ 428:	0f 90       	pop	r0
+ 42a:	0f 90       	pop	r0
+ 42c:	0f 90       	pop	r0
+ 42e:	0f 90       	pop	r0
+ 430:	0f 90       	pop	r0
+ 432:	df 91       	pop	r29
+ 434:	cf 91       	pop	r28
+ 436:	08 95       	ret
 
-00000444 <SerialPort_Init>:
+00000438 <SerialPort_Init>:
 	if ( (UCSR0A & (1<<RXC0))==1) {
 		*dato=UDR0;
 		return 1;
 	}
 	return 0; //no data
 }
- 444:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
- 448:	96 e0       	ldi	r25, 0x06	; 6
- 44a:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
- 44e:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+ 438:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+ 43c:	96 e0       	ldi	r25, 0x06	; 6
+ 43e:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+ 442:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+ 446:	08 95       	ret
+
+00000448 <SerialPort_TX_Enable>:
+ 448:	e1 ec       	ldi	r30, 0xC1	; 193
+ 44a:	f0 e0       	ldi	r31, 0x00	; 0
+ 44c:	80 81       	ld	r24, Z
+ 44e:	88 60       	ori	r24, 0x08	; 8
+ 450:	80 83       	st	Z, r24
  452:	08 95       	ret
 
-00000454 <SerialPort_TX_Enable>:
+00000454 <SerialPort_RX_Enable>:
  454:	e1 ec       	ldi	r30, 0xC1	; 193
  456:	f0 e0       	ldi	r31, 0x00	; 0
  458:	80 81       	ld	r24, Z
- 45a:	88 60       	ori	r24, 0x08	; 8
+ 45a:	80 61       	ori	r24, 0x10	; 16
  45c:	80 83       	st	Z, r24
  45e:	08 95       	ret
 
-00000460 <SerialPort_RX_Enable>:
+00000460 <SerialPort_RX_Interrupt_Enable>:
  460:	e1 ec       	ldi	r30, 0xC1	; 193
  462:	f0 e0       	ldi	r31, 0x00	; 0
  464:	80 81       	ld	r24, Z
- 466:	80 61       	ori	r24, 0x10	; 16
+ 466:	80 68       	ori	r24, 0x80	; 128
  468:	80 83       	st	Z, r24
  46a:	08 95       	ret
 
-0000046c <SerialPort_RX_Interrupt_Enable>:
- 46c:	e1 ec       	ldi	r30, 0xC1	; 193
- 46e:	f0 e0       	ldi	r31, 0x00	; 0
- 470:	80 81       	ld	r24, Z
- 472:	80 68       	ori	r24, 0x80	; 128
- 474:	80 83       	st	Z, r24
- 476:	08 95       	ret
+0000046c <SerialPort_Wait_For_TX_Buffer_Free>:
+ 46c:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 470:	85 ff       	sbrs	r24, 5
+ 472:	fc cf       	rjmp	.-8      	; 0x46c <SerialPort_Wait_For_TX_Buffer_Free>
+ 474:	08 95       	ret
 
-00000478 <SerialPort_Wait_For_TX_Buffer_Free>:
- 478:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 47c:	85 ff       	sbrs	r24, 5
- 47e:	fc cf       	rjmp	.-8      	; 0x478 <SerialPort_Wait_For_TX_Buffer_Free>
- 480:	08 95       	ret
+00000476 <SerialPort_Send_Data>:
+ 476:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 47a:	08 95       	ret
 
-00000482 <SerialPort_Send_Data>:
- 482:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 486:	08 95       	ret
+0000047c <SerialPort_Send_String>:
+ 47c:	ef 92       	push	r14
+ 47e:	ff 92       	push	r15
+ 480:	0f 93       	push	r16
+ 482:	1f 93       	push	r17
+ 484:	cf 93       	push	r28
+ 486:	7c 01       	movw	r14, r24
+ 488:	c0 e0       	ldi	r28, 0x00	; 0
+ 48a:	07 c0       	rjmp	.+14     	; 0x49a <SerialPort_Send_String+0x1e>
+ 48c:	0e 94 36 02 	call	0x46c	; 0x46c <SerialPort_Wait_For_TX_Buffer_Free>
+ 490:	f8 01       	movw	r30, r16
+ 492:	80 81       	ld	r24, Z
+ 494:	0e 94 3b 02 	call	0x476	; 0x476 <SerialPort_Send_Data>
+ 498:	cf 5f       	subi	r28, 0xFF	; 255
+ 49a:	87 01       	movw	r16, r14
+ 49c:	0c 0f       	add	r16, r28
+ 49e:	11 1d       	adc	r17, r1
+ 4a0:	f8 01       	movw	r30, r16
+ 4a2:	80 81       	ld	r24, Z
+ 4a4:	81 11       	cpse	r24, r1
+ 4a6:	f2 cf       	rjmp	.-28     	; 0x48c <SerialPort_Send_String+0x10>
+ 4a8:	cf 91       	pop	r28
+ 4aa:	1f 91       	pop	r17
+ 4ac:	0f 91       	pop	r16
+ 4ae:	ff 90       	pop	r15
+ 4b0:	ef 90       	pop	r14
+ 4b2:	08 95       	ret
 
-00000488 <SerialPort_Send_String>:
- 488:	ef 92       	push	r14
- 48a:	ff 92       	push	r15
- 48c:	0f 93       	push	r16
- 48e:	1f 93       	push	r17
- 490:	cf 93       	push	r28
- 492:	7c 01       	movw	r14, r24
- 494:	c0 e0       	ldi	r28, 0x00	; 0
- 496:	07 c0       	rjmp	.+14     	; 0x4a6 <SerialPort_Send_String+0x1e>
- 498:	0e 94 3c 02 	call	0x478	; 0x478 <SerialPort_Wait_For_TX_Buffer_Free>
- 49c:	f8 01       	movw	r30, r16
- 49e:	80 81       	ld	r24, Z
- 4a0:	0e 94 41 02 	call	0x482	; 0x482 <SerialPort_Send_Data>
- 4a4:	cf 5f       	subi	r28, 0xFF	; 255
- 4a6:	87 01       	movw	r16, r14
- 4a8:	0c 0f       	add	r16, r28
- 4aa:	11 1d       	adc	r17, r1
- 4ac:	f8 01       	movw	r30, r16
- 4ae:	80 81       	ld	r24, Z
- 4b0:	81 11       	cpse	r24, r1
- 4b2:	f2 cf       	rjmp	.-28     	; 0x498 <SerialPort_Send_String+0x10>
- 4b4:	cf 91       	pop	r28
- 4b6:	1f 91       	pop	r17
- 4b8:	0f 91       	pop	r16
- 4ba:	ff 90       	pop	r15
- 4bc:	ef 90       	pop	r14
- 4be:	08 95       	ret
-
-000004c0 <displayMenu>:
+000004b4 <displayMenu>:
 
 
 
 void displayMenu(){
 		 SerialPort_Send_String("Menu \n\r");
- 4c0:	8e e5       	ldi	r24, 0x5E	; 94
- 4c2:	91 e0       	ldi	r25, 0x01	; 1
- 4c4:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 4b4:	8e e5       	ldi	r24, 0x5E	; 94
+ 4b6:	91 e0       	ldi	r25, 0x01	; 1
+ 4b8:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String("1. 'ON'<Enter>  - encender registrador \n\r");
- 4c8:	86 e6       	ldi	r24, 0x66	; 102
- 4ca:	91 e0       	ldi	r25, 0x01	; 1
- 4cc:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 4bc:	86 e6       	ldi	r24, 0x66	; 102
+ 4be:	91 e0       	ldi	r25, 0x01	; 1
+ 4c0:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String("2. 'OFF'<Enter> - apagar registrador \n\r");
- 4d0:	80 e9       	ldi	r24, 0x90	; 144
- 4d2:	91 e0       	ldi	r25, 0x01	; 1
- 4d4:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
+ 4c4:	80 e9       	ldi	r24, 0x90	; 144
+ 4c6:	91 e0       	ldi	r25, 0x01	; 1
+ 4c8:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
 		 SerialPort_Send_String("3. 'RST'<Enter> - Volver al estado inicial \n\r");
- 4d8:	88 eb       	ldi	r24, 0xB8	; 184
- 4da:	91 e0       	ldi	r25, 0x01	; 1
- 4dc:	0e 94 44 02 	call	0x488	; 0x488 <SerialPort_Send_String>
- 4e0:	08 95       	ret
+ 4cc:	88 eb       	ldi	r24, 0xB8	; 184
+ 4ce:	91 e0       	ldi	r25, 0x01	; 1
+ 4d0:	0e 94 3e 02 	call	0x47c	; 0x47c <SerialPort_Send_String>
+ 4d4:	08 95       	ret
 
-000004e2 <strcmp>:
- 4e2:	fb 01       	movw	r30, r22
- 4e4:	dc 01       	movw	r26, r24
- 4e6:	8d 91       	ld	r24, X+
- 4e8:	01 90       	ld	r0, Z+
- 4ea:	80 19       	sub	r24, r0
- 4ec:	01 10       	cpse	r0, r1
- 4ee:	d9 f3       	breq	.-10     	; 0x4e6 <strcmp+0x4>
- 4f0:	99 0b       	sbc	r25, r25
- 4f2:	08 95       	ret
+000004d6 <strcmp>:
+ 4d6:	fb 01       	movw	r30, r22
+ 4d8:	dc 01       	movw	r26, r24
+ 4da:	8d 91       	ld	r24, X+
+ 4dc:	01 90       	ld	r0, Z+
+ 4de:	80 19       	sub	r24, r0
+ 4e0:	01 10       	cpse	r0, r1
+ 4e2:	d9 f3       	breq	.-10     	; 0x4da <strcmp+0x4>
+ 4e4:	99 0b       	sbc	r25, r25
+ 4e6:	08 95       	ret
 
-000004f4 <__itoa_ncheck>:
- 4f4:	bb 27       	eor	r27, r27
- 4f6:	4a 30       	cpi	r20, 0x0A	; 10
- 4f8:	31 f4       	brne	.+12     	; 0x506 <__itoa_ncheck+0x12>
- 4fa:	99 23       	and	r25, r25
- 4fc:	22 f4       	brpl	.+8      	; 0x506 <__itoa_ncheck+0x12>
- 4fe:	bd e2       	ldi	r27, 0x2D	; 45
- 500:	90 95       	com	r25
- 502:	81 95       	neg	r24
- 504:	9f 4f       	sbci	r25, 0xFF	; 255
- 506:	0c 94 86 02 	jmp	0x50c	; 0x50c <__utoa_common>
+000004e8 <__itoa_ncheck>:
+ 4e8:	bb 27       	eor	r27, r27
+ 4ea:	4a 30       	cpi	r20, 0x0A	; 10
+ 4ec:	31 f4       	brne	.+12     	; 0x4fa <__itoa_ncheck+0x12>
+ 4ee:	99 23       	and	r25, r25
+ 4f0:	22 f4       	brpl	.+8      	; 0x4fa <__itoa_ncheck+0x12>
+ 4f2:	bd e2       	ldi	r27, 0x2D	; 45
+ 4f4:	90 95       	com	r25
+ 4f6:	81 95       	neg	r24
+ 4f8:	9f 4f       	sbci	r25, 0xFF	; 255
+ 4fa:	0c 94 80 02 	jmp	0x500	; 0x500 <__utoa_common>
 
-0000050a <__utoa_ncheck>:
- 50a:	bb 27       	eor	r27, r27
+000004fe <__utoa_ncheck>:
+ 4fe:	bb 27       	eor	r27, r27
 
-0000050c <__utoa_common>:
- 50c:	fb 01       	movw	r30, r22
- 50e:	55 27       	eor	r21, r21
- 510:	aa 27       	eor	r26, r26
- 512:	88 0f       	add	r24, r24
- 514:	99 1f       	adc	r25, r25
- 516:	aa 1f       	adc	r26, r26
- 518:	a4 17       	cp	r26, r20
- 51a:	10 f0       	brcs	.+4      	; 0x520 <__utoa_common+0x14>
- 51c:	a4 1b       	sub	r26, r20
- 51e:	83 95       	inc	r24
- 520:	50 51       	subi	r21, 0x10	; 16
- 522:	b9 f7       	brne	.-18     	; 0x512 <__utoa_common+0x6>
- 524:	a0 5d       	subi	r26, 0xD0	; 208
- 526:	aa 33       	cpi	r26, 0x3A	; 58
- 528:	08 f0       	brcs	.+2      	; 0x52c <__utoa_common+0x20>
- 52a:	a9 5d       	subi	r26, 0xD9	; 217
- 52c:	a1 93       	st	Z+, r26
- 52e:	00 97       	sbiw	r24, 0x00	; 0
- 530:	79 f7       	brne	.-34     	; 0x510 <__utoa_common+0x4>
- 532:	b1 11       	cpse	r27, r1
- 534:	b1 93       	st	Z+, r27
- 536:	11 92       	st	Z+, r1
- 538:	cb 01       	movw	r24, r22
- 53a:	0c 94 9f 02 	jmp	0x53e	; 0x53e <strrev>
+00000500 <__utoa_common>:
+ 500:	fb 01       	movw	r30, r22
+ 502:	55 27       	eor	r21, r21
+ 504:	aa 27       	eor	r26, r26
+ 506:	88 0f       	add	r24, r24
+ 508:	99 1f       	adc	r25, r25
+ 50a:	aa 1f       	adc	r26, r26
+ 50c:	a4 17       	cp	r26, r20
+ 50e:	10 f0       	brcs	.+4      	; 0x514 <__utoa_common+0x14>
+ 510:	a4 1b       	sub	r26, r20
+ 512:	83 95       	inc	r24
+ 514:	50 51       	subi	r21, 0x10	; 16
+ 516:	b9 f7       	brne	.-18     	; 0x506 <__utoa_common+0x6>
+ 518:	a0 5d       	subi	r26, 0xD0	; 208
+ 51a:	aa 33       	cpi	r26, 0x3A	; 58
+ 51c:	08 f0       	brcs	.+2      	; 0x520 <__utoa_common+0x20>
+ 51e:	a9 5d       	subi	r26, 0xD9	; 217
+ 520:	a1 93       	st	Z+, r26
+ 522:	00 97       	sbiw	r24, 0x00	; 0
+ 524:	79 f7       	brne	.-34     	; 0x504 <__utoa_common+0x4>
+ 526:	b1 11       	cpse	r27, r1
+ 528:	b1 93       	st	Z+, r27
+ 52a:	11 92       	st	Z+, r1
+ 52c:	cb 01       	movw	r24, r22
+ 52e:	0c 94 99 02 	jmp	0x532	; 0x532 <strrev>
 
-0000053e <strrev>:
- 53e:	dc 01       	movw	r26, r24
- 540:	fc 01       	movw	r30, r24
- 542:	67 2f       	mov	r22, r23
- 544:	71 91       	ld	r23, Z+
- 546:	77 23       	and	r23, r23
- 548:	e1 f7       	brne	.-8      	; 0x542 <strrev+0x4>
- 54a:	32 97       	sbiw	r30, 0x02	; 2
- 54c:	04 c0       	rjmp	.+8      	; 0x556 <strrev+0x18>
- 54e:	7c 91       	ld	r23, X
- 550:	6d 93       	st	X+, r22
- 552:	70 83       	st	Z, r23
- 554:	62 91       	ld	r22, -Z
- 556:	ae 17       	cp	r26, r30
- 558:	bf 07       	cpc	r27, r31
- 55a:	c8 f3       	brcs	.-14     	; 0x54e <strrev+0x10>
- 55c:	08 95       	ret
+00000532 <strrev>:
+ 532:	dc 01       	movw	r26, r24
+ 534:	fc 01       	movw	r30, r24
+ 536:	67 2f       	mov	r22, r23
+ 538:	71 91       	ld	r23, Z+
+ 53a:	77 23       	and	r23, r23
+ 53c:	e1 f7       	brne	.-8      	; 0x536 <strrev+0x4>
+ 53e:	32 97       	sbiw	r30, 0x02	; 2
+ 540:	04 c0       	rjmp	.+8      	; 0x54a <strrev+0x18>
+ 542:	7c 91       	ld	r23, X
+ 544:	6d 93       	st	X+, r22
+ 546:	70 83       	st	Z, r23
+ 548:	62 91       	ld	r22, -Z
+ 54a:	ae 17       	cp	r26, r30
+ 54c:	bf 07       	cpc	r27, r31
+ 54e:	c8 f3       	brcs	.-14     	; 0x542 <strrev+0x10>
+ 550:	08 95       	ret
 
-0000055e <_exit>:
- 55e:	f8 94       	cli
+00000552 <_exit>:
+ 552:	f8 94       	cli
 
-00000560 <__stop_program>:
- 560:	ff cf       	rjmp	.-2      	; 0x560 <__stop_program>
+00000554 <__stop_program>:
+ 554:	ff cf       	rjmp	.-2      	; 0x554 <__stop_program>

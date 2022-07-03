@@ -24,7 +24,8 @@ ISR(TIMER0_OVF_vect)
 	uint8_t static cont=0;
 	cont++;
 	TCNT0=99;//reinicio contador del timer0
-	if(cont==100){
+	if(cont==200){
+	
 		checkSensorHumidity = true;
 		cont=0;//reinicio contador
 	}

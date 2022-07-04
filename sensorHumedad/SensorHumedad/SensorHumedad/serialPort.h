@@ -54,5 +54,6 @@
 	//TP
 	void displayMenu();
 	void startSerialPort();
-	void test();
+	void setupSerialPort(int cod);
+
 #endif /* SERIALPORT_H_ */

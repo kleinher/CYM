@@ -132,6 +132,9 @@
     <Compile Include="sensorHumedad.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="sensorHumedad.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="serialPort.c">
       <SubType>compile</SubType>
     </Compile>

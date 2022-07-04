@@ -46,9 +46,7 @@ void SerialPort_TX_Interrupt_Disable(void)
 	UCSR0B &=~(1<<UDRIE0);
 }
 
-void test(void){
 
-}
 // Inicialización de Receptor
 
 void SerialPort_RX_Enable(void){
@@ -239,19 +237,28 @@ char SerialPort_Receive_data (char * dato)
 	return 0; //no data
 }
 
-
-
 void displayMenu(){
 		 SerialPort_Send_String("Menu \n\r");
-		 SerialPort_Send_String("1. 'ON'<Enter>  - encender registrador \n\r");
-		 SerialPort_Send_String("2. 'OFF'<Enter> - apagar registrador \n\r");
+		 SerialPort_Send_String("1. 'ON'<Enter>  - Encender registrador \n\r");
+		 SerialPort_Send_String("2. 'OFF'<Enter> - Apagar registrador \n\r");
 		 SerialPort_Send_String("3. 'RST'<Enter> - Volver al estado inicial \n\r");
 }
 
 void startSerialPort(){
-		 //initialize the USART
-		 UCSR0B = (1<<TXEN0);
-		 UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);
-		 UBRR0L = 103;						 //baud rate = 9600bps@16MHz
-		 while (! (UCSR0A & (1<<UDRE0))); //wait until UDR0 is empty
+		 //Inicializa USART
+		 UCSR0B = (1<<TXEN0);               // Transmit Enable
+		 UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);	//Tamaño de la cantidad de información trasmitida: 110 -> Character Size = 8 
+		 UBRR0L = 103;						//baud rate = 9600bps@16MHz
+		 while (! (UCSR0A & (1<<UDRE0)));   //wait until UDR0 is empty
 }
+/*
+*Configuración de la terminal serie
+*/
+void setupSerialPort(int cod){
+	SerialPort_Init(cod);
+	SerialPort_TX_Enable();
+	SerialPort_RX_Enable();
+	SerialPort_RX_Interrupt_Enable();
+	
+}
+

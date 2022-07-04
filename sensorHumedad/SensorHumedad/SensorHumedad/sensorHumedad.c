@@ -4,14 +4,14 @@
  * http://www.electronicwings.com
  */ 
 # define F_CPU 16000000UL
-#define DHT11_PIN 0
+#include "sensorHumedad.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <util/delay.h>
- uint8_t I_RH,D_RH,I_Temp,D_Temp,CheckSum;
- uint8_t c=0;
+static uint8_t I_RH,D_RH,I_Temp,D_Temp,CheckSum;
+static uint8_t c=0;
 
 void Request()				/* Microcontroller send start pulse/request */
 {
@@ -82,3 +82,18 @@ void updateHumidity(){
 	
 	 }
 	 }
+void procesarEntrada(){
+	if(strcmp((char *) BufferRX,"ON") ==0){
+		ON = true;
+	}
+	else if(strcmp((char *) BufferRX,"OFF") ==0){
+		ON = false;
+	}
+	else if(strcmp((char *) BufferRX,"RST") ==0){
+		RST = true;
+	}
+	else {
+		sprintf((char *) BufferTX,"%s","Comando no valido\n\r");
+		SerialPort_Send_String(BufferTX);
+	}
+}

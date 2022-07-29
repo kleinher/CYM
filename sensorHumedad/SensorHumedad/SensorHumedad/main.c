@@ -14,8 +14,8 @@ volatile int checkSensorHumidity;
 volatile int ProcesarInstruccion;
 char BufferRX[32];
 char BufferTX[32];
-static int ON = false;
-static int RST = false;
+int ON = false;
+int RST = false;
 int main(void)
 {
 	setupTimer();

@@ -6,11 +6,13 @@
  */ 
 #define F_CPU 16000000
 #define RAND_MAX 255
+
 #include <avr/io.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <util/delay.h>
 #include "SerialPort.h"
+#include "main.h"
 
 void pantalla();
 void setupPines();
@@ -18,29 +20,58 @@ void setupADC();
 void pwm(int pin,int num);
 
 volatile int ProcesarInstruccion=0;
-volatile int newData=0;
-
+volatile uint8_t newData=0;
+char data[5];
 char BufferRX[32];
 char BufferTX[32];
-
+volatile int ProcesarInstruccion;
+int val[3] = {0,0,0};
+int cont = 0;
+int imprimir = true;
 int main(void)
 {
+	setupTimer();
 	setupPines();
 	setupSerialPort(103);
+	
 	setupADC();
 	sei();
     /* Replace with your application code */
 	
-	int R=50;
-	int G=50;
-	int B=200;
+
 	pantalla();
 	while (1) 
     {
-		if(newData<256){
-			pwm('R',R+newData);
-			pwm('G',G+newData);
-			pwm('B',B+newData);
+		if(imprimir){
+		switch (cont){
+			case 0:
+			SerialPort_Send_String("Ingrese el valor R\n\r");
+			imprimir = false;
+			break;
+			case 1:
+			SerialPort_Send_String("Ingrese el valor G\n\r");
+			imprimir = false;
+			break;
+			case 2:
+			SerialPort_Send_String("Ingrese el valor B\n\r");
+			imprimir = false;
+			break;
+		}
+		}
+		
+		if(newData<255){
+			if(!(val[0] == 0))
+				pwm('R',val[0]+newData);
+			if(!(val[1] == 0))
+				pwm('G',val[1]);
+			if(!(val[2] == 0))
+				pwm('B',val[2]);
+			//SerialPort_Send_String(itoa(R,data,10));
+		}
+		
+		if(ProcesarInstruccion){ //Lógica de proceso de comando del usuario
+			ProcesarInstruccion = false;
+			procesarEntrada();
 		}
     }
 }
@@ -96,24 +127,23 @@ void pwm(int pin,int num){
 	}
 }
 
-/*
-*Rutina de atención de interrupción Terminal serie
-*/
-ISR(USART_RX_vect){
-	volatile char RX_Data = 0;
-	static short int Index=0;
-	
-	RX_Data = UDR0;				//Obtengo la información del terminal
-	if(RX_Data != '\r'){		//si no es un salto de linea entonces almaceno caracter en el buffer
-		BufferRX[Index++] = RX_Data;
-	}
-	else{						//Si es un salto de linea entonces
-		BufferRX[Index]='\0';	//Determino el final del string
-		ProcesarInstruccion = 1; //Activo flag para atención de instrucción
-		Index=0;				//Vuelvo el indice al principio del vector
-	}
-}
 
 ISR(ADC_vect) {//when new ADC value ready 
 	newData = ADCH;//get value from A0 
+}
+
+void procesarEntrada(int *aux){
+
+	int num = atoi((char *) BufferRX);
+	
+	if (num <= 255){    //Verifica si el comando es "ON"
+		val[cont] = num;
+		imprimir =  true;
+		cont = (cont + 1) % 3;
+	}
+	else {										//En el caso de que no es ninguno de las opciones validas, imprime comando invalido
+		sprintf((char *) BufferTX,"%s","El numero debe estar entre 0 y 255\n\r");
+		SerialPort_Send_String(BufferTX);
+		imprimir =  true;
+	}
 }

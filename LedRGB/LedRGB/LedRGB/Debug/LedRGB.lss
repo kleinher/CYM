@@ -3,31 +3,31 @@ LedRGB.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000000e  00800100  00000360  000003f4  2**0
+  0 .data         00000074  00800100  000005f6  0000068a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000360  00000000  00000000  00000094  2**1
+  1 .text         000005f6  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000046  0080010e  0080010e  00000402  2**0
+  2 .bss          00000053  00800174  00800174  000006fe  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000402  2**0
+  3 .comment      00000030  00000000  00000000  000006fe  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000434  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000730  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000120  00000000  00000000  00000474  2**0
+  5 .debug_aranges 00000150  00000000  00000000  00000770  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000ef3  00000000  00000000  00000594  2**0
+  6 .debug_info   00001283  00000000  00000000  000008c0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000901  00000000  00000000  00001487  2**0
+  7 .debug_abbrev 00000acc  00000000  00000000  00001b43  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000007fa  00000000  00000000  00001d88  2**0
+  8 .debug_line   000009cd  00000000  00000000  0000260f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002d4  00000000  00000000  00002584  2**2
+  9 .debug_frame  0000036c  00000000  00000000  00002fdc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000696  00000000  00000000  00002858  2**0
+ 10 .debug_str    00000762  00000000  00000000  00003348  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000005fe  00000000  00000000  00002eee  2**0
+ 11 .debug_loc    00000789  00000000  00000000  00003aaa  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000100  00000000  00000000  000034ec  2**0
+ 12 .debug_ranges 00000120  00000000  00000000  00004233  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -49,12 +49,12 @@ Disassembly of section .text:
   34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  40:	0c 94 5d 00 	jmp	0xba	; 0xba <__vector_16>
   44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  48:	0c 94 0b 01 	jmp	0x216	; 0x216 <__vector_18>
+  48:	0c 94 aa 00 	jmp	0x154	; 0x154 <__vector_18>
   4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  54:	0c 94 52 01 	jmp	0x2a4	; 0x2a4 <__vector_21>
+  54:	0c 94 77 01 	jmp	0x2ee	; 0x2ee <__vector_21>
   58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   60:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -72,18 +72,18 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e0 e6       	ldi	r30, 0x60	; 96
-  7c:	f3 e0       	ldi	r31, 0x03	; 3
+  7a:	e6 ef       	ldi	r30, 0xF6	; 246
+  7c:	f5 e0       	ldi	r31, 0x05	; 5
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	ae 30       	cpi	r26, 0x0E	; 14
+  84:	a4 37       	cpi	r26, 0x74	; 116
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
 
 0000008a <__do_clear_bss>:
   8a:	21 e0       	ldi	r18, 0x01	; 1
-  8c:	ae e0       	ldi	r26, 0x0E	; 14
+  8c:	a4 e7       	ldi	r26, 0x74	; 116
   8e:	b1 e0       	ldi	r27, 0x01	; 1
   90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
 
@@ -91,441 +91,821 @@ Disassembly of section .text:
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	a4 35       	cpi	r26, 0x54	; 84
+  94:	a7 3c       	cpi	r26, 0xC7	; 199
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-  9a:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <main>
-  9e:	0c 94 ae 01 	jmp	0x35c	; 0x35c <_exit>
+  9a:	0e 94 bf 01 	call	0x37e	; 0x37e <main>
+  9e:	0c 94 f9 02 	jmp	0x5f2	; 0x5f2 <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-000000a6 <pantalla>:
+000000a6 <setupTimer>:
+extern volatile int ProcesarInstruccion;
+extern volatile int newData;
+extern char BufferRX[32];
+/*Configuración del timer 0*/
+void setupTimer(){
+	TCCR0B=(1<<CS02)|(1<<CS00); //configurar el registro del timer0 como temporizador con prescalador de 1024
+  a6:	85 e0       	ldi	r24, 0x05	; 5
+  a8:	85 bd       	out	0x25, r24	; 37
+	TCNT0=99;					//el registro empieza con valor 99
+  aa:	83 e6       	ldi	r24, 0x63	; 99
+  ac:	86 bd       	out	0x26, r24	; 38
+	TIMSK0|= (1<<TOIE0);	    //habilita la interrupcion por desbordamiento del timer0
+  ae:	ee e6       	ldi	r30, 0x6E	; 110
+  b0:	f0 e0       	ldi	r31, 0x00	; 0
+  b2:	80 81       	ld	r24, Z
+  b4:	81 60       	ori	r24, 0x01	; 1
+  b6:	80 83       	st	Z, r24
+  b8:	08 95       	ret
+
+000000ba <__vector_16>:
+}
+/*
+*Rutina de atención de interrupción Timer
+*/
+ISR(TIMER0_OVF_vect)
+{
+  ba:	1f 92       	push	r1
+  bc:	0f 92       	push	r0
+  be:	0f b6       	in	r0, 0x3f	; 63
+  c0:	0f 92       	push	r0
+  c2:	11 24       	eor	r1, r1
+  c4:	2f 93       	push	r18
+  c6:	3f 93       	push	r19
+  c8:	4f 93       	push	r20
+  ca:	5f 93       	push	r21
+  cc:	6f 93       	push	r22
+  ce:	7f 93       	push	r23
+  d0:	8f 93       	push	r24
+  d2:	9f 93       	push	r25
+  d4:	af 93       	push	r26
+  d6:	bf 93       	push	r27
+  d8:	ef 93       	push	r30
+  da:	ff 93       	push	r31
+  dc:	cf 93       	push	r28
+  de:	df 93       	push	r29
+  e0:	cd b7       	in	r28, 0x3d	; 61
+  e2:	de b7       	in	r29, 0x3e	; 62
+  e4:	25 97       	sbiw	r28, 0x05	; 5
+  e6:	de bf       	out	0x3e, r29	; 62
+  e8:	cd bf       	out	0x3d, r28	; 61
+	uint8_t static cont=0;
+	char data[5];
+	cont++;					//Contador para llegar a interrupciones cada 1 seg
+  ea:	80 91 76 01 	lds	r24, 0x0176	; 0x800176 <cont.2144>
+  ee:	8f 5f       	subi	r24, 0xFF	; 255
+  f0:	80 93 76 01 	sts	0x0176, r24	; 0x800176 <cont.2144>
+	TCNT0=99;				//Reinicio contador del timer0
+  f4:	83 e6       	ldi	r24, 0x63	; 99
+  f6:	86 bd       	out	0x26, r24	; 38
+	if(cont==100){			//Condición de tiempo requerida (1 seg)
+  f8:	80 91 76 01 	lds	r24, 0x0176	; 0x800176 <cont.2144>
+  fc:	84 36       	cpi	r24, 0x64	; 100
+  fe:	91 f4       	brne	.+36     	; 0x124 <__vector_16+0x6a>
+		cont=0;				//reinicio contador
+ 100:	10 92 76 01 	sts	0x0176, r1	; 0x800176 <cont.2144>
+		
+		SerialPort_Send_String(itoa(newData,data,10));
+ 104:	80 91 7f 01 	lds	r24, 0x017F	; 0x80017f <newData>
+ 108:	90 91 80 01 	lds	r25, 0x0180	; 0x800180 <ProcesarInstruccion>
+    } else if (__radix < 2 || __radix > 36) {
+	*__s = 0;
+	return __s;
+    } else {
+	extern char *__itoa_ncheck (int, char *, unsigned char);
+	return __itoa_ncheck (__val, __s, __radix);
+ 10c:	4a e0       	ldi	r20, 0x0A	; 10
+ 10e:	be 01       	movw	r22, r28
+ 110:	6f 5f       	subi	r22, 0xFF	; 255
+ 112:	7f 4f       	sbci	r23, 0xFF	; 255
+ 114:	0e 94 bc 02 	call	0x578	; 0x578 <__itoa_ncheck>
+ 118:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
+		SerialPort_Send_String("\n\r");
+ 11c:	82 e3       	ldi	r24, 0x32	; 50
+ 11e:	91 e0       	ldi	r25, 0x01	; 1
+ 120:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
+	}
+}
+ 124:	0f 90       	pop	r0
+ 126:	0f 90       	pop	r0
+ 128:	0f 90       	pop	r0
+ 12a:	0f 90       	pop	r0
+ 12c:	0f 90       	pop	r0
+ 12e:	df 91       	pop	r29
+ 130:	cf 91       	pop	r28
+ 132:	ff 91       	pop	r31
+ 134:	ef 91       	pop	r30
+ 136:	bf 91       	pop	r27
+ 138:	af 91       	pop	r26
+ 13a:	9f 91       	pop	r25
+ 13c:	8f 91       	pop	r24
+ 13e:	7f 91       	pop	r23
+ 140:	6f 91       	pop	r22
+ 142:	5f 91       	pop	r21
+ 144:	4f 91       	pop	r20
+ 146:	3f 91       	pop	r19
+ 148:	2f 91       	pop	r18
+ 14a:	0f 90       	pop	r0
+ 14c:	0f be       	out	0x3f, r0	; 63
+ 14e:	0f 90       	pop	r0
+ 150:	1f 90       	pop	r1
+ 152:	18 95       	reti
+
+00000154 <__vector_18>:
+
+/*
+*Rutina de atención de interrupción Terminal serie
+*/
+ISR(USART_RX_vect){
+ 154:	1f 92       	push	r1
+ 156:	0f 92       	push	r0
+ 158:	0f b6       	in	r0, 0x3f	; 63
+ 15a:	0f 92       	push	r0
+ 15c:	11 24       	eor	r1, r1
+ 15e:	2f 93       	push	r18
+ 160:	3f 93       	push	r19
+ 162:	8f 93       	push	r24
+ 164:	9f 93       	push	r25
+ 166:	ef 93       	push	r30
+ 168:	ff 93       	push	r31
+ 16a:	cf 93       	push	r28
+ 16c:	df 93       	push	r29
+ 16e:	1f 92       	push	r1
+ 170:	cd b7       	in	r28, 0x3d	; 61
+ 172:	de b7       	in	r29, 0x3e	; 62
+	volatile char RX_Data = 0;
+ 174:	19 82       	std	Y+1, r1	; 0x01
+	static short int Index=0;
+	
+	RX_Data = UDR0;				//Obtengo la información del terminal
+ 176:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 17a:	89 83       	std	Y+1, r24	; 0x01
+	if(RX_Data != '\r'){		//si no es un salto de linea entonces almaceno caracter en el buffer
+ 17c:	89 81       	ldd	r24, Y+1	; 0x01
+ 17e:	8d 30       	cpi	r24, 0x0D	; 13
+ 180:	89 f0       	breq	.+34     	; 0x1a4 <__vector_18+0x50>
+		BufferRX[Index++] = RX_Data;
+ 182:	80 91 74 01 	lds	r24, 0x0174	; 0x800174 <__data_end>
+ 186:	90 91 75 01 	lds	r25, 0x0175	; 0x800175 <__data_end+0x1>
+ 18a:	9c 01       	movw	r18, r24
+ 18c:	2f 5f       	subi	r18, 0xFF	; 255
+ 18e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 190:	30 93 75 01 	sts	0x0175, r19	; 0x800175 <__data_end+0x1>
+ 194:	20 93 74 01 	sts	0x0174, r18	; 0x800174 <__data_end>
+ 198:	29 81       	ldd	r18, Y+1	; 0x01
+ 19a:	fc 01       	movw	r30, r24
+ 19c:	ee 55       	subi	r30, 0x5E	; 94
+ 19e:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1a0:	20 83       	st	Z, r18
+ 1a2:	11 c0       	rjmp	.+34     	; 0x1c6 <__vector_18+0x72>
+	}
+	else{						//Si es un salto de linea entonces
+		BufferRX[Index]='\0';	//Determino el final del string
+ 1a4:	e0 91 74 01 	lds	r30, 0x0174	; 0x800174 <__data_end>
+ 1a8:	f0 91 75 01 	lds	r31, 0x0175	; 0x800175 <__data_end+0x1>
+ 1ac:	ee 55       	subi	r30, 0x5E	; 94
+ 1ae:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1b0:	10 82       	st	Z, r1
+		ProcesarInstruccion = true; //Activo flag para atención de instrucción
+ 1b2:	81 e0       	ldi	r24, 0x01	; 1
+ 1b4:	90 e0       	ldi	r25, 0x00	; 0
+ 1b6:	90 93 81 01 	sts	0x0181, r25	; 0x800181 <ProcesarInstruccion+0x1>
+ 1ba:	80 93 80 01 	sts	0x0180, r24	; 0x800180 <ProcesarInstruccion>
+		Index=0;				//Vuelvo el indice al principio del vector
+ 1be:	10 92 75 01 	sts	0x0175, r1	; 0x800175 <__data_end+0x1>
+ 1c2:	10 92 74 01 	sts	0x0174, r1	; 0x800174 <__data_end>
+	}
+ 1c6:	0f 90       	pop	r0
+ 1c8:	df 91       	pop	r29
+ 1ca:	cf 91       	pop	r28
+ 1cc:	ff 91       	pop	r31
+ 1ce:	ef 91       	pop	r30
+ 1d0:	9f 91       	pop	r25
+ 1d2:	8f 91       	pop	r24
+ 1d4:	3f 91       	pop	r19
+ 1d6:	2f 91       	pop	r18
+ 1d8:	0f 90       	pop	r0
+ 1da:	0f be       	out	0x3f, r0	; 63
+ 1dc:	0f 90       	pop	r0
+ 1de:	1f 90       	pop	r1
+ 1e0:	18 95       	reti
+
+000001e2 <pantalla>:
     }
 }
 
 void pantalla(){
 	static int valor=1;
 	if(valor==1){
-  a6:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
-  aa:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
-  ae:	01 97       	sbiw	r24, 0x01	; 1
-  b0:	51 f4       	brne	.+20     	; 0xc6 <pantalla+0x20>
+ 1e2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 1e6:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 1ea:	01 97       	sbiw	r24, 0x01	; 1
+ 1ec:	51 f4       	brne	.+20     	; 0x202 <pantalla+0x20>
 		SerialPort_Send_String("R: ");
-  b2:	82 e0       	ldi	r24, 0x02	; 2
-  b4:	91 e0       	ldi	r25, 0x01	; 1
-  b6:	0e 94 89 01 	call	0x312	; 0x312 <SerialPort_Send_String>
+ 1ee:	84 e0       	ldi	r24, 0x04	; 4
+ 1f0:	91 e0       	ldi	r25, 0x01	; 1
+ 1f2:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
 		valor=2;
-  ba:	82 e0       	ldi	r24, 0x02	; 2
-  bc:	90 e0       	ldi	r25, 0x00	; 0
-  be:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
-  c2:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 1f6:	82 e0       	ldi	r24, 0x02	; 2
+ 1f8:	90 e0       	ldi	r25, 0x00	; 0
+ 1fa:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 1fe:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
 	}
 	if(valor==2){
-  c6:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
-  ca:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
-  ce:	02 97       	sbiw	r24, 0x02	; 2
-  d0:	51 f4       	brne	.+20     	; 0xe6 <pantalla+0x40>
+ 202:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 206:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 20a:	02 97       	sbiw	r24, 0x02	; 2
+ 20c:	51 f4       	brne	.+20     	; 0x222 <pantalla+0x40>
 		SerialPort_Send_String("G: ");
-  d2:	86 e0       	ldi	r24, 0x06	; 6
-  d4:	91 e0       	ldi	r25, 0x01	; 1
-  d6:	0e 94 89 01 	call	0x312	; 0x312 <SerialPort_Send_String>
+ 20e:	88 e0       	ldi	r24, 0x08	; 8
+ 210:	91 e0       	ldi	r25, 0x01	; 1
+ 212:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
 		valor=3;
-  da:	83 e0       	ldi	r24, 0x03	; 3
-  dc:	90 e0       	ldi	r25, 0x00	; 0
-  de:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
-  e2:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 216:	83 e0       	ldi	r24, 0x03	; 3
+ 218:	90 e0       	ldi	r25, 0x00	; 0
+ 21a:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 21e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
 	}
 	if(valor==3){
-  e6:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
-  ea:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
-  ee:	03 97       	sbiw	r24, 0x03	; 3
-  f0:	51 f4       	brne	.+20     	; 0x106 <pantalla+0x60>
+ 222:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 226:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 22a:	03 97       	sbiw	r24, 0x03	; 3
+ 22c:	51 f4       	brne	.+20     	; 0x242 <pantalla+0x60>
 		SerialPort_Send_String("B: ");
-  f2:	8a e0       	ldi	r24, 0x0A	; 10
-  f4:	91 e0       	ldi	r25, 0x01	; 1
-  f6:	0e 94 89 01 	call	0x312	; 0x312 <SerialPort_Send_String>
+ 22e:	8c e0       	ldi	r24, 0x0C	; 12
+ 230:	91 e0       	ldi	r25, 0x01	; 1
+ 232:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
 		valor=1;
-  fa:	81 e0       	ldi	r24, 0x01	; 1
-  fc:	90 e0       	ldi	r25, 0x00	; 0
-  fe:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 102:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 106:	08 95       	ret
+ 236:	81 e0       	ldi	r24, 0x01	; 1
+ 238:	90 e0       	ldi	r25, 0x00	; 0
+ 23a:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 23e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 242:	08 95       	ret
 
-00000108 <setupPines>:
+00000244 <setupPines>:
 	}
 }
  
 void setupPines(){
 	DDRB |= (1<<1)|(1<<2)|(1<<3);
- 108:	84 b1       	in	r24, 0x04	; 4
- 10a:	8e 60       	ori	r24, 0x0E	; 14
- 10c:	84 b9       	out	0x04, r24	; 4
- 10e:	08 95       	ret
+ 244:	84 b1       	in	r24, 0x04	; 4
+ 246:	8e 60       	ori	r24, 0x0E	; 14
+ 248:	84 b9       	out	0x04, r24	; 4
+ 24a:	08 95       	ret
 
-00000110 <setupADC>:
+0000024c <setupADC>:
 }
 
 void setupADC(){
 	ADCSRA = 0; 
- 110:	ea e7       	ldi	r30, 0x7A	; 122
- 112:	f0 e0       	ldi	r31, 0x00	; 0
- 114:	10 82       	st	Z, r1
+ 24c:	ea e7       	ldi	r30, 0x7A	; 122
+ 24e:	f0 e0       	ldi	r31, 0x00	; 0
+ 250:	10 82       	st	Z, r1
 	ADCSRB = 0; 
- 116:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <__TEXT_REGION_LENGTH__+0x7f807b>
+ 252:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <__TEXT_REGION_LENGTH__+0x7f807b>
 	ADMUX |= (1 << REFS1); //set reference voltage 
- 11a:	ac e7       	ldi	r26, 0x7C	; 124
- 11c:	b0 e0       	ldi	r27, 0x00	; 0
- 11e:	8c 91       	ld	r24, X
- 120:	80 68       	ori	r24, 0x80	; 128
- 122:	8c 93       	st	X, r24
+ 256:	ac e7       	ldi	r26, 0x7C	; 124
+ 258:	b0 e0       	ldi	r27, 0x00	; 0
+ 25a:	8c 91       	ld	r24, X
+ 25c:	80 68       	ori	r24, 0x80	; 128
+ 25e:	8c 93       	st	X, r24
 	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only //
- 124:	8c 91       	ld	r24, X
- 126:	80 62       	ori	r24, 0x20	; 32
- 128:	8c 93       	st	X, r24
+ 260:	8c 91       	ld	r24, X
+ 262:	80 62       	ori	r24, 0x20	; 32
+ 264:	8c 93       	st	X, r24
 	ADCSRA |= (1 << ADPS1); //prescalador ADC 8
- 12a:	80 81       	ld	r24, Z
- 12c:	82 60       	ori	r24, 0x02	; 2
- 12e:	80 83       	st	Z, r24
+ 266:	80 81       	ld	r24, Z
+ 268:	82 60       	ori	r24, 0x02	; 2
+ 26a:	80 83       	st	Z, r24
 	ADCSRA |= (1 << ADATE); //enabble auto trigger 
- 130:	80 81       	ld	r24, Z
- 132:	80 62       	ori	r24, 0x20	; 32
- 134:	80 83       	st	Z, r24
+ 26c:	80 81       	ld	r24, Z
+ 26e:	80 62       	ori	r24, 0x20	; 32
+ 270:	80 83       	st	Z, r24
 	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete 
- 136:	80 81       	ld	r24, Z
- 138:	88 60       	ori	r24, 0x08	; 8
- 13a:	80 83       	st	Z, r24
+ 272:	80 81       	ld	r24, Z
+ 274:	88 60       	ori	r24, 0x08	; 8
+ 276:	80 83       	st	Z, r24
 	ADCSRA |= (1 << ADEN); //enable ADC 
- 13c:	80 81       	ld	r24, Z
- 13e:	80 68       	ori	r24, 0x80	; 128
- 140:	80 83       	st	Z, r24
+ 278:	80 81       	ld	r24, Z
+ 27a:	80 68       	ori	r24, 0x80	; 128
+ 27c:	80 83       	st	Z, r24
 	ADCSRA |= (1 << ADSC); //start ADC measurements
- 142:	80 81       	ld	r24, Z
- 144:	80 64       	ori	r24, 0x40	; 64
- 146:	80 83       	st	Z, r24
- 148:	08 95       	ret
+ 27e:	80 81       	ld	r24, Z
+ 280:	80 64       	ori	r24, 0x40	; 64
+ 282:	80 83       	st	Z, r24
+ 284:	08 95       	ret
 
-0000014a <pwm>:
+00000286 <pwm>:
 }
 
 void pwm(int pin,int num){
- 14a:	9c 01       	movw	r18, r24
+ 286:	9c 01       	movw	r18, r24
 	TCCR1B |= (1<<CS11)|(1<<CS10);//prescalar /64
- 14c:	e1 e8       	ldi	r30, 0x81	; 129
- 14e:	f0 e0       	ldi	r31, 0x00	; 0
- 150:	90 81       	ld	r25, Z
- 152:	93 60       	ori	r25, 0x03	; 3
- 154:	90 83       	st	Z, r25
+ 288:	e1 e8       	ldi	r30, 0x81	; 129
+ 28a:	f0 e0       	ldi	r31, 0x00	; 0
+ 28c:	90 81       	ld	r25, Z
+ 28e:	93 60       	ori	r25, 0x03	; 3
+ 290:	90 83       	st	Z, r25
 	TCCR2B |= (1<<CS22)|(1<<CS20);//prescalar /64
- 156:	e1 eb       	ldi	r30, 0xB1	; 177
- 158:	f0 e0       	ldi	r31, 0x00	; 0
- 15a:	90 81       	ld	r25, Z
- 15c:	95 60       	ori	r25, 0x05	; 5
- 15e:	90 83       	st	Z, r25
+ 292:	e1 eb       	ldi	r30, 0xB1	; 177
+ 294:	f0 e0       	ldi	r31, 0x00	; 0
+ 296:	90 81       	ld	r25, Z
+ 298:	95 60       	ori	r25, 0x05	; 5
+ 29a:	90 83       	st	Z, r25
 	switch(pin){
- 160:	27 34       	cpi	r18, 0x47	; 71
- 162:	31 05       	cpc	r19, r1
- 164:	91 f0       	breq	.+36     	; 0x18a <pwm+0x40>
- 166:	22 35       	cpi	r18, 0x52	; 82
- 168:	31 05       	cpc	r19, r1
- 16a:	d9 f0       	breq	.+54     	; 0x1a2 <pwm+0x58>
- 16c:	22 34       	cpi	r18, 0x42	; 66
- 16e:	31 05       	cpc	r19, r1
- 170:	f9 f4       	brne	.+62     	; 0x1b0 <pwm+0x66>
+ 29c:	27 34       	cpi	r18, 0x47	; 71
+ 29e:	31 05       	cpc	r19, r1
+ 2a0:	91 f0       	breq	.+36     	; 0x2c6 <pwm+0x40>
+ 2a2:	22 35       	cpi	r18, 0x52	; 82
+ 2a4:	31 05       	cpc	r19, r1
+ 2a6:	d9 f0       	breq	.+54     	; 0x2de <pwm+0x58>
+ 2a8:	22 34       	cpi	r18, 0x42	; 66
+ 2aa:	31 05       	cpc	r19, r1
+ 2ac:	f9 f4       	brne	.+62     	; 0x2ec <pwm+0x66>
 		case 'B':
 			TCCR1A |= (1<<WGM12)|(1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
- 172:	e0 e8       	ldi	r30, 0x80	; 128
- 174:	f0 e0       	ldi	r31, 0x00	; 0
- 176:	80 81       	ld	r24, Z
- 178:	89 6c       	ori	r24, 0xC9	; 201
- 17a:	80 83       	st	Z, r24
+ 2ae:	e0 e8       	ldi	r30, 0x80	; 128
+ 2b0:	f0 e0       	ldi	r31, 0x00	; 0
+ 2b2:	80 81       	ld	r24, Z
+ 2b4:	89 6c       	ori	r24, 0xC9	; 201
+ 2b6:	80 83       	st	Z, r24
 			OCR1A=num;
- 17c:	86 2f       	mov	r24, r22
- 17e:	97 2f       	mov	r25, r23
- 180:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
- 184:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
+ 2b8:	86 2f       	mov	r24, r22
+ 2ba:	97 2f       	mov	r25, r23
+ 2bc:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
+ 2c0:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
 		break;
- 188:	08 95       	ret
+ 2c4:	08 95       	ret
 		case 'G':
 			TCCR1A |= (1<<WGM12)|(1<<WGM10)|(1<<COM1B1)|(1<<COM1B0);//fast pwm, inverted
- 18a:	e0 e8       	ldi	r30, 0x80	; 128
- 18c:	f0 e0       	ldi	r31, 0x00	; 0
- 18e:	80 81       	ld	r24, Z
- 190:	89 63       	ori	r24, 0x39	; 57
- 192:	80 83       	st	Z, r24
+ 2c6:	e0 e8       	ldi	r30, 0x80	; 128
+ 2c8:	f0 e0       	ldi	r31, 0x00	; 0
+ 2ca:	80 81       	ld	r24, Z
+ 2cc:	89 63       	ori	r24, 0x39	; 57
+ 2ce:	80 83       	st	Z, r24
 			OCR1B=num;
- 194:	86 2f       	mov	r24, r22
- 196:	97 2f       	mov	r25, r23
- 198:	90 93 8b 00 	sts	0x008B, r25	; 0x80008b <__TEXT_REGION_LENGTH__+0x7f808b>
- 19c:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__TEXT_REGION_LENGTH__+0x7f808a>
+ 2d0:	86 2f       	mov	r24, r22
+ 2d2:	97 2f       	mov	r25, r23
+ 2d4:	90 93 8b 00 	sts	0x008B, r25	; 0x80008b <__TEXT_REGION_LENGTH__+0x7f808b>
+ 2d8:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__TEXT_REGION_LENGTH__+0x7f808a>
 		break;
- 1a0:	08 95       	ret
+ 2dc:	08 95       	ret
 		case 'R':
 			TCCR2A |= (1<<WGM21)|(1<<WGM20)|(1<<COM2A1)|(1<<COM2A0);//fast pwm, inverted
- 1a2:	e0 eb       	ldi	r30, 0xB0	; 176
- 1a4:	f0 e0       	ldi	r31, 0x00	; 0
- 1a6:	80 81       	ld	r24, Z
- 1a8:	83 6c       	ori	r24, 0xC3	; 195
- 1aa:	80 83       	st	Z, r24
-			OCR2A=num;
- 1ac:	60 93 b3 00 	sts	0x00B3, r22	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7f80b3>
- 1b0:	08 95       	ret
-
-000001b2 <main>:
-char BufferRX[32];
-char BufferTX[32];
-
-int main(void)
-{
-	setupPines();
- 1b2:	0e 94 84 00 	call	0x108	; 0x108 <setupPines>
-	setupSerialPort(103);
- 1b6:	87 e6       	ldi	r24, 0x67	; 103
- 1b8:	90 e0       	ldi	r25, 0x00	; 0
- 1ba:	0e 94 a5 01 	call	0x34a	; 0x34a <setupSerialPort>
-	setupADC();
- 1be:	0e 94 88 00 	call	0x110	; 0x110 <setupADC>
-	sei();
- 1c2:	78 94       	sei
-    /* Replace with your application code */
-	
-	int R=50;
-	int G=50;
-	int B=200;
-	pantalla();
- 1c4:	0e 94 53 00 	call	0xa6	; 0xa6 <pantalla>
-	while (1) 
-    {
-		if(newData<256){
- 1c8:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <newData>
- 1cc:	90 91 11 01 	lds	r25, 0x0111	; 0x800111 <newData+0x1>
- 1d0:	8f 3f       	cpi	r24, 0xFF	; 255
- 1d2:	91 05       	cpc	r25, r1
- 1d4:	09 f0       	breq	.+2      	; 0x1d8 <main+0x26>
- 1d6:	c4 f7       	brge	.-16     	; 0x1c8 <main+0x16>
-			pwm('R',R+newData);
- 1d8:	60 91 10 01 	lds	r22, 0x0110	; 0x800110 <newData>
- 1dc:	70 91 11 01 	lds	r23, 0x0111	; 0x800111 <newData+0x1>
- 1e0:	6e 5c       	subi	r22, 0xCE	; 206
- 1e2:	7f 4f       	sbci	r23, 0xFF	; 255
- 1e4:	82 e5       	ldi	r24, 0x52	; 82
- 1e6:	90 e0       	ldi	r25, 0x00	; 0
- 1e8:	0e 94 a5 00 	call	0x14a	; 0x14a <pwm>
-			pwm('G',G+newData);
- 1ec:	60 91 10 01 	lds	r22, 0x0110	; 0x800110 <newData>
- 1f0:	70 91 11 01 	lds	r23, 0x0111	; 0x800111 <newData+0x1>
- 1f4:	6e 5c       	subi	r22, 0xCE	; 206
- 1f6:	7f 4f       	sbci	r23, 0xFF	; 255
- 1f8:	87 e4       	ldi	r24, 0x47	; 71
- 1fa:	90 e0       	ldi	r25, 0x00	; 0
- 1fc:	0e 94 a5 00 	call	0x14a	; 0x14a <pwm>
-			pwm('B',B+newData);
- 200:	60 91 10 01 	lds	r22, 0x0110	; 0x800110 <newData>
- 204:	70 91 11 01 	lds	r23, 0x0111	; 0x800111 <newData+0x1>
- 208:	68 53       	subi	r22, 0x38	; 56
- 20a:	7f 4f       	sbci	r23, 0xFF	; 255
- 20c:	82 e4       	ldi	r24, 0x42	; 66
- 20e:	90 e0       	ldi	r25, 0x00	; 0
- 210:	0e 94 a5 00 	call	0x14a	; 0x14a <pwm>
- 214:	d9 cf       	rjmp	.-78     	; 0x1c8 <main+0x16>
-
-00000216 <__vector_18>:
-}
-
-/*
-*Rutina de atención de interrupción Terminal serie
-*/
-ISR(USART_RX_vect){
- 216:	1f 92       	push	r1
- 218:	0f 92       	push	r0
- 21a:	0f b6       	in	r0, 0x3f	; 63
- 21c:	0f 92       	push	r0
- 21e:	11 24       	eor	r1, r1
- 220:	2f 93       	push	r18
- 222:	3f 93       	push	r19
- 224:	8f 93       	push	r24
- 226:	9f 93       	push	r25
- 228:	ef 93       	push	r30
- 22a:	ff 93       	push	r31
- 22c:	cf 93       	push	r28
- 22e:	df 93       	push	r29
- 230:	1f 92       	push	r1
- 232:	cd b7       	in	r28, 0x3d	; 61
- 234:	de b7       	in	r29, 0x3e	; 62
-	volatile char RX_Data = 0;
- 236:	19 82       	std	Y+1, r1	; 0x01
-	static short int Index=0;
-	
-	RX_Data = UDR0;				//Obtengo la información del terminal
- 238:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 23c:	89 83       	std	Y+1, r24	; 0x01
-	if(RX_Data != '\r'){		//si no es un salto de linea entonces almaceno caracter en el buffer
- 23e:	89 81       	ldd	r24, Y+1	; 0x01
- 240:	8d 30       	cpi	r24, 0x0D	; 13
- 242:	89 f0       	breq	.+34     	; 0x266 <__vector_18+0x50>
-		BufferRX[Index++] = RX_Data;
- 244:	80 91 0e 01 	lds	r24, 0x010E	; 0x80010e <__data_end>
- 248:	90 91 0f 01 	lds	r25, 0x010F	; 0x80010f <__data_end+0x1>
- 24c:	9c 01       	movw	r18, r24
- 24e:	2f 5f       	subi	r18, 0xFF	; 255
- 250:	3f 4f       	sbci	r19, 0xFF	; 255
- 252:	30 93 0f 01 	sts	0x010F, r19	; 0x80010f <__data_end+0x1>
- 256:	20 93 0e 01 	sts	0x010E, r18	; 0x80010e <__data_end>
- 25a:	29 81       	ldd	r18, Y+1	; 0x01
- 25c:	fc 01       	movw	r30, r24
- 25e:	ec 5c       	subi	r30, 0xCC	; 204
- 260:	fe 4f       	sbci	r31, 0xFE	; 254
- 262:	20 83       	st	Z, r18
- 264:	11 c0       	rjmp	.+34     	; 0x288 <__vector_18+0x72>
-	}
-	else{						//Si es un salto de linea entonces
-		BufferRX[Index]='\0';	//Determino el final del string
- 266:	e0 91 0e 01 	lds	r30, 0x010E	; 0x80010e <__data_end>
- 26a:	f0 91 0f 01 	lds	r31, 0x010F	; 0x80010f <__data_end+0x1>
- 26e:	ec 5c       	subi	r30, 0xCC	; 204
- 270:	fe 4f       	sbci	r31, 0xFE	; 254
- 272:	10 82       	st	Z, r1
-		ProcesarInstruccion = 1; //Activo flag para atención de instrucción
- 274:	81 e0       	ldi	r24, 0x01	; 1
- 276:	90 e0       	ldi	r25, 0x00	; 0
- 278:	90 93 13 01 	sts	0x0113, r25	; 0x800113 <ProcesarInstruccion+0x1>
- 27c:	80 93 12 01 	sts	0x0112, r24	; 0x800112 <ProcesarInstruccion>
-		Index=0;				//Vuelvo el indice al principio del vector
- 280:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <__data_end+0x1>
- 284:	10 92 0e 01 	sts	0x010E, r1	; 0x80010e <__data_end>
-	}
-}
- 288:	0f 90       	pop	r0
- 28a:	df 91       	pop	r29
- 28c:	cf 91       	pop	r28
- 28e:	ff 91       	pop	r31
- 290:	ef 91       	pop	r30
- 292:	9f 91       	pop	r25
- 294:	8f 91       	pop	r24
- 296:	3f 91       	pop	r19
- 298:	2f 91       	pop	r18
- 29a:	0f 90       	pop	r0
- 29c:	0f be       	out	0x3f, r0	; 63
- 29e:	0f 90       	pop	r0
- 2a0:	1f 90       	pop	r1
- 2a2:	18 95       	reti
-
-000002a4 <__vector_21>:
-
-ISR(ADC_vect) {//when new ADC value ready 
- 2a4:	1f 92       	push	r1
- 2a6:	0f 92       	push	r0
- 2a8:	0f b6       	in	r0, 0x3f	; 63
- 2aa:	0f 92       	push	r0
- 2ac:	11 24       	eor	r1, r1
- 2ae:	8f 93       	push	r24
- 2b0:	9f 93       	push	r25
-	newData = ADCH;//get value from A0 
- 2b2:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__TEXT_REGION_LENGTH__+0x7f8079>
- 2b6:	90 e0       	ldi	r25, 0x00	; 0
- 2b8:	90 93 11 01 	sts	0x0111, r25	; 0x800111 <newData+0x1>
- 2bc:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <newData>
-}
- 2c0:	9f 91       	pop	r25
- 2c2:	8f 91       	pop	r24
- 2c4:	0f 90       	pop	r0
- 2c6:	0f be       	out	0x3f, r0	; 63
- 2c8:	0f 90       	pop	r0
- 2ca:	1f 90       	pop	r1
- 2cc:	18 95       	reti
-
-000002ce <SerialPort_Init>:
-		 //Inicializa USART
-		 UCSR0B = (1<<TXEN0);               // Transmit Enable
-		 UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);	//Tamaño de la cantidad de información trasmitida: 110 -> Character Size = 8 
-		 UBRR0L = 103;						//baud rate = 9600bps@16MHz
-		 while (! (UCSR0A & (1<<UDRE0)));   //wait until UDR0 is empty
-}
- 2ce:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
- 2d2:	96 e0       	ldi	r25, 0x06	; 6
- 2d4:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
- 2d8:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
- 2dc:	08 95       	ret
-
-000002de <SerialPort_TX_Enable>:
- 2de:	e1 ec       	ldi	r30, 0xC1	; 193
+ 2de:	e0 eb       	ldi	r30, 0xB0	; 176
  2e0:	f0 e0       	ldi	r31, 0x00	; 0
  2e2:	80 81       	ld	r24, Z
- 2e4:	88 60       	ori	r24, 0x08	; 8
+ 2e4:	83 6c       	ori	r24, 0xC3	; 195
  2e6:	80 83       	st	Z, r24
- 2e8:	08 95       	ret
+			OCR2A=num;
+ 2e8:	60 93 b3 00 	sts	0x00B3, r22	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7f80b3>
+ 2ec:	08 95       	ret
 
-000002ea <SerialPort_RX_Enable>:
- 2ea:	e1 ec       	ldi	r30, 0xC1	; 193
- 2ec:	f0 e0       	ldi	r31, 0x00	; 0
- 2ee:	80 81       	ld	r24, Z
- 2f0:	80 61       	ori	r24, 0x10	; 16
- 2f2:	80 83       	st	Z, r24
- 2f4:	08 95       	ret
+000002ee <__vector_21>:
+		break;
+	}
+}
 
-000002f6 <SerialPort_RX_Interrupt_Enable>:
- 2f6:	e1 ec       	ldi	r30, 0xC1	; 193
- 2f8:	f0 e0       	ldi	r31, 0x00	; 0
- 2fa:	80 81       	ld	r24, Z
- 2fc:	80 68       	ori	r24, 0x80	; 128
- 2fe:	80 83       	st	Z, r24
- 300:	08 95       	ret
 
-00000302 <SerialPort_Wait_For_TX_Buffer_Free>:
- 302:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 306:	85 ff       	sbrs	r24, 5
- 308:	fc cf       	rjmp	.-8      	; 0x302 <SerialPort_Wait_For_TX_Buffer_Free>
- 30a:	08 95       	ret
+ISR(ADC_vect) {//when new ADC value ready 
+ 2ee:	1f 92       	push	r1
+ 2f0:	0f 92       	push	r0
+ 2f2:	0f b6       	in	r0, 0x3f	; 63
+ 2f4:	0f 92       	push	r0
+ 2f6:	11 24       	eor	r1, r1
+ 2f8:	8f 93       	push	r24
+	newData = ADCH;//get value from A0 
+ 2fa:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__TEXT_REGION_LENGTH__+0x7f8079>
+ 2fe:	80 93 7f 01 	sts	0x017F, r24	; 0x80017f <newData>
+}
+ 302:	8f 91       	pop	r24
+ 304:	0f 90       	pop	r0
+ 306:	0f be       	out	0x3f, r0	; 63
+ 308:	0f 90       	pop	r0
+ 30a:	1f 90       	pop	r1
+ 30c:	18 95       	reti
 
-0000030c <SerialPort_Send_Data>:
- 30c:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 310:	08 95       	ret
+0000030e <procesarEntrada>:
 
-00000312 <SerialPort_Send_String>:
- 312:	ef 92       	push	r14
- 314:	ff 92       	push	r15
- 316:	0f 93       	push	r16
- 318:	1f 93       	push	r17
- 31a:	cf 93       	push	r28
- 31c:	7c 01       	movw	r14, r24
- 31e:	c0 e0       	ldi	r28, 0x00	; 0
- 320:	07 c0       	rjmp	.+14     	; 0x330 <SerialPort_Send_String+0x1e>
- 322:	0e 94 81 01 	call	0x302	; 0x302 <SerialPort_Wait_For_TX_Buffer_Free>
- 326:	f8 01       	movw	r30, r16
- 328:	80 81       	ld	r24, Z
- 32a:	0e 94 86 01 	call	0x30c	; 0x30c <SerialPort_Send_Data>
- 32e:	cf 5f       	subi	r28, 0xFF	; 255
- 330:	87 01       	movw	r16, r14
- 332:	0c 0f       	add	r16, r28
- 334:	11 1d       	adc	r17, r1
- 336:	f8 01       	movw	r30, r16
- 338:	80 81       	ld	r24, Z
- 33a:	81 11       	cpse	r24, r1
- 33c:	f2 cf       	rjmp	.-28     	; 0x322 <SerialPort_Send_String+0x10>
- 33e:	cf 91       	pop	r28
- 340:	1f 91       	pop	r17
- 342:	0f 91       	pop	r16
- 344:	ff 90       	pop	r15
- 346:	ef 90       	pop	r14
- 348:	08 95       	ret
+void procesarEntrada(int *aux){
 
-0000034a <setupSerialPort>:
-/*
-*Configuración de la terminal serie
-*/
-void setupSerialPort(int cod){
-	SerialPort_Init(cod);
- 34a:	0e 94 67 01 	call	0x2ce	; 0x2ce <SerialPort_Init>
-	SerialPort_TX_Enable();
- 34e:	0e 94 6f 01 	call	0x2de	; 0x2de <SerialPort_TX_Enable>
-	SerialPort_RX_Enable();
- 352:	0e 94 75 01 	call	0x2ea	; 0x2ea <SerialPort_RX_Enable>
-	SerialPort_RX_Interrupt_Enable();
- 356:	0e 94 7b 01 	call	0x2f6	; 0x2f6 <SerialPort_RX_Interrupt_Enable>
- 35a:	08 95       	ret
+	int num = atoi((char *) BufferRX);
+ 30e:	82 ea       	ldi	r24, 0xA2	; 162
+ 310:	91 e0       	ldi	r25, 0x01	; 1
+ 312:	0e 94 9e 02 	call	0x53c	; 0x53c <atoi>
+	
+	if (num <= 255){    //Verifica si el comando es "ON"
+ 316:	8f 3f       	cpi	r24, 0xFF	; 255
+ 318:	91 05       	cpc	r25, r1
+ 31a:	09 f0       	breq	.+2      	; 0x31e <procesarEntrada+0x10>
+ 31c:	e4 f4       	brge	.+56     	; 0x356 <procesarEntrada+0x48>
+		val[cont] = num;
+ 31e:	20 91 77 01 	lds	r18, 0x0177	; 0x800177 <cont>
+ 322:	30 91 78 01 	lds	r19, 0x0178	; 0x800178 <cont+0x1>
+ 326:	f9 01       	movw	r30, r18
+ 328:	ee 0f       	add	r30, r30
+ 32a:	ff 1f       	adc	r31, r31
+ 32c:	e7 58       	subi	r30, 0x87	; 135
+ 32e:	fe 4f       	sbci	r31, 0xFE	; 254
+ 330:	91 83       	std	Z+1, r25	; 0x01
+ 332:	80 83       	st	Z, r24
+		imprimir =  true;
+ 334:	81 e0       	ldi	r24, 0x01	; 1
+ 336:	90 e0       	ldi	r25, 0x00	; 0
+ 338:	90 93 03 01 	sts	0x0103, r25	; 0x800103 <imprimir+0x1>
+ 33c:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <imprimir>
+		cont = (cont + 1) % 3;
+ 340:	c9 01       	movw	r24, r18
+ 342:	01 96       	adiw	r24, 0x01	; 1
+ 344:	63 e0       	ldi	r22, 0x03	; 3
+ 346:	70 e0       	ldi	r23, 0x00	; 0
+ 348:	0e 94 76 02 	call	0x4ec	; 0x4ec <__divmodhi4>
+ 34c:	90 93 78 01 	sts	0x0178, r25	; 0x800178 <cont+0x1>
+ 350:	80 93 77 01 	sts	0x0177, r24	; 0x800177 <cont>
+ 354:	08 95       	ret
+	}
+	else {										//En el caso de que no es ninguno de las opciones validas, imprime comando invalido
+		sprintf((char *) BufferTX,"%s","El numero debe estar entre 0 y 255\n\r");
+ 356:	85 e2       	ldi	r24, 0x25	; 37
+ 358:	e0 e1       	ldi	r30, 0x10	; 16
+ 35a:	f1 e0       	ldi	r31, 0x01	; 1
+ 35c:	a2 e8       	ldi	r26, 0x82	; 130
+ 35e:	b1 e0       	ldi	r27, 0x01	; 1
+ 360:	01 90       	ld	r0, Z+
+ 362:	0d 92       	st	X+, r0
+ 364:	8a 95       	dec	r24
+ 366:	e1 f7       	brne	.-8      	; 0x360 <procesarEntrada+0x52>
+		SerialPort_Send_String(BufferTX);
+ 368:	82 e8       	ldi	r24, 0x82	; 130
+ 36a:	91 e0       	ldi	r25, 0x01	; 1
+ 36c:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
+		imprimir =  true;
+ 370:	81 e0       	ldi	r24, 0x01	; 1
+ 372:	90 e0       	ldi	r25, 0x00	; 0
+ 374:	90 93 03 01 	sts	0x0103, r25	; 0x800103 <imprimir+0x1>
+ 378:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <imprimir>
+ 37c:	08 95       	ret
 
-0000035c <_exit>:
- 35c:	f8 94       	cli
+0000037e <main>:
+int val[3] = {0,0,0};
+int cont = 0;
+int imprimir = true;
+int main(void)
+{
+	setupTimer();
+ 37e:	0e 94 53 00 	call	0xa6	; 0xa6 <setupTimer>
+	setupPines();
+ 382:	0e 94 22 01 	call	0x244	; 0x244 <setupPines>
+	setupSerialPort(103);
+ 386:	87 e6       	ldi	r24, 0x67	; 103
+ 388:	90 e0       	ldi	r25, 0x00	; 0
+ 38a:	0e 94 6d 02 	call	0x4da	; 0x4da <setupSerialPort>
+	
+	setupADC();
+ 38e:	0e 94 26 01 	call	0x24c	; 0x24c <setupADC>
+	sei();
+ 392:	78 94       	sei
+    /* Replace with your application code */
+	
 
-0000035e <__stop_program>:
- 35e:	ff cf       	rjmp	.-2      	; 0x35e <__stop_program>
+	pantalla();
+ 394:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <pantalla>
+	while (1) 
+    {
+		if(imprimir){
+ 398:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <imprimir>
+ 39c:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <imprimir+0x1>
+ 3a0:	89 2b       	or	r24, r25
+ 3a2:	31 f1       	breq	.+76     	; 0x3f0 <main+0x72>
+		switch (cont){
+ 3a4:	80 91 77 01 	lds	r24, 0x0177	; 0x800177 <cont>
+ 3a8:	90 91 78 01 	lds	r25, 0x0178	; 0x800178 <cont+0x1>
+ 3ac:	81 30       	cpi	r24, 0x01	; 1
+ 3ae:	91 05       	cpc	r25, r1
+ 3b0:	71 f0       	breq	.+28     	; 0x3ce <main+0x50>
+ 3b2:	82 30       	cpi	r24, 0x02	; 2
+ 3b4:	91 05       	cpc	r25, r1
+ 3b6:	a1 f0       	breq	.+40     	; 0x3e0 <main+0x62>
+ 3b8:	89 2b       	or	r24, r25
+ 3ba:	d1 f4       	brne	.+52     	; 0x3f0 <main+0x72>
+			case 0:
+			SerialPort_Send_String("Ingrese el valor R\n\r");
+ 3bc:	85 e3       	ldi	r24, 0x35	; 53
+ 3be:	91 e0       	ldi	r25, 0x01	; 1
+ 3c0:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
+			imprimir = false;
+ 3c4:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <imprimir+0x1>
+ 3c8:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <imprimir>
+			break;
+ 3cc:	11 c0       	rjmp	.+34     	; 0x3f0 <main+0x72>
+			case 1:
+			SerialPort_Send_String("Ingrese el valor G\n\r");
+ 3ce:	8a e4       	ldi	r24, 0x4A	; 74
+ 3d0:	91 e0       	ldi	r25, 0x01	; 1
+ 3d2:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
+			imprimir = false;
+ 3d6:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <imprimir+0x1>
+ 3da:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <imprimir>
+			break;
+ 3de:	08 c0       	rjmp	.+16     	; 0x3f0 <main+0x72>
+			case 2:
+			SerialPort_Send_String("Ingrese el valor B\n\r");
+ 3e0:	8f e5       	ldi	r24, 0x5F	; 95
+ 3e2:	91 e0       	ldi	r25, 0x01	; 1
+ 3e4:	0e 94 51 02 	call	0x4a2	; 0x4a2 <SerialPort_Send_String>
+			imprimir = false;
+ 3e8:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <imprimir+0x1>
+ 3ec:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <imprimir>
+			break;
+		}
+		}
+		
+		if(newData<255){
+ 3f0:	80 91 7f 01 	lds	r24, 0x017F	; 0x80017f <newData>
+ 3f4:	8f 3f       	cpi	r24, 0xFF	; 255
+ 3f6:	29 f1       	breq	.+74     	; 0x442 <__EEPROM_REGION_LENGTH__+0x42>
+			if(!(val[0] == 0))
+ 3f8:	60 91 79 01 	lds	r22, 0x0179	; 0x800179 <val>
+ 3fc:	70 91 7a 01 	lds	r23, 0x017A	; 0x80017a <val+0x1>
+ 400:	61 15       	cp	r22, r1
+ 402:	71 05       	cpc	r23, r1
+ 404:	41 f0       	breq	.+16     	; 0x416 <__EEPROM_REGION_LENGTH__+0x16>
+				pwm('R',val[0]+newData);
+ 406:	80 91 7f 01 	lds	r24, 0x017F	; 0x80017f <newData>
+ 40a:	68 0f       	add	r22, r24
+ 40c:	71 1d       	adc	r23, r1
+ 40e:	82 e5       	ldi	r24, 0x52	; 82
+ 410:	90 e0       	ldi	r25, 0x00	; 0
+ 412:	0e 94 43 01 	call	0x286	; 0x286 <pwm>
+			if(!(val[1] == 0))
+ 416:	60 91 7b 01 	lds	r22, 0x017B	; 0x80017b <val+0x2>
+ 41a:	70 91 7c 01 	lds	r23, 0x017C	; 0x80017c <val+0x3>
+ 41e:	61 15       	cp	r22, r1
+ 420:	71 05       	cpc	r23, r1
+ 422:	21 f0       	breq	.+8      	; 0x42c <__EEPROM_REGION_LENGTH__+0x2c>
+				pwm('G',val[1]);
+ 424:	87 e4       	ldi	r24, 0x47	; 71
+ 426:	90 e0       	ldi	r25, 0x00	; 0
+ 428:	0e 94 43 01 	call	0x286	; 0x286 <pwm>
+			if(!(val[2] == 0))
+ 42c:	60 91 7d 01 	lds	r22, 0x017D	; 0x80017d <val+0x4>
+ 430:	70 91 7e 01 	lds	r23, 0x017E	; 0x80017e <val+0x5>
+ 434:	61 15       	cp	r22, r1
+ 436:	71 05       	cpc	r23, r1
+ 438:	21 f0       	breq	.+8      	; 0x442 <__EEPROM_REGION_LENGTH__+0x42>
+				pwm('B',val[2]);
+ 43a:	82 e4       	ldi	r24, 0x42	; 66
+ 43c:	90 e0       	ldi	r25, 0x00	; 0
+ 43e:	0e 94 43 01 	call	0x286	; 0x286 <pwm>
+			//SerialPort_Send_String(itoa(R,data,10));
+		}
+		
+		if(ProcesarInstruccion){ //Lógica de proceso de comando del usuario
+ 442:	80 91 80 01 	lds	r24, 0x0180	; 0x800180 <ProcesarInstruccion>
+ 446:	90 91 81 01 	lds	r25, 0x0181	; 0x800181 <ProcesarInstruccion+0x1>
+ 44a:	89 2b       	or	r24, r25
+ 44c:	09 f4       	brne	.+2      	; 0x450 <__EEPROM_REGION_LENGTH__+0x50>
+ 44e:	a4 cf       	rjmp	.-184    	; 0x398 <main+0x1a>
+			ProcesarInstruccion = false;
+ 450:	10 92 81 01 	sts	0x0181, r1	; 0x800181 <ProcesarInstruccion+0x1>
+ 454:	10 92 80 01 	sts	0x0180, r1	; 0x800180 <ProcesarInstruccion>
+			procesarEntrada();
+ 458:	0e 94 87 01 	call	0x30e	; 0x30e <procesarEntrada>
+ 45c:	9d cf       	rjmp	.-198    	; 0x398 <main+0x1a>
+
+0000045e <SerialPort_Init>:
+ 45e:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+ 462:	96 e0       	ldi	r25, 0x06	; 6
+ 464:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+ 468:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+ 46c:	08 95       	ret
+
+0000046e <SerialPort_TX_Enable>:
+ 46e:	e1 ec       	ldi	r30, 0xC1	; 193
+ 470:	f0 e0       	ldi	r31, 0x00	; 0
+ 472:	80 81       	ld	r24, Z
+ 474:	88 60       	ori	r24, 0x08	; 8
+ 476:	80 83       	st	Z, r24
+ 478:	08 95       	ret
+
+0000047a <SerialPort_RX_Enable>:
+ 47a:	e1 ec       	ldi	r30, 0xC1	; 193
+ 47c:	f0 e0       	ldi	r31, 0x00	; 0
+ 47e:	80 81       	ld	r24, Z
+ 480:	80 61       	ori	r24, 0x10	; 16
+ 482:	80 83       	st	Z, r24
+ 484:	08 95       	ret
+
+00000486 <SerialPort_RX_Interrupt_Enable>:
+ 486:	e1 ec       	ldi	r30, 0xC1	; 193
+ 488:	f0 e0       	ldi	r31, 0x00	; 0
+ 48a:	80 81       	ld	r24, Z
+ 48c:	80 68       	ori	r24, 0x80	; 128
+ 48e:	80 83       	st	Z, r24
+ 490:	08 95       	ret
+
+00000492 <SerialPort_Wait_For_TX_Buffer_Free>:
+ 492:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 496:	85 ff       	sbrs	r24, 5
+ 498:	fc cf       	rjmp	.-8      	; 0x492 <SerialPort_Wait_For_TX_Buffer_Free>
+ 49a:	08 95       	ret
+
+0000049c <SerialPort_Send_Data>:
+ 49c:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 4a0:	08 95       	ret
+
+000004a2 <SerialPort_Send_String>:
+ 4a2:	ef 92       	push	r14
+ 4a4:	ff 92       	push	r15
+ 4a6:	0f 93       	push	r16
+ 4a8:	1f 93       	push	r17
+ 4aa:	cf 93       	push	r28
+ 4ac:	7c 01       	movw	r14, r24
+ 4ae:	c0 e0       	ldi	r28, 0x00	; 0
+ 4b0:	07 c0       	rjmp	.+14     	; 0x4c0 <SerialPort_Send_String+0x1e>
+ 4b2:	0e 94 49 02 	call	0x492	; 0x492 <SerialPort_Wait_For_TX_Buffer_Free>
+ 4b6:	f8 01       	movw	r30, r16
+ 4b8:	80 81       	ld	r24, Z
+ 4ba:	0e 94 4e 02 	call	0x49c	; 0x49c <SerialPort_Send_Data>
+ 4be:	cf 5f       	subi	r28, 0xFF	; 255
+ 4c0:	87 01       	movw	r16, r14
+ 4c2:	0c 0f       	add	r16, r28
+ 4c4:	11 1d       	adc	r17, r1
+ 4c6:	f8 01       	movw	r30, r16
+ 4c8:	80 81       	ld	r24, Z
+ 4ca:	81 11       	cpse	r24, r1
+ 4cc:	f2 cf       	rjmp	.-28     	; 0x4b2 <SerialPort_Send_String+0x10>
+ 4ce:	cf 91       	pop	r28
+ 4d0:	1f 91       	pop	r17
+ 4d2:	0f 91       	pop	r16
+ 4d4:	ff 90       	pop	r15
+ 4d6:	ef 90       	pop	r14
+ 4d8:	08 95       	ret
+
+000004da <setupSerialPort>:
+ 4da:	0e 94 2f 02 	call	0x45e	; 0x45e <SerialPort_Init>
+ 4de:	0e 94 37 02 	call	0x46e	; 0x46e <SerialPort_TX_Enable>
+ 4e2:	0e 94 3d 02 	call	0x47a	; 0x47a <SerialPort_RX_Enable>
+ 4e6:	0e 94 43 02 	call	0x486	; 0x486 <SerialPort_RX_Interrupt_Enable>
+ 4ea:	08 95       	ret
+
+000004ec <__divmodhi4>:
+ 4ec:	97 fb       	bst	r25, 7
+ 4ee:	07 2e       	mov	r0, r23
+ 4f0:	16 f4       	brtc	.+4      	; 0x4f6 <__divmodhi4+0xa>
+ 4f2:	00 94       	com	r0
+ 4f4:	07 d0       	rcall	.+14     	; 0x504 <__divmodhi4_neg1>
+ 4f6:	77 fd       	sbrc	r23, 7
+ 4f8:	09 d0       	rcall	.+18     	; 0x50c <__divmodhi4_neg2>
+ 4fa:	0e 94 8a 02 	call	0x514	; 0x514 <__udivmodhi4>
+ 4fe:	07 fc       	sbrc	r0, 7
+ 500:	05 d0       	rcall	.+10     	; 0x50c <__divmodhi4_neg2>
+ 502:	3e f4       	brtc	.+14     	; 0x512 <__divmodhi4_exit>
+
+00000504 <__divmodhi4_neg1>:
+ 504:	90 95       	com	r25
+ 506:	81 95       	neg	r24
+ 508:	9f 4f       	sbci	r25, 0xFF	; 255
+ 50a:	08 95       	ret
+
+0000050c <__divmodhi4_neg2>:
+ 50c:	70 95       	com	r23
+ 50e:	61 95       	neg	r22
+ 510:	7f 4f       	sbci	r23, 0xFF	; 255
+
+00000512 <__divmodhi4_exit>:
+ 512:	08 95       	ret
+
+00000514 <__udivmodhi4>:
+ 514:	aa 1b       	sub	r26, r26
+ 516:	bb 1b       	sub	r27, r27
+ 518:	51 e1       	ldi	r21, 0x11	; 17
+ 51a:	07 c0       	rjmp	.+14     	; 0x52a <__udivmodhi4_ep>
+
+0000051c <__udivmodhi4_loop>:
+ 51c:	aa 1f       	adc	r26, r26
+ 51e:	bb 1f       	adc	r27, r27
+ 520:	a6 17       	cp	r26, r22
+ 522:	b7 07       	cpc	r27, r23
+ 524:	10 f0       	brcs	.+4      	; 0x52a <__udivmodhi4_ep>
+ 526:	a6 1b       	sub	r26, r22
+ 528:	b7 0b       	sbc	r27, r23
+
+0000052a <__udivmodhi4_ep>:
+ 52a:	88 1f       	adc	r24, r24
+ 52c:	99 1f       	adc	r25, r25
+ 52e:	5a 95       	dec	r21
+ 530:	a9 f7       	brne	.-22     	; 0x51c <__udivmodhi4_loop>
+ 532:	80 95       	com	r24
+ 534:	90 95       	com	r25
+ 536:	bc 01       	movw	r22, r24
+ 538:	cd 01       	movw	r24, r26
+ 53a:	08 95       	ret
+
+0000053c <atoi>:
+ 53c:	fc 01       	movw	r30, r24
+ 53e:	88 27       	eor	r24, r24
+ 540:	99 27       	eor	r25, r25
+ 542:	e8 94       	clt
+ 544:	21 91       	ld	r18, Z+
+ 546:	20 32       	cpi	r18, 0x20	; 32
+ 548:	e9 f3       	breq	.-6      	; 0x544 <atoi+0x8>
+ 54a:	29 30       	cpi	r18, 0x09	; 9
+ 54c:	10 f0       	brcs	.+4      	; 0x552 <atoi+0x16>
+ 54e:	2e 30       	cpi	r18, 0x0E	; 14
+ 550:	c8 f3       	brcs	.-14     	; 0x544 <atoi+0x8>
+ 552:	2b 32       	cpi	r18, 0x2B	; 43
+ 554:	41 f0       	breq	.+16     	; 0x566 <atoi+0x2a>
+ 556:	2d 32       	cpi	r18, 0x2D	; 45
+ 558:	39 f4       	brne	.+14     	; 0x568 <atoi+0x2c>
+ 55a:	68 94       	set
+ 55c:	04 c0       	rjmp	.+8      	; 0x566 <atoi+0x2a>
+ 55e:	0e 94 c7 02 	call	0x58e	; 0x58e <__mulhi_const_10>
+ 562:	82 0f       	add	r24, r18
+ 564:	91 1d       	adc	r25, r1
+ 566:	21 91       	ld	r18, Z+
+ 568:	20 53       	subi	r18, 0x30	; 48
+ 56a:	2a 30       	cpi	r18, 0x0A	; 10
+ 56c:	c0 f3       	brcs	.-16     	; 0x55e <atoi+0x22>
+ 56e:	1e f4       	brtc	.+6      	; 0x576 <atoi+0x3a>
+ 570:	90 95       	com	r25
+ 572:	81 95       	neg	r24
+ 574:	9f 4f       	sbci	r25, 0xFF	; 255
+ 576:	08 95       	ret
+
+00000578 <__itoa_ncheck>:
+ 578:	bb 27       	eor	r27, r27
+ 57a:	4a 30       	cpi	r20, 0x0A	; 10
+ 57c:	31 f4       	brne	.+12     	; 0x58a <__itoa_ncheck+0x12>
+ 57e:	99 23       	and	r25, r25
+ 580:	22 f4       	brpl	.+8      	; 0x58a <__itoa_ncheck+0x12>
+ 582:	bd e2       	ldi	r27, 0x2D	; 45
+ 584:	90 95       	com	r25
+ 586:	81 95       	neg	r24
+ 588:	9f 4f       	sbci	r25, 0xFF	; 255
+ 58a:	0c 94 d0 02 	jmp	0x5a0	; 0x5a0 <__utoa_common>
+
+0000058e <__mulhi_const_10>:
+ 58e:	7a e0       	ldi	r23, 0x0A	; 10
+ 590:	97 9f       	mul	r25, r23
+ 592:	90 2d       	mov	r25, r0
+ 594:	87 9f       	mul	r24, r23
+ 596:	80 2d       	mov	r24, r0
+ 598:	91 0d       	add	r25, r1
+ 59a:	11 24       	eor	r1, r1
+ 59c:	08 95       	ret
+
+0000059e <__utoa_ncheck>:
+ 59e:	bb 27       	eor	r27, r27
+
+000005a0 <__utoa_common>:
+ 5a0:	fb 01       	movw	r30, r22
+ 5a2:	55 27       	eor	r21, r21
+ 5a4:	aa 27       	eor	r26, r26
+ 5a6:	88 0f       	add	r24, r24
+ 5a8:	99 1f       	adc	r25, r25
+ 5aa:	aa 1f       	adc	r26, r26
+ 5ac:	a4 17       	cp	r26, r20
+ 5ae:	10 f0       	brcs	.+4      	; 0x5b4 <__utoa_common+0x14>
+ 5b0:	a4 1b       	sub	r26, r20
+ 5b2:	83 95       	inc	r24
+ 5b4:	50 51       	subi	r21, 0x10	; 16
+ 5b6:	b9 f7       	brne	.-18     	; 0x5a6 <__utoa_common+0x6>
+ 5b8:	a0 5d       	subi	r26, 0xD0	; 208
+ 5ba:	aa 33       	cpi	r26, 0x3A	; 58
+ 5bc:	08 f0       	brcs	.+2      	; 0x5c0 <__utoa_common+0x20>
+ 5be:	a9 5d       	subi	r26, 0xD9	; 217
+ 5c0:	a1 93       	st	Z+, r26
+ 5c2:	00 97       	sbiw	r24, 0x00	; 0
+ 5c4:	79 f7       	brne	.-34     	; 0x5a4 <__utoa_common+0x4>
+ 5c6:	b1 11       	cpse	r27, r1
+ 5c8:	b1 93       	st	Z+, r27
+ 5ca:	11 92       	st	Z+, r1
+ 5cc:	cb 01       	movw	r24, r22
+ 5ce:	0c 94 e9 02 	jmp	0x5d2	; 0x5d2 <strrev>
+
+000005d2 <strrev>:
+ 5d2:	dc 01       	movw	r26, r24
+ 5d4:	fc 01       	movw	r30, r24
+ 5d6:	67 2f       	mov	r22, r23
+ 5d8:	71 91       	ld	r23, Z+
+ 5da:	77 23       	and	r23, r23
+ 5dc:	e1 f7       	brne	.-8      	; 0x5d6 <strrev+0x4>
+ 5de:	32 97       	sbiw	r30, 0x02	; 2
+ 5e0:	04 c0       	rjmp	.+8      	; 0x5ea <strrev+0x18>
+ 5e2:	7c 91       	ld	r23, X
+ 5e4:	6d 93       	st	X+, r22
+ 5e6:	70 83       	st	Z, r23
+ 5e8:	62 91       	ld	r22, -Z
+ 5ea:	ae 17       	cp	r26, r30
+ 5ec:	bf 07       	cpc	r27, r31
+ 5ee:	c8 f3       	brcs	.-14     	; 0x5e2 <strrev+0x10>
+ 5f0:	08 95       	ret
+
+000005f2 <_exit>:
+ 5f2:	f8 94       	cli
+
+000005f4 <__stop_program>:
+ 5f4:	ff cf       	rjmp	.-2      	; 0x5f4 <__stop_program>

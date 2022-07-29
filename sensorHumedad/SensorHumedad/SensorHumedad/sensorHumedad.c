@@ -8,10 +8,18 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdlib.h>
+#include <stdint.h>
+
 #include <stdio.h>
 #include <util/delay.h>
+#include "main.h"
+extern int ON ;
+extern int RST ;
 static uint8_t I_RH,D_RH,I_Temp,D_Temp,CheckSum;
 static uint8_t c=0;
+extern char BufferRX[32];
+extern char BufferTX[32];
+
 /*Señal del MCU para el sensor de humedad */
 void Request()				
 {

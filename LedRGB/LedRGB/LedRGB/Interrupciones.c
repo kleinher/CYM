@@ -10,26 +10,52 @@
 extern volatile int ProcesarInstruccion;
 extern volatile int newData;
 extern char BufferRX[32];
+extern volatile int OCR0_PB5;
+extern volatile int PWM_PB5;
+extern volatile int newData;
 /*Configuración del timer 0*/
 void setupTimer(){
-	TCCR0B=(1<<CS02)|(1<<CS00); //configurar el registro del timer0 como temporizador con prescalador de 1024
-	TCNT0=99;					//el registro empieza con valor 99
-	TIMSK0|= (1<<TOIE0);	    //habilita la interrupcion por desbordamiento del timer0
+	TCCR0B=0x02; // modo CTC
+	TCCR0A=(1<<CS02)|(1<<CS00); //configurar el registro del timer0 como temporizador con prescalador de 1024
+	OCR0A=255;					//el registro empieza con valor 255
+	TIMSK0|= (1<<OCIE0A);	    //habilita la interrupcion por desbordamiento del timer0
 }
+
+void setupPines(){
+	DDRB |= (1<<1)|(1<<2)|(1<<5);
+}
+
+void setupADC(){
+	ADCSRA = 0;
+	ADCSRB = 0;
+	ADMUX |= (1 << REFS1); //set reference voltage
+	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only //
+	ADCSRA |= (1 << ADPS2); //prescalador ADC 8
+	ADCSRA |= (1 << ADATE); //enabble auto trigger
+	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete
+	ADCSRA |= (1 << ADEN); //enable ADC
+	ADCSRA |= (1 << ADSC); //start ADC measurements
+}
+
 /*
 *Rutina de atención de interrupción Timer
 */
-ISR(TIMER0_OVF_vect)
-{
-	uint8_t static cont=0;
-	char data[5];
-	cont++;					//Contador para llegar a interrupciones cada 1 seg
-	TCNT0=99;				//Reinicio contador del timer0
-	if(cont==100){			//Condición de tiempo requerida (1 seg)
-		cont=0;				//reinicio contador
-		
-		SerialPort_Send_String(itoa(newData,data,10));
-		SerialPort_Send_String("\n\r");
+ISR(TIMER0_COMPA_vect)
+{	
+	static int flag=0;
+	if(PWM_PB5==1){
+		if(flag==0){
+			flag=1;
+			//PORTB &= ~(1<<5); // invertido
+			PORTB |= (1<<5); // invertido
+			OCR0A=OCR0_PB5;
+		}
+		else {
+			flag=0;
+			//PORTB |= (1<<5); // no invertido
+			PORTB &= ~(1<<5); // invertido
+			OCR0A=(255-OCR0_PB5);
+		}
 	}
 }
 
@@ -49,4 +75,8 @@ ISR(USART_RX_vect){
 		ProcesarInstruccion = true; //Activo flag para atención de instrucción
 		Index=0;				//Vuelvo el indice al principio del vector
 	}
+}
+
+ISR(ADC_vect) {//when new ADC value ready
+	newData = ADCH;//get value from A0
 }

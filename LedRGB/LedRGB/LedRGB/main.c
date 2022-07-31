@@ -13,106 +13,50 @@
 #include <util/delay.h>
 #include "SerialPort.h"
 #include "main.h"
-
-void pantalla();
+void setupTimer();
 void setupPines();
 void setupADC();
+void iniciar_MEF();
+void actualizar_MEF();
+void procesarEntrada(int*,int);
 void pwm(int pin,int num);
+void intensidad();
+
+typedef enum{S0,S1,S2,S3,S4,S5,S6} state;
+state estado;
 
 volatile int ProcesarInstruccion=0;
-volatile uint8_t newData=0;
+volatile int newData=0;
 char data[5];
 char BufferRX[32];
 char BufferTX[32];
 volatile int ProcesarInstruccion;
-int val[3] = {0,0,0};
+int RGB[3] = {0,0,0};
 int cont = 0;
-int imprimir = true;
+volatile int OCR0_PB5=0;
+volatile int PWM_PB5=0;
+volatile int pwmPB5=1;
+
 int main(void)
 {
 	setupTimer();
 	setupPines();
 	setupSerialPort(103);
-	
 	setupADC();
 	sei();
     /* Replace with your application code */
-	
-
-	pantalla();
+	iniciar_MEF();
 	while (1) 
     {
-		if(imprimir){
-		switch (cont){
-			case 0:
-			SerialPort_Send_String("Ingrese el valor R\n\r");
-			imprimir = false;
-			break;
-			case 1:
-			SerialPort_Send_String("Ingrese el valor G\n\r");
-			imprimir = false;
-			break;
-			case 2:
-			SerialPort_Send_String("Ingrese el valor B\n\r");
-			imprimir = false;
-			break;
-		}
-		}
-		
-		if(newData<255){
-			if(!(val[0] == 0))
-				pwm('R',val[0]+newData);
-			if(!(val[1] == 0))
-				pwm('G',val[1]);
-			if(!(val[2] == 0))
-				pwm('B',val[2]);
-			//SerialPort_Send_String(itoa(R,data,10));
-		}
-		
-		if(ProcesarInstruccion){ //Lógica de proceso de comando del usuario
-			ProcesarInstruccion = false;
-			procesarEntrada();
-		}
+		actualizar_MEF();
+		intensidad();
     }
 }
 
-void pantalla(){
-	static int valor=1;
-	if(valor==1){
-		SerialPort_Send_String("R: ");
-		valor=2;
-	}
-	if(valor==2){
-		SerialPort_Send_String("G: ");
-		valor=3;
-	}
-	if(valor==3){
-		SerialPort_Send_String("B: ");
-		valor=1;
-	}
-}
- 
-void setupPines(){
-	DDRB |= (1<<1)|(1<<2)|(1<<3);
-}
-
-void setupADC(){
-	ADCSRA = 0; 
-	ADCSRB = 0; 
-	ADMUX |= (1 << REFS1); //set reference voltage 
-	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only //
-	ADCSRA |= (1 << ADPS1); //prescalador ADC 8
-	ADCSRA |= (1 << ADATE); //enabble auto trigger 
-	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete 
-	ADCSRA |= (1 << ADEN); //enable ADC 
-	ADCSRA |= (1 << ADSC); //start ADC measurements
-}
-
 void pwm(int pin,int num){
-	TCCR1B |= (1<<CS11)|(1<<CS10);//prescalar /64
-	TCCR2B |= (1<<CS22)|(1<<CS20);//prescalar /64
+	TCCR1B |= (1<<CS11);//prescalar /8
 	switch(pin){
-		case 'B':
+		case 'R':
 			TCCR1A |= (1<<WGM12)|(1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
 			OCR1A=num;
 		break;
@@ -120,30 +64,94 @@ void pwm(int pin,int num){
 			TCCR1A |= (1<<WGM12)|(1<<WGM10)|(1<<COM1B1)|(1<<COM1B0);//fast pwm, inverted
 			OCR1B=num;
 		break;
-		case 'R':
-			TCCR2A |= (1<<WGM21)|(1<<WGM20)|(1<<COM2A1)|(1<<COM2A0);//fast pwm, inverted
-			OCR2A=num;
+		case 'B':
+			PWM_PB5=1;
+			OCR0_PB5=num;
 		break;
 	}
 }
 
-
-ISR(ADC_vect) {//when new ADC value ready 
-	newData = ADCH;//get value from A0 
+void iniciar_MEF(){
+	estado=S0;
+	//PWM manual entre 7 y 248 anda joya (simulador)
+	pwm('R',0);
+	pwm('G',0);
+	pwm('B',8);
 }
 
-void procesarEntrada(int *aux){
+void actualizar_MEF(){
+	static int condicion;
+	switch (estado){
+		case S0: SerialPort_Send_String("Ingrese un valor entre 0 y 255 para R:\n\r"); estado=S1;
+		break;
+		case S1:
+			if(ProcesarInstruccion){
+				ProcesarInstruccion=0;
+				procesarEntrada(&condicion,0);
+				if(condicion){
+					estado=S2;
+				}
+				else{
+					estado=S0;
+				}
+			}
+		break;
+		case S2: SerialPort_Send_String("Ingrese un valor entre 0 y 255 para G:\n\r"); estado=S3;
+		break;
+		case S3:
+			if(ProcesarInstruccion){
+				ProcesarInstruccion=0;
+				procesarEntrada(&condicion,1);
+				if(condicion){
+					estado=S4;
+				}
+				else{
+					estado=S2;
+				}
+			}
+		break;
+		case S4: SerialPort_Send_String("Ingrese un valor entre 0 y 255 para B:\n\r"); estado=S5;
+		break;
+		case S5:
+			if(ProcesarInstruccion){
+				ProcesarInstruccion=0;
+				procesarEntrada(&condicion,2);
+				if(condicion){
+					estado=S6;
+				}
+				else{
+					estado=S4;
+				}
+			}
+		break;
+		case S6: pwm('R',RGB[0]); pwm('G',RGB[1]); pwm('B',RGB[2]); estado=S0;
+		break;
+	}
+}
+
+void intensidad(){
+	if(newData+RGB[0]>=0 && newData+RGB[0]<=255){
+		pwm('R',RGB[0]+newData);
+	}
+	if(newData+RGB[1]>=0 && newData+RGB[1]<=255){
+		pwm('G',RGB[1]+newData);
+	}
+	if(newData+RGB[2]>=10 && newData+RGB[2]<=244){
+		pwm('B',RGB[2]+newData);
+	}
+}
+
+void procesarEntrada(int *condicion, int cont){
 
 	int num = atoi((char *) BufferRX);
-	
-	if (num <= 255){    //Verifica si el comando es "ON"
-		val[cont] = num;
-		imprimir =  true;
-		cont = (cont + 1) % 3;
+	SerialPort_Send_String(BufferRX);
+	SerialPort_Send_String("\n\r");
+	if (num>=0 && num <= 255){    //Verifica el rango valido
+		RGB[cont] = num;
+		*condicion=true;
 	}
-	else {										//En el caso de que no es ninguno de las opciones validas, imprime comando invalido
-		sprintf((char *) BufferTX,"%s","El numero debe estar entre 0 y 255\n\r");
-		SerialPort_Send_String(BufferTX);
-		imprimir =  true;
+	else {						//En el caso de que no es ninguno de las opciones validas, devuelve 1
+		SerialPort_Send_String("El numero debe estar entre 0 y 255\n\r");
+		*condicion=false;
 	}
 }

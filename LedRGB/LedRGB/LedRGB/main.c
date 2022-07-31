@@ -26,12 +26,12 @@ typedef enum{S0,S1,S2,S3,S4,S5,S6} state;
 state estado;
 
 volatile int ProcesarInstruccion=0;
-volatile int newData=0;
+volatile uint16_t newData=0;
 char data[5];
 char BufferRX[32];
 char BufferTX[32];
 volatile int ProcesarInstruccion;
-int RGB[3] = {0,0,0};
+int RGB[3] = {0,0,1};
 int cont = 0;
 volatile int OCR0_PB5=0;
 volatile int PWM_PB5=0;
@@ -65,10 +65,15 @@ void pwm(int pin,int num){
 			OCR1B=num;
 		break;
 		case 'B':
-			if(num == 0){
+			if(num < 8){
 				DDRB &= ~(1<<5);
 			}
 			else{
+				if (num > 244)
+				{
+					DDRB |= (1<<5);
+					PORTB |= (1<<5);
+				}
 				DDRB |= (1<<5);
 				PWM_PB5=1;
 				OCR0_PB5=num;

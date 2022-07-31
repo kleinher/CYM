@@ -8,11 +8,10 @@
 
 #include "main.h"
 extern volatile int ProcesarInstruccion;
-extern volatile int newData;
+extern volatile uint16_t newData;
 extern char BufferRX[32];
 extern volatile int OCR0_PB5;
 extern volatile int PWM_PB5;
-extern volatile int newData;
 /*Configuración del timer 0*/
 void setupTimer(){
 	TCCR0B=0x02; // modo CTC
@@ -30,7 +29,7 @@ void setupADC(){
 	ADCSRB = 0;
 	ADMUX |= (1 << REFS1); //set reference voltage
 	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only //
-	ADCSRA |= (1 << ADPS2); //prescalador ADC 8
+	ADCSRA |= (1 << ADPS0)|(1 << ADPS1)|(1 << ADPS2); //prescalador ADC 128
 	ADCSRA |= (1 << ADATE); //enabble auto trigger
 	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete
 	ADCSRA |= (1 << ADEN); //enable ADC
@@ -79,4 +78,5 @@ ISR(USART_RX_vect){
 
 ISR(ADC_vect) {//when new ADC value ready
 	newData = ADCH;//get value from A0
+
 }

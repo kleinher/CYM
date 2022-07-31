@@ -3,11 +3,11 @@ LedRGB.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         000000a0  00800100  0000064c  000006e0  2**0
+  0 .data         000000a6  00800100  00000646  000006da  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000064c  00000000  00000000  00000094  2**1
+  1 .text         00000646  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000005a  008001a0  008001a0  00000780  2**0
+  2 .bss          00000054  008001a6  008001a6  00000780  2**0
                   ALLOC
   3 .comment      00000030  00000000  00000000  00000780  2**0
                   CONTENTS, READONLY
@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000160  00000000  00000000  000007f0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001320  00000000  00000000  00000950  2**0
+  6 .debug_info   00001335  00000000  00000000  00000950  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000009f8  00000000  00000000  00001c70  2**0
+  7 .debug_abbrev 000009f8  00000000  00000000  00001c85  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000a69  00000000  00000000  00002668  2**0
+  8 .debug_line   00000a5c  00000000  00000000  0000267d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000378  00000000  00000000  000030d4  2**2
+  9 .debug_frame  00000378  00000000  00000000  000030dc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000781  00000000  00000000  0000344c  2**0
+ 10 .debug_str    00000781  00000000  00000000  00003454  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000077d  00000000  00000000  00003bcd  2**0
+ 11 .debug_loc    0000077d  00000000  00000000  00003bd5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000130  00000000  00000000  0000434a  2**0
+ 12 .debug_ranges 00000130  00000000  00000000  00004352  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -59,13 +59,13 @@ Disassembly of section .text:
   5c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
   60:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
   64:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
-  68:	13 02       	muls	r17, r19
-  6a:	1b 02       	muls	r17, r27
-  6c:	39 02       	muls	r19, r25
-  6e:	41 02       	muls	r20, r17
-  70:	60 02       	muls	r22, r16
-  72:	68 02       	muls	r22, r24
-  74:	86 02       	muls	r24, r22
+  68:	10 02       	muls	r17, r16
+  6a:	18 02       	muls	r17, r24
+  6c:	36 02       	muls	r19, r22
+  6e:	3e 02       	muls	r19, r30
+  70:	5d 02       	muls	r21, r29
+  72:	65 02       	muls	r22, r21
+  74:	83 02       	muls	r24, r19
 
 00000076 <__ctors_end>:
   76:	11 24       	eor	r1, r1
@@ -79,18 +79,18 @@ Disassembly of section .text:
   82:	11 e0       	ldi	r17, 0x01	; 1
   84:	a0 e0       	ldi	r26, 0x00	; 0
   86:	b1 e0       	ldi	r27, 0x01	; 1
-  88:	ec e4       	ldi	r30, 0x4C	; 76
+  88:	e6 e4       	ldi	r30, 0x46	; 70
   8a:	f6 e0       	ldi	r31, 0x06	; 6
   8c:	02 c0       	rjmp	.+4      	; 0x92 <__do_copy_data+0x10>
   8e:	05 90       	lpm	r0, Z+
   90:	0d 92       	st	X+, r0
-  92:	a0 3a       	cpi	r26, 0xA0	; 160
+  92:	a6 3a       	cpi	r26, 0xA6	; 166
   94:	b1 07       	cpc	r27, r17
   96:	d9 f7       	brne	.-10     	; 0x8e <__do_copy_data+0xc>
 
 00000098 <__do_clear_bss>:
   98:	21 e0       	ldi	r18, 0x01	; 1
-  9a:	a0 ea       	ldi	r26, 0xA0	; 160
+  9a:	a6 ea       	ldi	r26, 0xA6	; 166
   9c:	b1 e0       	ldi	r27, 0x01	; 1
   9e:	01 c0       	rjmp	.+2      	; 0xa2 <.do_clear_bss_start>
 
@@ -101,16 +101,16 @@ Disassembly of section .text:
   a2:	aa 3f       	cpi	r26, 0xFA	; 250
   a4:	b2 07       	cpc	r27, r18
   a6:	e1 f7       	brne	.-8      	; 0xa0 <.do_clear_bss_loop>
-  a8:	0e 94 9f 02 	call	0x53e	; 0x53e <main>
-  ac:	0c 94 24 03 	jmp	0x648	; 0x648 <_exit>
+  a8:	0e 94 9c 02 	call	0x538	; 0x538 <main>
+  ac:	0c 94 21 03 	jmp	0x642	; 0x642 <_exit>
 
 000000b0 <__bad_interrupt>:
   b0:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 000000b4 <setupTimer>:
+extern char BufferRX[32];
 extern volatile int OCR0_PB5;
 extern volatile int PWM_PB5;
-extern volatile int newData;
 /*Configuración del timer 0*/
 void setupTimer(){
 	TCCR0B=0x02; // modo CTC
@@ -160,9 +160,9 @@ void setupADC(){
   e8:	8c 91       	ld	r24, X
   ea:	80 62       	ori	r24, 0x20	; 32
   ec:	8c 93       	st	X, r24
-	ADCSRA |= (1 << ADPS2); //prescalador ADC 8
+	ADCSRA |= (1 << ADPS0)|(1 << ADPS1)|(1 << ADPS2); //prescalador ADC 128
   ee:	80 81       	ld	r24, Z
-  f0:	84 60       	ori	r24, 0x04	; 4
+  f0:	87 60       	ori	r24, 0x07	; 7
   f2:	80 83       	st	Z, r24
 	ADCSRA |= (1 << ADATE); //enabble auto trigger
   f4:	80 81       	ld	r24, Z
@@ -198,43 +198,43 @@ ISR(TIMER0_COMPA_vect)
  11a:	9f 93       	push	r25
 	static int flag=0;
 	if(PWM_PB5==1){
- 11c:	80 91 a6 01 	lds	r24, 0x01A6	; 0x8001a6 <PWM_PB5>
- 120:	90 91 a7 01 	lds	r25, 0x01A7	; 0x8001a7 <PWM_PB5+0x1>
+ 11c:	80 91 ac 01 	lds	r24, 0x01AC	; 0x8001ac <PWM_PB5>
+ 120:	90 91 ad 01 	lds	r25, 0x01AD	; 0x8001ad <PWM_PB5+0x1>
  124:	01 97       	sbiw	r24, 0x01	; 1
  126:	11 f5       	brne	.+68     	; 0x16c <__vector_14+0x5e>
 		if(flag==0){
- 128:	80 91 a2 01 	lds	r24, 0x01A2	; 0x8001a2 <flag.2151>
- 12c:	90 91 a3 01 	lds	r25, 0x01A3	; 0x8001a3 <flag.2151+0x1>
+ 128:	80 91 a8 01 	lds	r24, 0x01A8	; 0x8001a8 <flag.2150>
+ 12c:	90 91 a9 01 	lds	r25, 0x01A9	; 0x8001a9 <flag.2150+0x1>
  130:	89 2b       	or	r24, r25
  132:	79 f4       	brne	.+30     	; 0x152 <__vector_14+0x44>
 			flag=1;
  134:	81 e0       	ldi	r24, 0x01	; 1
  136:	90 e0       	ldi	r25, 0x00	; 0
- 138:	90 93 a3 01 	sts	0x01A3, r25	; 0x8001a3 <flag.2151+0x1>
- 13c:	80 93 a2 01 	sts	0x01A2, r24	; 0x8001a2 <flag.2151>
+ 138:	90 93 a9 01 	sts	0x01A9, r25	; 0x8001a9 <flag.2150+0x1>
+ 13c:	80 93 a8 01 	sts	0x01A8, r24	; 0x8001a8 <flag.2150>
 			//PORTB &= ~(1<<5); // invertido
 			PORTB |= (1<<5); // invertido
  140:	85 b1       	in	r24, 0x05	; 5
  142:	80 62       	ori	r24, 0x20	; 32
  144:	85 b9       	out	0x05, r24	; 5
 			OCR0A=OCR0_PB5;
- 146:	80 91 a8 01 	lds	r24, 0x01A8	; 0x8001a8 <OCR0_PB5>
- 14a:	90 91 a9 01 	lds	r25, 0x01A9	; 0x8001a9 <OCR0_PB5+0x1>
+ 146:	80 91 ae 01 	lds	r24, 0x01AE	; 0x8001ae <OCR0_PB5>
+ 14a:	90 91 af 01 	lds	r25, 0x01AF	; 0x8001af <OCR0_PB5+0x1>
  14e:	87 bd       	out	0x27, r24	; 39
  150:	0d c0       	rjmp	.+26     	; 0x16c <__vector_14+0x5e>
 		}
 		else {
 			flag=0;
- 152:	10 92 a3 01 	sts	0x01A3, r1	; 0x8001a3 <flag.2151+0x1>
- 156:	10 92 a2 01 	sts	0x01A2, r1	; 0x8001a2 <flag.2151>
+ 152:	10 92 a9 01 	sts	0x01A9, r1	; 0x8001a9 <flag.2150+0x1>
+ 156:	10 92 a8 01 	sts	0x01A8, r1	; 0x8001a8 <flag.2150>
 			//PORTB |= (1<<5); // no invertido
 			PORTB &= ~(1<<5); // invertido
  15a:	85 b1       	in	r24, 0x05	; 5
  15c:	8f 7d       	andi	r24, 0xDF	; 223
  15e:	85 b9       	out	0x05, r24	; 5
 			OCR0A=(255-OCR0_PB5);
- 160:	80 91 a8 01 	lds	r24, 0x01A8	; 0x8001a8 <OCR0_PB5>
- 164:	90 91 a9 01 	lds	r25, 0x01A9	; 0x8001a9 <OCR0_PB5+0x1>
+ 160:	80 91 ae 01 	lds	r24, 0x01AE	; 0x8001ae <OCR0_PB5>
+ 164:	90 91 af 01 	lds	r25, 0x01AF	; 0x8001af <OCR0_PB5+0x1>
  168:	80 95       	com	r24
  16a:	87 bd       	out	0x27, r24	; 39
 		}
@@ -282,13 +282,13 @@ ISR(USART_RX_vect){
  1a4:	8d 30       	cpi	r24, 0x0D	; 13
  1a6:	89 f0       	breq	.+34     	; 0x1ca <__vector_18+0x50>
 		BufferRX[Index++] = RX_Data;
- 1a8:	80 91 a0 01 	lds	r24, 0x01A0	; 0x8001a0 <__data_end>
- 1ac:	90 91 a1 01 	lds	r25, 0x01A1	; 0x8001a1 <__data_end+0x1>
+ 1a8:	80 91 a6 01 	lds	r24, 0x01A6	; 0x8001a6 <__data_end>
+ 1ac:	90 91 a7 01 	lds	r25, 0x01A7	; 0x8001a7 <__data_end+0x1>
  1b0:	9c 01       	movw	r18, r24
  1b2:	2f 5f       	subi	r18, 0xFF	; 255
  1b4:	3f 4f       	sbci	r19, 0xFF	; 255
- 1b6:	30 93 a1 01 	sts	0x01A1, r19	; 0x8001a1 <__data_end+0x1>
- 1ba:	20 93 a0 01 	sts	0x01A0, r18	; 0x8001a0 <__data_end>
+ 1b6:	30 93 a7 01 	sts	0x01A7, r19	; 0x8001a7 <__data_end+0x1>
+ 1ba:	20 93 a6 01 	sts	0x01A6, r18	; 0x8001a6 <__data_end>
  1be:	29 81       	ldd	r18, Y+1	; 0x01
  1c0:	fc 01       	movw	r30, r24
  1c2:	eb 52       	subi	r30, 0x2B	; 43
@@ -298,8 +298,8 @@ ISR(USART_RX_vect){
 	}
 	else{						//Si es un salto de linea entonces
 		BufferRX[Index]='\0';	//Determino el final del string
- 1ca:	e0 91 a0 01 	lds	r30, 0x01A0	; 0x8001a0 <__data_end>
- 1ce:	f0 91 a1 01 	lds	r31, 0x01A1	; 0x8001a1 <__data_end+0x1>
+ 1ca:	e0 91 a6 01 	lds	r30, 0x01A6	; 0x8001a6 <__data_end>
+ 1ce:	f0 91 a7 01 	lds	r31, 0x01A7	; 0x8001a7 <__data_end+0x1>
  1d2:	eb 52       	subi	r30, 0x2B	; 43
  1d4:	fe 4f       	sbci	r31, 0xFE	; 254
  1d6:	10 82       	st	Z, r1
@@ -309,8 +309,8 @@ ISR(USART_RX_vect){
  1dc:	90 93 b3 01 	sts	0x01B3, r25	; 0x8001b3 <ProcesarInstruccion+0x1>
  1e0:	80 93 b2 01 	sts	0x01B2, r24	; 0x8001b2 <ProcesarInstruccion>
 		Index=0;				//Vuelvo el indice al principio del vector
- 1e4:	10 92 a1 01 	sts	0x01A1, r1	; 0x8001a1 <__data_end+0x1>
- 1e8:	10 92 a0 01 	sts	0x01A0, r1	; 0x8001a0 <__data_end>
+ 1e4:	10 92 a7 01 	sts	0x01A7, r1	; 0x8001a7 <__data_end+0x1>
+ 1e8:	10 92 a6 01 	sts	0x01A6, r1	; 0x8001a6 <__data_end>
 	}
 }
  1ec:	0f 90       	pop	r0
@@ -343,6 +343,7 @@ ISR(ADC_vect) {//when new ADC value ready
  21a:	90 e0       	ldi	r25, 0x00	; 0
  21c:	90 93 b1 01 	sts	0x01B1, r25	; 0x8001b1 <newData+0x1>
  220:	80 93 b0 01 	sts	0x01B0, r24	; 0x8001b0 <newData>
+
  224:	9f 91       	pop	r25
  226:	8f 91       	pop	r24
  228:	0f 90       	pop	r0
@@ -374,7 +375,7 @@ void pwm(int pin,int num){
  248:	21 f0       	breq	.+8      	; 0x252 <pwm+0x20>
  24a:	22 34       	cpi	r18, 0x42	; 66
  24c:	31 05       	cpc	r19, r1
- 24e:	49 f5       	brne	.+82     	; 0x2a2 <pwm+0x70>
+ 24e:	91 f5       	brne	.+100    	; 0x2b4 <pwm+0x82>
  250:	14 c0       	rjmp	.+40     	; 0x27a <pwm+0x48>
 		case 'R':
 			TCCR1A |= (1<<WGM12)|(1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
@@ -401,10 +402,10 @@ void pwm(int pin,int num){
 		break;
  278:	08 95       	ret
 		case 'B':
-			if(num == 0){
- 27a:	61 15       	cp	r22, r1
+			if(num < 8){
+ 27a:	68 30       	cpi	r22, 0x08	; 8
  27c:	71 05       	cpc	r23, r1
- 27e:	21 f4       	brne	.+8      	; 0x288 <pwm+0x56>
+ 27e:	24 f4       	brge	.+8      	; 0x288 <pwm+0x56>
 				DDRB &= ~(1<<5);
  280:	84 b1       	in	r24, 0x04	; 4
  282:	8f 7d       	andi	r24, 0xDF	; 223
@@ -412,536 +413,538 @@ void pwm(int pin,int num){
  286:	08 95       	ret
 			}
 			else{
+				if (num > 244)
+ 288:	65 3f       	cpi	r22, 0xF5	; 245
+ 28a:	71 05       	cpc	r23, r1
+ 28c:	34 f0       	brlt	.+12     	; 0x29a <pwm+0x68>
+				{
+					DDRB |= (1<<5);
+ 28e:	84 b1       	in	r24, 0x04	; 4
+ 290:	80 62       	ori	r24, 0x20	; 32
+ 292:	84 b9       	out	0x04, r24	; 4
+					PORTB |= (1<<5);
+ 294:	85 b1       	in	r24, 0x05	; 5
+ 296:	80 62       	ori	r24, 0x20	; 32
+ 298:	85 b9       	out	0x05, r24	; 5
+				}
 				DDRB |= (1<<5);
- 288:	84 b1       	in	r24, 0x04	; 4
- 28a:	80 62       	ori	r24, 0x20	; 32
- 28c:	84 b9       	out	0x04, r24	; 4
+ 29a:	84 b1       	in	r24, 0x04	; 4
+ 29c:	80 62       	ori	r24, 0x20	; 32
+ 29e:	84 b9       	out	0x04, r24	; 4
 				PWM_PB5=1;
- 28e:	81 e0       	ldi	r24, 0x01	; 1
- 290:	90 e0       	ldi	r25, 0x00	; 0
- 292:	90 93 a7 01 	sts	0x01A7, r25	; 0x8001a7 <PWM_PB5+0x1>
- 296:	80 93 a6 01 	sts	0x01A6, r24	; 0x8001a6 <PWM_PB5>
+ 2a0:	81 e0       	ldi	r24, 0x01	; 1
+ 2a2:	90 e0       	ldi	r25, 0x00	; 0
+ 2a4:	90 93 ad 01 	sts	0x01AD, r25	; 0x8001ad <PWM_PB5+0x1>
+ 2a8:	80 93 ac 01 	sts	0x01AC, r24	; 0x8001ac <PWM_PB5>
 				OCR0_PB5=num;
- 29a:	70 93 a9 01 	sts	0x01A9, r23	; 0x8001a9 <OCR0_PB5+0x1>
- 29e:	60 93 a8 01 	sts	0x01A8, r22	; 0x8001a8 <OCR0_PB5>
- 2a2:	08 95       	ret
+ 2ac:	70 93 af 01 	sts	0x01AF, r23	; 0x8001af <OCR0_PB5+0x1>
+ 2b0:	60 93 ae 01 	sts	0x01AE, r22	; 0x8001ae <OCR0_PB5>
+ 2b4:	08 95       	ret
 
-000002a4 <iniciar_MEF>:
+000002b6 <iniciar_MEF>:
 		break;
 	}
 }
 
 void iniciar_MEF(){
 	estado=S0;
- 2a4:	10 92 d4 01 	sts	0x01D4, r1	; 0x8001d4 <estado>
+ 2b6:	10 92 d4 01 	sts	0x01D4, r1	; 0x8001d4 <estado>
 	//PWM manual entre 7 y 248 anda joya (simulador)
 	pwm('R',0);
- 2a8:	60 e0       	ldi	r22, 0x00	; 0
- 2aa:	70 e0       	ldi	r23, 0x00	; 0
- 2ac:	82 e5       	ldi	r24, 0x52	; 82
- 2ae:	90 e0       	ldi	r25, 0x00	; 0
- 2b0:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 2ba:	60 e0       	ldi	r22, 0x00	; 0
+ 2bc:	70 e0       	ldi	r23, 0x00	; 0
+ 2be:	82 e5       	ldi	r24, 0x52	; 82
+ 2c0:	90 e0       	ldi	r25, 0x00	; 0
+ 2c2:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
 	pwm('G',0);
- 2b4:	60 e0       	ldi	r22, 0x00	; 0
- 2b6:	70 e0       	ldi	r23, 0x00	; 0
- 2b8:	87 e4       	ldi	r24, 0x47	; 71
- 2ba:	90 e0       	ldi	r25, 0x00	; 0
- 2bc:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 2c6:	60 e0       	ldi	r22, 0x00	; 0
+ 2c8:	70 e0       	ldi	r23, 0x00	; 0
+ 2ca:	87 e4       	ldi	r24, 0x47	; 71
+ 2cc:	90 e0       	ldi	r25, 0x00	; 0
+ 2ce:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
 	pwm('B',0);
- 2c0:	60 e0       	ldi	r22, 0x00	; 0
- 2c2:	70 e0       	ldi	r23, 0x00	; 0
- 2c4:	82 e4       	ldi	r24, 0x42	; 66
- 2c6:	90 e0       	ldi	r25, 0x00	; 0
- 2c8:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
- 2cc:	08 95       	ret
+ 2d2:	60 e0       	ldi	r22, 0x00	; 0
+ 2d4:	70 e0       	ldi	r23, 0x00	; 0
+ 2d6:	82 e4       	ldi	r24, 0x42	; 66
+ 2d8:	90 e0       	ldi	r25, 0x00	; 0
+ 2da:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 2de:	08 95       	ret
 
-000002ce <intensidad>:
+000002e0 <intensidad>:
 		break;
 	}
 }
 
 void intensidad(){
 	if(RGB[0]>0 && newData+RGB[0]>=0 && newData+RGB[0]<=255){
- 2ce:	60 91 aa 01 	lds	r22, 0x01AA	; 0x8001aa <RGB>
- 2d2:	70 91 ab 01 	lds	r23, 0x01AB	; 0x8001ab <RGB+0x1>
- 2d6:	16 16       	cp	r1, r22
- 2d8:	17 06       	cpc	r1, r23
- 2da:	e4 f4       	brge	.+56     	; 0x314 <intensidad+0x46>
- 2dc:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 2e0:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 2e4:	86 0f       	add	r24, r22
- 2e6:	97 1f       	adc	r25, r23
- 2e8:	99 23       	and	r25, r25
- 2ea:	a4 f0       	brlt	.+40     	; 0x314 <intensidad+0x46>
- 2ec:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 2f0:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 2f4:	86 0f       	add	r24, r22
- 2f6:	97 1f       	adc	r25, r23
- 2f8:	8f 3f       	cpi	r24, 0xFF	; 255
- 2fa:	91 05       	cpc	r25, r1
- 2fc:	09 f0       	breq	.+2      	; 0x300 <intensidad+0x32>
- 2fe:	54 f4       	brge	.+20     	; 0x314 <intensidad+0x46>
+ 2e0:	60 91 00 01 	lds	r22, 0x0100	; 0x800100 <RGB>
+ 2e4:	70 91 01 01 	lds	r23, 0x0101	; 0x800101 <RGB+0x1>
+ 2e8:	16 16       	cp	r1, r22
+ 2ea:	17 06       	cpc	r1, r23
+ 2ec:	c4 f4       	brge	.+48     	; 0x31e <intensidad+0x3e>
+ 2ee:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 2f2:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 2f6:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 2fa:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 2fe:	86 0f       	add	r24, r22
+ 300:	97 1f       	adc	r25, r23
+ 302:	8f 3f       	cpi	r24, 0xFF	; 255
+ 304:	91 05       	cpc	r25, r1
+ 306:	09 f0       	breq	.+2      	; 0x30a <intensidad+0x2a>
+ 308:	50 f4       	brcc	.+20     	; 0x31e <intensidad+0x3e>
 		pwm('R',RGB[0]+newData);
- 300:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 304:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 308:	68 0f       	add	r22, r24
- 30a:	79 1f       	adc	r23, r25
- 30c:	82 e5       	ldi	r24, 0x52	; 82
- 30e:	90 e0       	ldi	r25, 0x00	; 0
- 310:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 30a:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 30e:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 312:	68 0f       	add	r22, r24
+ 314:	79 1f       	adc	r23, r25
+ 316:	82 e5       	ldi	r24, 0x52	; 82
+ 318:	90 e0       	ldi	r25, 0x00	; 0
+ 31a:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
 	}
 	if(RGB[1]>0 && newData+RGB[1]>=0 && newData+RGB[1]<=255){
- 314:	60 91 ac 01 	lds	r22, 0x01AC	; 0x8001ac <RGB+0x2>
- 318:	70 91 ad 01 	lds	r23, 0x01AD	; 0x8001ad <RGB+0x3>
- 31c:	16 16       	cp	r1, r22
- 31e:	17 06       	cpc	r1, r23
- 320:	e4 f4       	brge	.+56     	; 0x35a <intensidad+0x8c>
- 322:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 326:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 32a:	86 0f       	add	r24, r22
- 32c:	97 1f       	adc	r25, r23
- 32e:	99 23       	and	r25, r25
- 330:	a4 f0       	brlt	.+40     	; 0x35a <intensidad+0x8c>
- 332:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 336:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 33a:	86 0f       	add	r24, r22
- 33c:	97 1f       	adc	r25, r23
- 33e:	8f 3f       	cpi	r24, 0xFF	; 255
- 340:	91 05       	cpc	r25, r1
- 342:	09 f0       	breq	.+2      	; 0x346 <intensidad+0x78>
- 344:	54 f4       	brge	.+20     	; 0x35a <intensidad+0x8c>
+ 31e:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <RGB+0x2>
+ 322:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <RGB+0x3>
+ 326:	16 16       	cp	r1, r22
+ 328:	17 06       	cpc	r1, r23
+ 32a:	c4 f4       	brge	.+48     	; 0x35c <intensidad+0x7c>
+ 32c:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 330:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 334:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 338:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 33c:	86 0f       	add	r24, r22
+ 33e:	97 1f       	adc	r25, r23
+ 340:	8f 3f       	cpi	r24, 0xFF	; 255
+ 342:	91 05       	cpc	r25, r1
+ 344:	09 f0       	breq	.+2      	; 0x348 <intensidad+0x68>
+ 346:	50 f4       	brcc	.+20     	; 0x35c <intensidad+0x7c>
 		pwm('G',RGB[1]+newData);
- 346:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 34a:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 34e:	68 0f       	add	r22, r24
- 350:	79 1f       	adc	r23, r25
- 352:	87 e4       	ldi	r24, 0x47	; 71
- 354:	90 e0       	ldi	r25, 0x00	; 0
- 356:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 348:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 34c:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 350:	68 0f       	add	r22, r24
+ 352:	79 1f       	adc	r23, r25
+ 354:	87 e4       	ldi	r24, 0x47	; 71
+ 356:	90 e0       	ldi	r25, 0x00	; 0
+ 358:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
 	}
 	if(RGB[2]>0 && newData+RGB[2]>=0 && newData+RGB[2]<=255){
- 35a:	60 91 ae 01 	lds	r22, 0x01AE	; 0x8001ae <RGB+0x4>
- 35e:	70 91 af 01 	lds	r23, 0x01AF	; 0x8001af <RGB+0x5>
- 362:	16 16       	cp	r1, r22
- 364:	17 06       	cpc	r1, r23
- 366:	e4 f4       	brge	.+56     	; 0x3a0 <intensidad+0xd2>
- 368:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 36c:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 370:	86 0f       	add	r24, r22
- 372:	97 1f       	adc	r25, r23
- 374:	99 23       	and	r25, r25
- 376:	a4 f0       	brlt	.+40     	; 0x3a0 <intensidad+0xd2>
- 378:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 37c:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 380:	86 0f       	add	r24, r22
- 382:	97 1f       	adc	r25, r23
- 384:	8f 3f       	cpi	r24, 0xFF	; 255
- 386:	91 05       	cpc	r25, r1
- 388:	09 f0       	breq	.+2      	; 0x38c <intensidad+0xbe>
- 38a:	54 f4       	brge	.+20     	; 0x3a0 <intensidad+0xd2>
+ 35c:	60 91 04 01 	lds	r22, 0x0104	; 0x800104 <RGB+0x4>
+ 360:	70 91 05 01 	lds	r23, 0x0105	; 0x800105 <RGB+0x5>
+ 364:	16 16       	cp	r1, r22
+ 366:	17 06       	cpc	r1, r23
+ 368:	c4 f4       	brge	.+48     	; 0x39a <intensidad+0xba>
+ 36a:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 36e:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 372:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 376:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 37a:	86 0f       	add	r24, r22
+ 37c:	97 1f       	adc	r25, r23
+ 37e:	8f 3f       	cpi	r24, 0xFF	; 255
+ 380:	91 05       	cpc	r25, r1
+ 382:	09 f0       	breq	.+2      	; 0x386 <intensidad+0xa6>
+ 384:	50 f4       	brcc	.+20     	; 0x39a <intensidad+0xba>
 		pwm('B',RGB[2]+newData);
- 38c:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
- 390:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
- 394:	68 0f       	add	r22, r24
- 396:	79 1f       	adc	r23, r25
- 398:	82 e4       	ldi	r24, 0x42	; 66
- 39a:	90 e0       	ldi	r25, 0x00	; 0
- 39c:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
- 3a0:	08 95       	ret
+ 386:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <newData>
+ 38a:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <newData+0x1>
+ 38e:	68 0f       	add	r22, r24
+ 390:	79 1f       	adc	r23, r25
+ 392:	82 e4       	ldi	r24, 0x42	; 66
+ 394:	90 e0       	ldi	r25, 0x00	; 0
+ 396:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 39a:	08 95       	ret
 
-000003a2 <procesarEntrada>:
+0000039c <procesarEntrada>:
 	}
 }
 
 void procesarEntrada(int *condicion, int cont){
- 3a2:	ef 92       	push	r14
- 3a4:	ff 92       	push	r15
- 3a6:	0f 93       	push	r16
- 3a8:	1f 93       	push	r17
- 3aa:	cf 93       	push	r28
- 3ac:	df 93       	push	r29
- 3ae:	7c 01       	movw	r14, r24
- 3b0:	eb 01       	movw	r28, r22
+ 39c:	ef 92       	push	r14
+ 39e:	ff 92       	push	r15
+ 3a0:	0f 93       	push	r16
+ 3a2:	1f 93       	push	r17
+ 3a4:	cf 93       	push	r28
+ 3a6:	df 93       	push	r29
+ 3a8:	7c 01       	movw	r14, r24
+ 3aa:	eb 01       	movw	r28, r22
 
 	int num = atoi((char *) BufferRX);
- 3b2:	85 ed       	ldi	r24, 0xD5	; 213
- 3b4:	91 e0       	ldi	r25, 0x01	; 1
- 3b6:	0e 94 fe 02 	call	0x5fc	; 0x5fc <atoi>
- 3ba:	8c 01       	movw	r16, r24
+ 3ac:	85 ed       	ldi	r24, 0xD5	; 213
+ 3ae:	91 e0       	ldi	r25, 0x01	; 1
+ 3b0:	0e 94 fb 02 	call	0x5f6	; 0x5f6 <atoi>
+ 3b4:	8c 01       	movw	r16, r24
 	SerialPort_Send_String(BufferRX);
- 3bc:	85 ed       	ldi	r24, 0xD5	; 213
- 3be:	91 e0       	ldi	r25, 0x01	; 1
- 3c0:	0e 94 d3 02 	call	0x5a6	; 0x5a6 <SerialPort_Send_String>
+ 3b6:	85 ed       	ldi	r24, 0xD5	; 213
+ 3b8:	91 e0       	ldi	r25, 0x01	; 1
+ 3ba:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SerialPort_Send_String>
 	SerialPort_Send_String("\n\r");
- 3c4:	82 e2       	ldi	r24, 0x22	; 34
- 3c6:	91 e0       	ldi	r25, 0x01	; 1
- 3c8:	0e 94 d3 02 	call	0x5a6	; 0x5a6 <SerialPort_Send_String>
+ 3be:	88 e2       	ldi	r24, 0x28	; 40
+ 3c0:	91 e0       	ldi	r25, 0x01	; 1
+ 3c2:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SerialPort_Send_String>
 	if (num>=0 && num <= 255){    //Verifica el rango valido
- 3cc:	0f 3f       	cpi	r16, 0xFF	; 255
- 3ce:	11 05       	cpc	r17, r1
- 3d0:	09 f0       	breq	.+2      	; 0x3d4 <procesarEntrada+0x32>
- 3d2:	60 f4       	brcc	.+24     	; 0x3ec <procesarEntrada+0x4a>
+ 3c6:	0f 3f       	cpi	r16, 0xFF	; 255
+ 3c8:	11 05       	cpc	r17, r1
+ 3ca:	09 f0       	breq	.+2      	; 0x3ce <procesarEntrada+0x32>
+ 3cc:	60 f4       	brcc	.+24     	; 0x3e6 <procesarEntrada+0x4a>
 		RGB[cont] = num;
- 3d4:	cc 0f       	add	r28, r28
- 3d6:	dd 1f       	adc	r29, r29
- 3d8:	c6 55       	subi	r28, 0x56	; 86
- 3da:	de 4f       	sbci	r29, 0xFE	; 254
- 3dc:	19 83       	std	Y+1, r17	; 0x01
- 3de:	08 83       	st	Y, r16
+ 3ce:	cc 0f       	add	r28, r28
+ 3d0:	dd 1f       	adc	r29, r29
+ 3d2:	c0 50       	subi	r28, 0x00	; 0
+ 3d4:	df 4f       	sbci	r29, 0xFF	; 255
+ 3d6:	19 83       	std	Y+1, r17	; 0x01
+ 3d8:	08 83       	st	Y, r16
 		*condicion=true;
- 3e0:	81 e0       	ldi	r24, 0x01	; 1
- 3e2:	90 e0       	ldi	r25, 0x00	; 0
- 3e4:	f7 01       	movw	r30, r14
- 3e6:	91 83       	std	Z+1, r25	; 0x01
- 3e8:	80 83       	st	Z, r24
- 3ea:	07 c0       	rjmp	.+14     	; 0x3fa <procesarEntrada+0x58>
+ 3da:	81 e0       	ldi	r24, 0x01	; 1
+ 3dc:	90 e0       	ldi	r25, 0x00	; 0
+ 3de:	f7 01       	movw	r30, r14
+ 3e0:	91 83       	std	Z+1, r25	; 0x01
+ 3e2:	80 83       	st	Z, r24
+ 3e4:	07 c0       	rjmp	.+14     	; 0x3f4 <procesarEntrada+0x58>
 	}
 	else {						//En el caso de que no es ninguno de las opciones validas, devuelve 1
 		SerialPort_Send_String("El numero debe estar entre 0 y 255\n\r");
- 3ec:	80 e0       	ldi	r24, 0x00	; 0
- 3ee:	91 e0       	ldi	r25, 0x01	; 1
- 3f0:	0e 94 d3 02 	call	0x5a6	; 0x5a6 <SerialPort_Send_String>
+ 3e6:	86 e0       	ldi	r24, 0x06	; 6
+ 3e8:	91 e0       	ldi	r25, 0x01	; 1
+ 3ea:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SerialPort_Send_String>
 		*condicion=false;
- 3f4:	f7 01       	movw	r30, r14
- 3f6:	11 82       	std	Z+1, r1	; 0x01
- 3f8:	10 82       	st	Z, r1
+ 3ee:	f7 01       	movw	r30, r14
+ 3f0:	11 82       	std	Z+1, r1	; 0x01
+ 3f2:	10 82       	st	Z, r1
 	}
- 3fa:	df 91       	pop	r29
- 3fc:	cf 91       	pop	r28
- 3fe:	1f 91       	pop	r17
- 400:	0f 91       	pop	r16
- 402:	ff 90       	pop	r15
- 404:	ef 90       	pop	r14
- 406:	08 95       	ret
+ 3f4:	df 91       	pop	r29
+ 3f6:	cf 91       	pop	r28
+ 3f8:	1f 91       	pop	r17
+ 3fa:	0f 91       	pop	r16
+ 3fc:	ff 90       	pop	r15
+ 3fe:	ef 90       	pop	r14
+ 400:	08 95       	ret
 
-00000408 <actualizar_MEF>:
+00000402 <actualizar_MEF>:
 	pwm('R',0);
 	pwm('G',0);
 	pwm('B',0);
 }
 
 void actualizar_MEF(){
- 408:	cf 93       	push	r28
- 40a:	df 93       	push	r29
+ 402:	cf 93       	push	r28
+ 404:	df 93       	push	r29
 	static int condicion;
 	switch (estado){
- 40c:	e0 91 d4 01 	lds	r30, 0x01D4	; 0x8001d4 <estado>
- 410:	8e 2f       	mov	r24, r30
- 412:	90 e0       	ldi	r25, 0x00	; 0
- 414:	87 30       	cpi	r24, 0x07	; 7
- 416:	91 05       	cpc	r25, r1
- 418:	08 f0       	brcs	.+2      	; 0x41c <actualizar_MEF+0x14>
- 41a:	8e c0       	rjmp	.+284    	; 0x538 <actualizar_MEF+0x130>
- 41c:	fc 01       	movw	r30, r24
- 41e:	ec 5c       	subi	r30, 0xCC	; 204
- 420:	ff 4f       	sbci	r31, 0xFF	; 255
- 422:	0c 94 f8 02 	jmp	0x5f0	; 0x5f0 <__tablejump2__>
+ 406:	e0 91 d4 01 	lds	r30, 0x01D4	; 0x8001d4 <estado>
+ 40a:	8e 2f       	mov	r24, r30
+ 40c:	90 e0       	ldi	r25, 0x00	; 0
+ 40e:	87 30       	cpi	r24, 0x07	; 7
+ 410:	91 05       	cpc	r25, r1
+ 412:	08 f0       	brcs	.+2      	; 0x416 <actualizar_MEF+0x14>
+ 414:	8e c0       	rjmp	.+284    	; 0x532 <actualizar_MEF+0x130>
+ 416:	fc 01       	movw	r30, r24
+ 418:	ec 5c       	subi	r30, 0xCC	; 204
+ 41a:	ff 4f       	sbci	r31, 0xFF	; 255
+ 41c:	0c 94 f5 02 	jmp	0x5ea	; 0x5ea <__tablejump2__>
 		case S0: SerialPort_Send_String("Ingrese un valor entre 0 y 255 para R:\n\r"); estado=S1;
- 426:	85 e2       	ldi	r24, 0x25	; 37
- 428:	91 e0       	ldi	r25, 0x01	; 1
- 42a:	0e 94 d3 02 	call	0x5a6	; 0x5a6 <SerialPort_Send_String>
- 42e:	81 e0       	ldi	r24, 0x01	; 1
- 430:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 420:	8b e2       	ldi	r24, 0x2B	; 43
+ 422:	91 e0       	ldi	r25, 0x01	; 1
+ 424:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SerialPort_Send_String>
+ 428:	81 e0       	ldi	r24, 0x01	; 1
+ 42a:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
 		break;
- 434:	81 c0       	rjmp	.+258    	; 0x538 <actualizar_MEF+0x130>
+ 42e:	81 c0       	rjmp	.+258    	; 0x532 <actualizar_MEF+0x130>
 		case S1:
 			if(ProcesarInstruccion){
- 436:	80 91 b2 01 	lds	r24, 0x01B2	; 0x8001b2 <ProcesarInstruccion>
- 43a:	90 91 b3 01 	lds	r25, 0x01B3	; 0x8001b3 <ProcesarInstruccion+0x1>
- 43e:	89 2b       	or	r24, r25
- 440:	09 f4       	brne	.+2      	; 0x444 <actualizar_MEF+0x3c>
- 442:	7a c0       	rjmp	.+244    	; 0x538 <actualizar_MEF+0x130>
+ 430:	80 91 b2 01 	lds	r24, 0x01B2	; 0x8001b2 <ProcesarInstruccion>
+ 434:	90 91 b3 01 	lds	r25, 0x01B3	; 0x8001b3 <ProcesarInstruccion+0x1>
+ 438:	89 2b       	or	r24, r25
+ 43a:	09 f4       	brne	.+2      	; 0x43e <actualizar_MEF+0x3c>
+ 43c:	7a c0       	rjmp	.+244    	; 0x532 <actualizar_MEF+0x130>
 				ProcesarInstruccion=0;
- 444:	10 92 b3 01 	sts	0x01B3, r1	; 0x8001b3 <ProcesarInstruccion+0x1>
- 448:	10 92 b2 01 	sts	0x01B2, r1	; 0x8001b2 <ProcesarInstruccion>
+ 43e:	10 92 b3 01 	sts	0x01B3, r1	; 0x8001b3 <ProcesarInstruccion+0x1>
+ 442:	10 92 b2 01 	sts	0x01B2, r1	; 0x8001b2 <ProcesarInstruccion>
 				procesarEntrada(&condicion,0);
- 44c:	60 e0       	ldi	r22, 0x00	; 0
- 44e:	70 e0       	ldi	r23, 0x00	; 0
- 450:	84 ea       	ldi	r24, 0xA4	; 164
- 452:	91 e0       	ldi	r25, 0x01	; 1
- 454:	0e 94 d1 01 	call	0x3a2	; 0x3a2 <procesarEntrada>
+ 446:	60 e0       	ldi	r22, 0x00	; 0
+ 448:	70 e0       	ldi	r23, 0x00	; 0
+ 44a:	8a ea       	ldi	r24, 0xAA	; 170
+ 44c:	91 e0       	ldi	r25, 0x01	; 1
+ 44e:	0e 94 ce 01 	call	0x39c	; 0x39c <procesarEntrada>
 				if(condicion){
- 458:	80 91 a4 01 	lds	r24, 0x01A4	; 0x8001a4 <condicion.2183>
- 45c:	90 91 a5 01 	lds	r25, 0x01A5	; 0x8001a5 <condicion.2183+0x1>
- 460:	89 2b       	or	r24, r25
- 462:	21 f0       	breq	.+8      	; 0x46c <actualizar_MEF+0x64>
+ 452:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <condicion.2183>
+ 456:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <condicion.2183+0x1>
+ 45a:	89 2b       	or	r24, r25
+ 45c:	21 f0       	breq	.+8      	; 0x466 <actualizar_MEF+0x64>
 					estado=S2;
- 464:	82 e0       	ldi	r24, 0x02	; 2
- 466:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
- 46a:	66 c0       	rjmp	.+204    	; 0x538 <actualizar_MEF+0x130>
+ 45e:	82 e0       	ldi	r24, 0x02	; 2
+ 460:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 464:	66 c0       	rjmp	.+204    	; 0x532 <actualizar_MEF+0x130>
 				}
 				else{
 					estado=S0;
- 46c:	10 92 d4 01 	sts	0x01D4, r1	; 0x8001d4 <estado>
- 470:	63 c0       	rjmp	.+198    	; 0x538 <actualizar_MEF+0x130>
+ 466:	10 92 d4 01 	sts	0x01D4, r1	; 0x8001d4 <estado>
+ 46a:	63 c0       	rjmp	.+198    	; 0x532 <actualizar_MEF+0x130>
 				}
 			}
 		break;
 		case S2: SerialPort_Send_String("Ingrese un valor entre 0 y 255 para G:\n\r"); estado=S3;
- 472:	8e e4       	ldi	r24, 0x4E	; 78
- 474:	91 e0       	ldi	r25, 0x01	; 1
- 476:	0e 94 d3 02 	call	0x5a6	; 0x5a6 <SerialPort_Send_String>
- 47a:	83 e0       	ldi	r24, 0x03	; 3
- 47c:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 46c:	84 e5       	ldi	r24, 0x54	; 84
+ 46e:	91 e0       	ldi	r25, 0x01	; 1
+ 470:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SerialPort_Send_String>
+ 474:	83 e0       	ldi	r24, 0x03	; 3
+ 476:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
 		break;
- 480:	5b c0       	rjmp	.+182    	; 0x538 <actualizar_MEF+0x130>
+ 47a:	5b c0       	rjmp	.+182    	; 0x532 <actualizar_MEF+0x130>
 		case S3:
 			if(ProcesarInstruccion){
- 482:	80 91 b2 01 	lds	r24, 0x01B2	; 0x8001b2 <ProcesarInstruccion>
- 486:	90 91 b3 01 	lds	r25, 0x01B3	; 0x8001b3 <ProcesarInstruccion+0x1>
- 48a:	89 2b       	or	r24, r25
- 48c:	09 f4       	brne	.+2      	; 0x490 <actualizar_MEF+0x88>
- 48e:	54 c0       	rjmp	.+168    	; 0x538 <actualizar_MEF+0x130>
+ 47c:	80 91 b2 01 	lds	r24, 0x01B2	; 0x8001b2 <ProcesarInstruccion>
+ 480:	90 91 b3 01 	lds	r25, 0x01B3	; 0x8001b3 <ProcesarInstruccion+0x1>
+ 484:	89 2b       	or	r24, r25
+ 486:	09 f4       	brne	.+2      	; 0x48a <actualizar_MEF+0x88>
+ 488:	54 c0       	rjmp	.+168    	; 0x532 <actualizar_MEF+0x130>
 				ProcesarInstruccion=0;
- 490:	10 92 b3 01 	sts	0x01B3, r1	; 0x8001b3 <ProcesarInstruccion+0x1>
- 494:	10 92 b2 01 	sts	0x01B2, r1	; 0x8001b2 <ProcesarInstruccion>
+ 48a:	10 92 b3 01 	sts	0x01B3, r1	; 0x8001b3 <ProcesarInstruccion+0x1>
+ 48e:	10 92 b2 01 	sts	0x01B2, r1	; 0x8001b2 <ProcesarInstruccion>
 				procesarEntrada(&condicion,1);
- 498:	61 e0       	ldi	r22, 0x01	; 1
- 49a:	70 e0       	ldi	r23, 0x00	; 0
- 49c:	84 ea       	ldi	r24, 0xA4	; 164
- 49e:	91 e0       	ldi	r25, 0x01	; 1
- 4a0:	0e 94 d1 01 	call	0x3a2	; 0x3a2 <procesarEntrada>
+ 492:	61 e0       	ldi	r22, 0x01	; 1
+ 494:	70 e0       	ldi	r23, 0x00	; 0
+ 496:	8a ea       	ldi	r24, 0xAA	; 170
+ 498:	91 e0       	ldi	r25, 0x01	; 1
+ 49a:	0e 94 ce 01 	call	0x39c	; 0x39c <procesarEntrada>
 				if(condicion){
- 4a4:	80 91 a4 01 	lds	r24, 0x01A4	; 0x8001a4 <condicion.2183>
- 4a8:	90 91 a5 01 	lds	r25, 0x01A5	; 0x8001a5 <condicion.2183+0x1>
- 4ac:	89 2b       	or	r24, r25
- 4ae:	21 f0       	breq	.+8      	; 0x4b8 <actualizar_MEF+0xb0>
+ 49e:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <condicion.2183>
+ 4a2:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <condicion.2183+0x1>
+ 4a6:	89 2b       	or	r24, r25
+ 4a8:	21 f0       	breq	.+8      	; 0x4b2 <actualizar_MEF+0xb0>
 					estado=S4;
- 4b0:	84 e0       	ldi	r24, 0x04	; 4
- 4b2:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
- 4b6:	40 c0       	rjmp	.+128    	; 0x538 <actualizar_MEF+0x130>
+ 4aa:	84 e0       	ldi	r24, 0x04	; 4
+ 4ac:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 4b0:	40 c0       	rjmp	.+128    	; 0x532 <actualizar_MEF+0x130>
 				}
 				else{
 					estado=S2;
- 4b8:	82 e0       	ldi	r24, 0x02	; 2
- 4ba:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
- 4be:	3c c0       	rjmp	.+120    	; 0x538 <actualizar_MEF+0x130>
+ 4b2:	82 e0       	ldi	r24, 0x02	; 2
+ 4b4:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 4b8:	3c c0       	rjmp	.+120    	; 0x532 <actualizar_MEF+0x130>
 				}
 			}
 		break;
 		case S4: SerialPort_Send_String("Ingrese un valor entre 0 y 255 para B:\n\r"); estado=S5;
- 4c0:	87 e7       	ldi	r24, 0x77	; 119
- 4c2:	91 e0       	ldi	r25, 0x01	; 1
- 4c4:	0e 94 d3 02 	call	0x5a6	; 0x5a6 <SerialPort_Send_String>
- 4c8:	85 e0       	ldi	r24, 0x05	; 5
- 4ca:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 4ba:	8d e7       	ldi	r24, 0x7D	; 125
+ 4bc:	91 e0       	ldi	r25, 0x01	; 1
+ 4be:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SerialPort_Send_String>
+ 4c2:	85 e0       	ldi	r24, 0x05	; 5
+ 4c4:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
 		break;
- 4ce:	34 c0       	rjmp	.+104    	; 0x538 <actualizar_MEF+0x130>
+ 4c8:	34 c0       	rjmp	.+104    	; 0x532 <actualizar_MEF+0x130>
 		case S5:
 			if(ProcesarInstruccion){
- 4d0:	80 91 b2 01 	lds	r24, 0x01B2	; 0x8001b2 <ProcesarInstruccion>
- 4d4:	90 91 b3 01 	lds	r25, 0x01B3	; 0x8001b3 <ProcesarInstruccion+0x1>
- 4d8:	89 2b       	or	r24, r25
- 4da:	71 f1       	breq	.+92     	; 0x538 <actualizar_MEF+0x130>
+ 4ca:	80 91 b2 01 	lds	r24, 0x01B2	; 0x8001b2 <ProcesarInstruccion>
+ 4ce:	90 91 b3 01 	lds	r25, 0x01B3	; 0x8001b3 <ProcesarInstruccion+0x1>
+ 4d2:	89 2b       	or	r24, r25
+ 4d4:	71 f1       	breq	.+92     	; 0x532 <actualizar_MEF+0x130>
 				ProcesarInstruccion=0;
- 4dc:	10 92 b3 01 	sts	0x01B3, r1	; 0x8001b3 <ProcesarInstruccion+0x1>
- 4e0:	10 92 b2 01 	sts	0x01B2, r1	; 0x8001b2 <ProcesarInstruccion>
+ 4d6:	10 92 b3 01 	sts	0x01B3, r1	; 0x8001b3 <ProcesarInstruccion+0x1>
+ 4da:	10 92 b2 01 	sts	0x01B2, r1	; 0x8001b2 <ProcesarInstruccion>
 				procesarEntrada(&condicion,2);
- 4e4:	62 e0       	ldi	r22, 0x02	; 2
- 4e6:	70 e0       	ldi	r23, 0x00	; 0
- 4e8:	84 ea       	ldi	r24, 0xA4	; 164
- 4ea:	91 e0       	ldi	r25, 0x01	; 1
- 4ec:	0e 94 d1 01 	call	0x3a2	; 0x3a2 <procesarEntrada>
+ 4de:	62 e0       	ldi	r22, 0x02	; 2
+ 4e0:	70 e0       	ldi	r23, 0x00	; 0
+ 4e2:	8a ea       	ldi	r24, 0xAA	; 170
+ 4e4:	91 e0       	ldi	r25, 0x01	; 1
+ 4e6:	0e 94 ce 01 	call	0x39c	; 0x39c <procesarEntrada>
 				if(condicion){
- 4f0:	80 91 a4 01 	lds	r24, 0x01A4	; 0x8001a4 <condicion.2183>
- 4f4:	90 91 a5 01 	lds	r25, 0x01A5	; 0x8001a5 <condicion.2183+0x1>
- 4f8:	89 2b       	or	r24, r25
- 4fa:	21 f0       	breq	.+8      	; 0x504 <actualizar_MEF+0xfc>
+ 4ea:	80 91 aa 01 	lds	r24, 0x01AA	; 0x8001aa <condicion.2183>
+ 4ee:	90 91 ab 01 	lds	r25, 0x01AB	; 0x8001ab <condicion.2183+0x1>
+ 4f2:	89 2b       	or	r24, r25
+ 4f4:	21 f0       	breq	.+8      	; 0x4fe <actualizar_MEF+0xfc>
 					estado=S6;
- 4fc:	86 e0       	ldi	r24, 0x06	; 6
- 4fe:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
- 502:	1a c0       	rjmp	.+52     	; 0x538 <actualizar_MEF+0x130>
+ 4f6:	86 e0       	ldi	r24, 0x06	; 6
+ 4f8:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 4fc:	1a c0       	rjmp	.+52     	; 0x532 <actualizar_MEF+0x130>
 				}
 				else{
 					estado=S4;
- 504:	84 e0       	ldi	r24, 0x04	; 4
- 506:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
- 50a:	16 c0       	rjmp	.+44     	; 0x538 <actualizar_MEF+0x130>
+ 4fe:	84 e0       	ldi	r24, 0x04	; 4
+ 500:	80 93 d4 01 	sts	0x01D4, r24	; 0x8001d4 <estado>
+ 504:	16 c0       	rjmp	.+44     	; 0x532 <actualizar_MEF+0x130>
 				}
 			}
 		break;
 		case S6: pwm('R',RGB[0]); pwm('G',RGB[1]); pwm('B',RGB[2]); estado=S0;
- 50c:	ca ea       	ldi	r28, 0xAA	; 170
- 50e:	d1 e0       	ldi	r29, 0x01	; 1
- 510:	68 81       	ld	r22, Y
- 512:	79 81       	ldd	r23, Y+1	; 0x01
- 514:	82 e5       	ldi	r24, 0x52	; 82
- 516:	90 e0       	ldi	r25, 0x00	; 0
- 518:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
- 51c:	6a 81       	ldd	r22, Y+2	; 0x02
- 51e:	7b 81       	ldd	r23, Y+3	; 0x03
- 520:	87 e4       	ldi	r24, 0x47	; 71
- 522:	90 e0       	ldi	r25, 0x00	; 0
- 524:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
- 528:	6c 81       	ldd	r22, Y+4	; 0x04
- 52a:	7d 81       	ldd	r23, Y+5	; 0x05
- 52c:	82 e4       	ldi	r24, 0x42	; 66
- 52e:	90 e0       	ldi	r25, 0x00	; 0
- 530:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
- 534:	10 92 d4 01 	sts	0x01D4, r1	; 0x8001d4 <estado>
+ 506:	c0 e0       	ldi	r28, 0x00	; 0
+ 508:	d1 e0       	ldi	r29, 0x01	; 1
+ 50a:	68 81       	ld	r22, Y
+ 50c:	79 81       	ldd	r23, Y+1	; 0x01
+ 50e:	82 e5       	ldi	r24, 0x52	; 82
+ 510:	90 e0       	ldi	r25, 0x00	; 0
+ 512:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 516:	6a 81       	ldd	r22, Y+2	; 0x02
+ 518:	7b 81       	ldd	r23, Y+3	; 0x03
+ 51a:	87 e4       	ldi	r24, 0x47	; 71
+ 51c:	90 e0       	ldi	r25, 0x00	; 0
+ 51e:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 522:	6c 81       	ldd	r22, Y+4	; 0x04
+ 524:	7d 81       	ldd	r23, Y+5	; 0x05
+ 526:	82 e4       	ldi	r24, 0x42	; 66
+ 528:	90 e0       	ldi	r25, 0x00	; 0
+ 52a:	0e 94 19 01 	call	0x232	; 0x232 <pwm>
+ 52e:	10 92 d4 01 	sts	0x01D4, r1	; 0x8001d4 <estado>
 		break;
 	}
 }
- 538:	df 91       	pop	r29
- 53a:	cf 91       	pop	r28
- 53c:	08 95       	ret
+ 532:	df 91       	pop	r29
+ 534:	cf 91       	pop	r28
+ 536:	08 95       	ret
 
-0000053e <main>:
+00000538 <main>:
 volatile int PWM_PB5=0;
 volatile int pwmPB5=1;
 
 int main(void)
 {
 	setupTimer();
- 53e:	0e 94 5a 00 	call	0xb4	; 0xb4 <setupTimer>
+ 538:	0e 94 5a 00 	call	0xb4	; 0xb4 <setupTimer>
 	setupPines();
- 542:	0e 94 66 00 	call	0xcc	; 0xcc <setupPines>
+ 53c:	0e 94 66 00 	call	0xcc	; 0xcc <setupPines>
 	setupSerialPort(103);
- 546:	87 e6       	ldi	r24, 0x67	; 103
- 548:	90 e0       	ldi	r25, 0x00	; 0
- 54a:	0e 94 ef 02 	call	0x5de	; 0x5de <setupSerialPort>
+ 540:	87 e6       	ldi	r24, 0x67	; 103
+ 542:	90 e0       	ldi	r25, 0x00	; 0
+ 544:	0e 94 ec 02 	call	0x5d8	; 0x5d8 <setupSerialPort>
 	setupADC();
- 54e:	0e 94 6a 00 	call	0xd4	; 0xd4 <setupADC>
+ 548:	0e 94 6a 00 	call	0xd4	; 0xd4 <setupADC>
 	sei();
- 552:	78 94       	sei
+ 54c:	78 94       	sei
     /* Replace with your application code */
 	iniciar_MEF();
- 554:	0e 94 52 01 	call	0x2a4	; 0x2a4 <iniciar_MEF>
+ 54e:	0e 94 5b 01 	call	0x2b6	; 0x2b6 <iniciar_MEF>
 	while (1) 
     {
 		actualizar_MEF();
- 558:	0e 94 04 02 	call	0x408	; 0x408 <actualizar_MEF>
+ 552:	0e 94 01 02 	call	0x402	; 0x402 <actualizar_MEF>
 		intensidad();
- 55c:	0e 94 67 01 	call	0x2ce	; 0x2ce <intensidad>
- 560:	fb cf       	rjmp	.-10     	; 0x558 <main+0x1a>
+ 556:	0e 94 70 01 	call	0x2e0	; 0x2e0 <intensidad>
+ 55a:	fb cf       	rjmp	.-10     	; 0x552 <main+0x1a>
 
-00000562 <SerialPort_Init>:
- 562:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
- 566:	96 e0       	ldi	r25, 0x06	; 6
- 568:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
- 56c:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
- 570:	08 95       	ret
+0000055c <SerialPort_Init>:
+ 55c:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+ 560:	96 e0       	ldi	r25, 0x06	; 6
+ 562:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+ 566:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+ 56a:	08 95       	ret
 
-00000572 <SerialPort_TX_Enable>:
- 572:	e1 ec       	ldi	r30, 0xC1	; 193
- 574:	f0 e0       	ldi	r31, 0x00	; 0
- 576:	80 81       	ld	r24, Z
- 578:	88 60       	ori	r24, 0x08	; 8
- 57a:	80 83       	st	Z, r24
- 57c:	08 95       	ret
+0000056c <SerialPort_TX_Enable>:
+ 56c:	e1 ec       	ldi	r30, 0xC1	; 193
+ 56e:	f0 e0       	ldi	r31, 0x00	; 0
+ 570:	80 81       	ld	r24, Z
+ 572:	88 60       	ori	r24, 0x08	; 8
+ 574:	80 83       	st	Z, r24
+ 576:	08 95       	ret
 
-0000057e <SerialPort_RX_Enable>:
- 57e:	e1 ec       	ldi	r30, 0xC1	; 193
- 580:	f0 e0       	ldi	r31, 0x00	; 0
- 582:	80 81       	ld	r24, Z
- 584:	80 61       	ori	r24, 0x10	; 16
- 586:	80 83       	st	Z, r24
- 588:	08 95       	ret
+00000578 <SerialPort_RX_Enable>:
+ 578:	e1 ec       	ldi	r30, 0xC1	; 193
+ 57a:	f0 e0       	ldi	r31, 0x00	; 0
+ 57c:	80 81       	ld	r24, Z
+ 57e:	80 61       	ori	r24, 0x10	; 16
+ 580:	80 83       	st	Z, r24
+ 582:	08 95       	ret
 
-0000058a <SerialPort_RX_Interrupt_Enable>:
- 58a:	e1 ec       	ldi	r30, 0xC1	; 193
- 58c:	f0 e0       	ldi	r31, 0x00	; 0
- 58e:	80 81       	ld	r24, Z
- 590:	80 68       	ori	r24, 0x80	; 128
- 592:	80 83       	st	Z, r24
- 594:	08 95       	ret
+00000584 <SerialPort_RX_Interrupt_Enable>:
+ 584:	e1 ec       	ldi	r30, 0xC1	; 193
+ 586:	f0 e0       	ldi	r31, 0x00	; 0
+ 588:	80 81       	ld	r24, Z
+ 58a:	80 68       	ori	r24, 0x80	; 128
+ 58c:	80 83       	st	Z, r24
+ 58e:	08 95       	ret
 
-00000596 <SerialPort_Wait_For_TX_Buffer_Free>:
- 596:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 59a:	85 ff       	sbrs	r24, 5
- 59c:	fc cf       	rjmp	.-8      	; 0x596 <SerialPort_Wait_For_TX_Buffer_Free>
+00000590 <SerialPort_Wait_For_TX_Buffer_Free>:
+ 590:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 594:	85 ff       	sbrs	r24, 5
+ 596:	fc cf       	rjmp	.-8      	; 0x590 <SerialPort_Wait_For_TX_Buffer_Free>
+ 598:	08 95       	ret
+
+0000059a <SerialPort_Send_Data>:
+ 59a:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
  59e:	08 95       	ret
 
-000005a0 <SerialPort_Send_Data>:
- 5a0:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 5a4:	08 95       	ret
+000005a0 <SerialPort_Send_String>:
+ 5a0:	ef 92       	push	r14
+ 5a2:	ff 92       	push	r15
+ 5a4:	0f 93       	push	r16
+ 5a6:	1f 93       	push	r17
+ 5a8:	cf 93       	push	r28
+ 5aa:	7c 01       	movw	r14, r24
+ 5ac:	c0 e0       	ldi	r28, 0x00	; 0
+ 5ae:	07 c0       	rjmp	.+14     	; 0x5be <SerialPort_Send_String+0x1e>
+ 5b0:	0e 94 c8 02 	call	0x590	; 0x590 <SerialPort_Wait_For_TX_Buffer_Free>
+ 5b4:	f8 01       	movw	r30, r16
+ 5b6:	80 81       	ld	r24, Z
+ 5b8:	0e 94 cd 02 	call	0x59a	; 0x59a <SerialPort_Send_Data>
+ 5bc:	cf 5f       	subi	r28, 0xFF	; 255
+ 5be:	87 01       	movw	r16, r14
+ 5c0:	0c 0f       	add	r16, r28
+ 5c2:	11 1d       	adc	r17, r1
+ 5c4:	f8 01       	movw	r30, r16
+ 5c6:	80 81       	ld	r24, Z
+ 5c8:	81 11       	cpse	r24, r1
+ 5ca:	f2 cf       	rjmp	.-28     	; 0x5b0 <SerialPort_Send_String+0x10>
+ 5cc:	cf 91       	pop	r28
+ 5ce:	1f 91       	pop	r17
+ 5d0:	0f 91       	pop	r16
+ 5d2:	ff 90       	pop	r15
+ 5d4:	ef 90       	pop	r14
+ 5d6:	08 95       	ret
 
-000005a6 <SerialPort_Send_String>:
- 5a6:	ef 92       	push	r14
- 5a8:	ff 92       	push	r15
- 5aa:	0f 93       	push	r16
- 5ac:	1f 93       	push	r17
- 5ae:	cf 93       	push	r28
- 5b0:	7c 01       	movw	r14, r24
- 5b2:	c0 e0       	ldi	r28, 0x00	; 0
- 5b4:	07 c0       	rjmp	.+14     	; 0x5c4 <SerialPort_Send_String+0x1e>
- 5b6:	0e 94 cb 02 	call	0x596	; 0x596 <SerialPort_Wait_For_TX_Buffer_Free>
- 5ba:	f8 01       	movw	r30, r16
- 5bc:	80 81       	ld	r24, Z
- 5be:	0e 94 d0 02 	call	0x5a0	; 0x5a0 <SerialPort_Send_Data>
- 5c2:	cf 5f       	subi	r28, 0xFF	; 255
- 5c4:	87 01       	movw	r16, r14
- 5c6:	0c 0f       	add	r16, r28
- 5c8:	11 1d       	adc	r17, r1
- 5ca:	f8 01       	movw	r30, r16
- 5cc:	80 81       	ld	r24, Z
- 5ce:	81 11       	cpse	r24, r1
- 5d0:	f2 cf       	rjmp	.-28     	; 0x5b6 <SerialPort_Send_String+0x10>
- 5d2:	cf 91       	pop	r28
- 5d4:	1f 91       	pop	r17
- 5d6:	0f 91       	pop	r16
- 5d8:	ff 90       	pop	r15
- 5da:	ef 90       	pop	r14
- 5dc:	08 95       	ret
+000005d8 <setupSerialPort>:
+ 5d8:	0e 94 ae 02 	call	0x55c	; 0x55c <SerialPort_Init>
+ 5dc:	0e 94 b6 02 	call	0x56c	; 0x56c <SerialPort_TX_Enable>
+ 5e0:	0e 94 bc 02 	call	0x578	; 0x578 <SerialPort_RX_Enable>
+ 5e4:	0e 94 c2 02 	call	0x584	; 0x584 <SerialPort_RX_Interrupt_Enable>
+ 5e8:	08 95       	ret
 
-000005de <setupSerialPort>:
- 5de:	0e 94 b1 02 	call	0x562	; 0x562 <SerialPort_Init>
- 5e2:	0e 94 b9 02 	call	0x572	; 0x572 <SerialPort_TX_Enable>
- 5e6:	0e 94 bf 02 	call	0x57e	; 0x57e <SerialPort_RX_Enable>
- 5ea:	0e 94 c5 02 	call	0x58a	; 0x58a <SerialPort_RX_Interrupt_Enable>
- 5ee:	08 95       	ret
+000005ea <__tablejump2__>:
+ 5ea:	ee 0f       	add	r30, r30
+ 5ec:	ff 1f       	adc	r31, r31
+ 5ee:	05 90       	lpm	r0, Z+
+ 5f0:	f4 91       	lpm	r31, Z
+ 5f2:	e0 2d       	mov	r30, r0
+ 5f4:	09 94       	ijmp
 
-000005f0 <__tablejump2__>:
- 5f0:	ee 0f       	add	r30, r30
- 5f2:	ff 1f       	adc	r31, r31
- 5f4:	05 90       	lpm	r0, Z+
- 5f6:	f4 91       	lpm	r31, Z
- 5f8:	e0 2d       	mov	r30, r0
- 5fa:	09 94       	ijmp
+000005f6 <atoi>:
+ 5f6:	fc 01       	movw	r30, r24
+ 5f8:	88 27       	eor	r24, r24
+ 5fa:	99 27       	eor	r25, r25
+ 5fc:	e8 94       	clt
+ 5fe:	21 91       	ld	r18, Z+
+ 600:	20 32       	cpi	r18, 0x20	; 32
+ 602:	e9 f3       	breq	.-6      	; 0x5fe <atoi+0x8>
+ 604:	29 30       	cpi	r18, 0x09	; 9
+ 606:	10 f0       	brcs	.+4      	; 0x60c <atoi+0x16>
+ 608:	2e 30       	cpi	r18, 0x0E	; 14
+ 60a:	c8 f3       	brcs	.-14     	; 0x5fe <atoi+0x8>
+ 60c:	2b 32       	cpi	r18, 0x2B	; 43
+ 60e:	41 f0       	breq	.+16     	; 0x620 <atoi+0x2a>
+ 610:	2d 32       	cpi	r18, 0x2D	; 45
+ 612:	39 f4       	brne	.+14     	; 0x622 <atoi+0x2c>
+ 614:	68 94       	set
+ 616:	04 c0       	rjmp	.+8      	; 0x620 <atoi+0x2a>
+ 618:	0e 94 19 03 	call	0x632	; 0x632 <__mulhi_const_10>
+ 61c:	82 0f       	add	r24, r18
+ 61e:	91 1d       	adc	r25, r1
+ 620:	21 91       	ld	r18, Z+
+ 622:	20 53       	subi	r18, 0x30	; 48
+ 624:	2a 30       	cpi	r18, 0x0A	; 10
+ 626:	c0 f3       	brcs	.-16     	; 0x618 <atoi+0x22>
+ 628:	1e f4       	brtc	.+6      	; 0x630 <atoi+0x3a>
+ 62a:	90 95       	com	r25
+ 62c:	81 95       	neg	r24
+ 62e:	9f 4f       	sbci	r25, 0xFF	; 255
+ 630:	08 95       	ret
 
-000005fc <atoi>:
- 5fc:	fc 01       	movw	r30, r24
- 5fe:	88 27       	eor	r24, r24
- 600:	99 27       	eor	r25, r25
- 602:	e8 94       	clt
- 604:	21 91       	ld	r18, Z+
- 606:	20 32       	cpi	r18, 0x20	; 32
- 608:	e9 f3       	breq	.-6      	; 0x604 <atoi+0x8>
- 60a:	29 30       	cpi	r18, 0x09	; 9
- 60c:	10 f0       	brcs	.+4      	; 0x612 <atoi+0x16>
- 60e:	2e 30       	cpi	r18, 0x0E	; 14
- 610:	c8 f3       	brcs	.-14     	; 0x604 <atoi+0x8>
- 612:	2b 32       	cpi	r18, 0x2B	; 43
- 614:	41 f0       	breq	.+16     	; 0x626 <atoi+0x2a>
- 616:	2d 32       	cpi	r18, 0x2D	; 45
- 618:	39 f4       	brne	.+14     	; 0x628 <atoi+0x2c>
- 61a:	68 94       	set
- 61c:	04 c0       	rjmp	.+8      	; 0x626 <atoi+0x2a>
- 61e:	0e 94 1c 03 	call	0x638	; 0x638 <__mulhi_const_10>
- 622:	82 0f       	add	r24, r18
- 624:	91 1d       	adc	r25, r1
- 626:	21 91       	ld	r18, Z+
- 628:	20 53       	subi	r18, 0x30	; 48
- 62a:	2a 30       	cpi	r18, 0x0A	; 10
- 62c:	c0 f3       	brcs	.-16     	; 0x61e <atoi+0x22>
- 62e:	1e f4       	brtc	.+6      	; 0x636 <atoi+0x3a>
- 630:	90 95       	com	r25
- 632:	81 95       	neg	r24
- 634:	9f 4f       	sbci	r25, 0xFF	; 255
- 636:	08 95       	ret
+00000632 <__mulhi_const_10>:
+ 632:	7a e0       	ldi	r23, 0x0A	; 10
+ 634:	97 9f       	mul	r25, r23
+ 636:	90 2d       	mov	r25, r0
+ 638:	87 9f       	mul	r24, r23
+ 63a:	80 2d       	mov	r24, r0
+ 63c:	91 0d       	add	r25, r1
+ 63e:	11 24       	eor	r1, r1
+ 640:	08 95       	ret
 
-00000638 <__mulhi_const_10>:
- 638:	7a e0       	ldi	r23, 0x0A	; 10
- 63a:	97 9f       	mul	r25, r23
- 63c:	90 2d       	mov	r25, r0
- 63e:	87 9f       	mul	r24, r23
- 640:	80 2d       	mov	r24, r0
- 642:	91 0d       	add	r25, r1
- 644:	11 24       	eor	r1, r1
- 646:	08 95       	ret
+00000642 <_exit>:
+ 642:	f8 94       	cli
 
-00000648 <_exit>:
- 648:	f8 94       	cli
-
-0000064a <__stop_program>:
- 64a:	ff cf       	rjmp	.-2      	; 0x64a <__stop_program>
+00000644 <__stop_program>:
+ 644:	ff cf       	rjmp	.-2      	; 0x644 <__stop_program>

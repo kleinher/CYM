@@ -65,8 +65,15 @@ void pwm(int pin,int num){
 			OCR1B=num;
 		break;
 		case 'B':
-			PWM_PB5=1;
-			OCR0_PB5=num;
+			if(num == 0){
+				DDRB &= ~(1<<5);
+			}
+			else{
+				DDRB |= (1<<5);
+				PWM_PB5=1;
+				OCR0_PB5=num;
+			}
+			
 		break;
 	}
 }
@@ -76,7 +83,7 @@ void iniciar_MEF(){
 	//PWM manual entre 7 y 248 anda joya (simulador)
 	pwm('R',0);
 	pwm('G',0);
-	pwm('B',8);
+	pwm('B',0);
 }
 
 void actualizar_MEF(){
@@ -130,13 +137,13 @@ void actualizar_MEF(){
 }
 
 void intensidad(){
-	if(newData+RGB[0]>=0 && newData+RGB[0]<=255){
+	if(RGB[0]>0 && newData+RGB[0]>=0 && newData+RGB[0]<=255){
 		pwm('R',RGB[0]+newData);
 	}
-	if(newData+RGB[1]>=0 && newData+RGB[1]<=255){
+	if(RGB[1]>0 && newData+RGB[1]>=0 && newData+RGB[1]<=255){
 		pwm('G',RGB[1]+newData);
 	}
-	if(newData+RGB[2]>=10 && newData+RGB[2]<=244){
+	if(RGB[2]>0 && newData+RGB[2]>=0 && newData+RGB[2]<=255){
 		pwm('B',RGB[2]+newData);
 	}
 }

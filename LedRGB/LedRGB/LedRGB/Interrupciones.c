@@ -22,7 +22,7 @@ void setupTimer(){
 }
 
 void setupPines(){
-	DDRB |= (1<<1)|(1<<2)|(1<<5);
+	DDRB |= (1<<1)|(1<<2)|(0<<5);
 }
 
 void setupADC(){

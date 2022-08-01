@@ -142,7 +142,9 @@ void actualizar_MEF(){
 }
 
 void intensidad(){
-	if(RGB[0]>0 && newData+RGB[0]>=0 && newData+RGB[0]<=255){
+	if(newData+RGB[0]>=255 || newData+RGB[1]>=255 || newData+RGB[2]>=255)
+		return 0;
+	if(RGB[0]>0 && newData+RGB[0]>=0 && newData+RGB[0]<=255 ){
 		pwm('R',RGB[0]+newData);
 	}
 	if(RGB[1]>0 && newData+RGB[1]>=0 && newData+RGB[1]<=255){

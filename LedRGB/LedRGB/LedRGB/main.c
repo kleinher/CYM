@@ -54,15 +54,19 @@ int main(void)
 }
 
 void pwm(int pin,int num){
-	TCCR1B |= (1<<CS11);//prescalar /8
+	TCCR1B |= (1<<WGM12)|(1<<CS12)|(1<<CS10);//prescalar /1024
 	switch(pin){
 		case 'R':
-			TCCR1A |= (1<<WGM12)|(1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
-			OCR1A=num;
+			if(num>250)
+				PORTB|=(1<<5);
+			else {TCCR1A |= (1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
+			OCR1A=num;}
 		break;
 		case 'G':
-			TCCR1A |= (1<<WGM12)|(1<<WGM10)|(1<<COM1B1)|(1<<COM1B0);//fast pwm, inverted
-			OCR1B=num;
+			if(num>250)
+				PORTB|=(1<<5);
+			else {TCCR1A |= (1<<WGM10)|(1<<COM1B1)|(1<<COM1B0);//fast pwm, inverted
+			OCR1B=num;}
 		break;
 		case 'B':
 			if(num < 8){
@@ -142,17 +146,29 @@ void actualizar_MEF(){
 }
 
 void intensidad(){
-	if(newData+RGB[0]>=255 || newData+RGB[1]>=255 || newData+RGB[2]>=255)
+
+
+	int test = (newData * 100)/(255);
+	/*
+	int ocrR= -1*(((RGB[0]/100)*256)-255);
+	int ocrG= -1*(((RGB[1]/100)*256)-255);
+	int ocrB= -1*(((RGB[2]/100)*256)-255);
+	int porcentajeR = test * ocrR;
+	int porcentajeG = test * ocrG;
+	int porcentajeB = test * ocrB;
+	int finalR = (porcentajeR*255)/100;
+	int finalG = (porcentajeG*255)/100;
+	int finalB = (porcentajeB*255)/100;
+	*/
+	int finalR=RGB[0]*test/100;
+	int finalG=RGB[1]*test/100;
+	int finalB=RGB[2]*test/100;
+	
+	if(finalR>=255 || finalG>=255 || finalB>=255)
 		return 0;
-	if(RGB[0]>0 && newData+RGB[0]>=0 && newData+RGB[0]<=255 ){
-		pwm('R',RGB[0]+newData);
-	}
-	if(RGB[1]>0 && newData+RGB[1]>=0 && newData+RGB[1]<=255){
-		pwm('G',RGB[1]+newData);
-	}
-	if(RGB[2]>0 && newData+RGB[2]>=0 && newData+RGB[2]<=255){
-		pwm('B',RGB[2]+newData);
-	}
+	pwm('R',finalR);
+	pwm('G',finalG);
+	pwm('B',finalB);
 }
 
 void procesarEntrada(int *condicion, int cont){

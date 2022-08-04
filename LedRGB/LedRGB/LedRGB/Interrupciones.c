@@ -8,30 +8,30 @@
 
 #include "main.h"
 extern volatile int ProcesarInstruccion;
-extern volatile uint16_t newData;
+extern volatile int pote;
 extern char BufferRX[32];
 extern volatile int OCR0_PB5;
 extern volatile int PWM_PB5;
+extern volatile int flagPote;
+
 /*Configuración del timer 0*/
 void setupTimer(){
 	TCCR0B=(1<<CS02)|(1<<CS00);	//configurar el registro del timer0 como temporizador con prescalador de 1024
-	TCCR0A=0x02;				// modo CTC
+	TCCR0A=0x02;				// modo CTC 
 	OCR0A=255;					//el registro empieza con valor 255
 	TIMSK0|= (1<<OCIE0A);	    //habilita la interrupcion por desbordamiento del timer0
 }
 
 void setupPines(){
-	DDRB |= (1<<1)|(1<<2)|(0<<5);
+	DDRB |= (1<<1)|(1<<2)|(1<<5);
 }
 
 void setupADC(){
 	ADCSRA = 0;
 	ADCSRB = 0;
-	
-
-	ADMUX |= (1 << REFS0)|(1 << MUX0)|(1 << MUX1); //set reference voltage
+	ADMUX |= (1 << REFS1); //set reference voltage
 	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only //
-	ADCSRA |= (1 << ADPS0)|(1 << ADPS1)|(1 << ADPS2); //prescalador ADC 128
+	ADCSRA |= (1 << ADPS2)|(1 << ADPS1)|(1 << ADPS0); //prescalador ADC 8
 	ADCSRA |= (1 << ADATE); //enabble auto trigger
 	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete
 	ADCSRA |= (1 << ADEN); //enable ADC
@@ -43,31 +43,31 @@ void setupADC(){
 */
 ISR(TIMER0_COMPA_vect)
 {	
-static int flag=0;
-if(PWM_PB5==1){
-	if(OCR0_PB5>241){
-		//PORTB |= (1<<5); //no invertido
-		PORTB &= ~(1<<5); //invertido
-	}
-	else if(OCR0_PB5<8){
-		//PORTB &= ~(1<<5); //no invertido
-		PORTB |= (1<<5); //invertido
-	}
-	else{
-		if(flag==0){
-			flag=1;
-			//PORTB &= ~(1<<5); // invertido
-			PORTB |= (1<<5); // invertido
-			OCR0A=(256-OCR0_PB5);
+	static int flag=0;
+	if(PWM_PB5==1){
+		if(OCR0_PB5>241){
+			//PORTB |= (1<<5); //no invertido
+			PORTB &= ~(1<<5); //invertido
 		}
-		else {
-			flag=0;
-			//PORTB |= (1<<5); // no invertido
-			PORTB &= ~(1<<5); // invertido
-			OCR0A=(OCR0_PB5-1);
+		else if(OCR0_PB5<8){
+			//PORTB &= ~(1<<5); //no invertido
+			PORTB |= (1<<5); //invertido
+		}
+		else{
+			if(flag==0){
+				flag=1;
+				//PORTB &= ~(1<<5); // invertido
+				PORTB |= (1<<5); // invertido
+				OCR0A=(256-OCR0_PB5);
+			}
+			else {
+				flag=0;
+				//PORTB |= (1<<5); // no invertido
+				PORTB &= ~(1<<5); // invertido
+				OCR0A=(OCR0_PB5-1);
+			}
 		}
 	}
-}
 }
 
 /*
@@ -89,5 +89,11 @@ ISR(USART_RX_vect){
 }
 
 ISR(ADC_vect) {//when new ADC value ready
-	newData = ADCH;//get value from A0 (POTENCIOME * 255)/1023
+	/*
+	static int oldData=0;
+	oldData=pote; //tomo valor antiguo
+	pote = ADCH-oldData;//get value from A0	
+	*/
+	pote=ADCH;
+	flagPote=1;
 }

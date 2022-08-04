@@ -21,21 +21,24 @@ void actualizar_MEF();
 void procesarEntrada(int*,int);
 void pwm(int pin,int num);
 void intensidad();
+void iniciar_Referencia();
 
 typedef enum{S0,S1,S2,S3,S4,S5,S6} state;
 state estado;
 
 volatile int ProcesarInstruccion=0;
-volatile uint16_t newData=0;
+volatile int pote=0;
 char data[5];
 char BufferRX[32];
 char BufferTX[32];
 volatile int ProcesarInstruccion;
-int RGB[3] = {0,0,1};
+int RGB[3] = {0,0,0};
 int cont = 0;
 volatile int OCR0_PB5=0;
 volatile int PWM_PB5=0;
 volatile int pwmPB5=1;
+volatile int flagPote=0;
+volatile int referencia=0;
 
 int main(void)
 {
@@ -56,33 +59,32 @@ int main(void)
 void pwm(int pin,int num){
 	TCCR1B |= (1<<WGM12)|(1<<CS12)|(1<<CS10);//prescalar /1024
 	switch(pin){
-		case 'R':
-			if(num>250)
-				PORTB|=(1<<5);
-			else {TCCR1A |= (1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
-			OCR1A=num;}
-		break;
-		case 'G':
-			if(num>250)
-				PORTB|=(1<<5);
-			else {TCCR1A |= (1<<WGM10)|(1<<COM1B1)|(1<<COM1B0);//fast pwm, inverted
-			OCR1B=num;}
-		break;
 		case 'B':
-			if(num < 8){
-				DDRB &= ~(1<<5);
+			if(num<8){
+				TCCR1A &= ~(1<<COM1A1);
+				TCCR1A &= ~(1<<COM1A0);
+				PORTB|= (1<<1);
 			}
 			else{
-				if (num > 244)
-				{
-					DDRB |= (1<<5);
-					PORTB |= (1<<5);
-				}
-				DDRB |= (1<<5);
-				PWM_PB5=1;
-				OCR0_PB5=num;
+				TCCR1A |= (1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
+				OCR1A=num;
 			}
-			
+
+		break;
+		case 'G':
+			if(num<8){
+				TCCR1A &= ~(1<<COM1B1);
+				TCCR1A &= ~(1<<COM1B0);
+				PORTB|= (1<<2);
+			}
+			else{
+				TCCR1A |= (1<<WGM10)|(1<<COM1B1)|(1<<COM1B0);//fast pwm, inverted
+				OCR1B=num;
+			}
+		break;
+		case 'R':
+			PWM_PB5=1;
+			OCR0_PB5=num;
 		break;
 	}
 }
@@ -102,8 +104,8 @@ void actualizar_MEF(){
 		break;
 		case S1:
 			if(ProcesarInstruccion){
+				procesarEntrada(&condicion,2);
 				ProcesarInstruccion=0;
-				procesarEntrada(&condicion,0);
 				if(condicion){
 					estado=S2;
 				}
@@ -116,8 +118,8 @@ void actualizar_MEF(){
 		break;
 		case S3:
 			if(ProcesarInstruccion){
-				ProcesarInstruccion=0;
 				procesarEntrada(&condicion,1);
+				ProcesarInstruccion=0;
 				if(condicion){
 					estado=S4;
 				}
@@ -130,8 +132,8 @@ void actualizar_MEF(){
 		break;
 		case S5:
 			if(ProcesarInstruccion){
+				procesarEntrada(&condicion,0);
 				ProcesarInstruccion=0;
-				procesarEntrada(&condicion,2);
 				if(condicion){
 					estado=S6;
 				}
@@ -146,26 +148,24 @@ void actualizar_MEF(){
 }
 
 void intensidad(){
-
-
-	int test = (newData * 100)/(255);
 	/*
-	int ocrR= -1*(((RGB[0]/100)*256)-255);
-	int ocrG= -1*(((RGB[1]/100)*256)-255);
-	int ocrB= -1*(((RGB[2]/100)*256)-255);
-	int porcentajeR = test * ocrR;
-	int porcentajeG = test * ocrG;
-	int porcentajeB = test * ocrB;
-	int finalR = (porcentajeR*255)/100;
-	int finalG = (porcentajeG*255)/100;
-	int finalB = (porcentajeB*255)/100;
+	static int ref=0;
+	ref=pote-referencia; //diferencia entre la posicion actual y la inicial del potenciometro
+	if(ref+RGB[0]>=0 && ref+RGB[0]<=255){
+		pwm('R',RGB[0]+ref); //variacion de la intensidad de R
+	}
+	if(ref+RGB[1]>=0 && ref+RGB[1]<=255){
+		pwm('G',RGB[1]+ref); //variacion de la intensidad de G
+	}
+	if(ref+RGB[2]>=0 && ref+RGB[2]<=255){
+		pwm('B',RGB[2]+ref);	//variacion de la intensidad de B
+	}
 	*/
-	int finalR=RGB[0]*test/100;
-	int finalG=RGB[1]*test/100;
-	int finalB=RGB[2]*test/100;
+	int test = (pote * 100)/(255);
+	int finalR=(int)(RGB[0]*test/100);
+	int finalG=(int)(RGB[1]*test/100);
+	int finalB=(int)(RGB[2]*test/100);
 	
-	if(finalR>=255 || finalG>=255 || finalB>=255)
-		return 0;
 	pwm('R',finalR);
 	pwm('G',finalG);
 	pwm('B',finalB);

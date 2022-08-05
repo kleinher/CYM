@@ -39,6 +39,7 @@ volatile int PWM_PB5=0;
 volatile int pwmPB5=1;
 volatile int flagPote=0;
 volatile int referencia=0;
+volatile int flagDebug=0;
 
 int main(void)
 {
@@ -59,7 +60,7 @@ int main(void)
 void pwm(int pin,int num){
 	TCCR1B |= (1<<WGM12)|(1<<CS12)|(1<<CS10);//prescalar /1024
 	switch(pin){
-		case 'B':
+		case 'R':
 			if(num<8){
 				TCCR1A &= ~(1<<COM1A1);
 				TCCR1A &= ~(1<<COM1A0);
@@ -82,7 +83,7 @@ void pwm(int pin,int num){
 				OCR1B=num;
 			}
 		break;
-		case 'R':
+		case 'B':
 			PWM_PB5=1;
 			OCR0_PB5=num;
 		break;
@@ -104,7 +105,7 @@ void actualizar_MEF(){
 		break;
 		case S1:
 			if(ProcesarInstruccion){
-				procesarEntrada(&condicion,2);
+				procesarEntrada(&condicion,0);
 				ProcesarInstruccion=0;
 				if(condicion){
 					estado=S2;
@@ -132,7 +133,7 @@ void actualizar_MEF(){
 		break;
 		case S5:
 			if(ProcesarInstruccion){
-				procesarEntrada(&condicion,0);
+				procesarEntrada(&condicion,2);
 				ProcesarInstruccion=0;
 				if(condicion){
 					estado=S6;
@@ -148,19 +149,6 @@ void actualizar_MEF(){
 }
 
 void intensidad(){
-	/*
-	static int ref=0;
-	ref=pote-referencia; //diferencia entre la posicion actual y la inicial del potenciometro
-	if(ref+RGB[0]>=0 && ref+RGB[0]<=255){
-		pwm('R',RGB[0]+ref); //variacion de la intensidad de R
-	}
-	if(ref+RGB[1]>=0 && ref+RGB[1]<=255){
-		pwm('G',RGB[1]+ref); //variacion de la intensidad de G
-	}
-	if(ref+RGB[2]>=0 && ref+RGB[2]<=255){
-		pwm('B',RGB[2]+ref);	//variacion de la intensidad de B
-	}
-	*/
 	int test = (pote * 100)/(255);
 	int finalR=(int)(RGB[0]*test/100);
 	int finalG=(int)(RGB[1]*test/100);

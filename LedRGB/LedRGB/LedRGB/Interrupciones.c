@@ -13,6 +13,7 @@ extern char BufferRX[32];
 extern volatile int OCR0_PB5;
 extern volatile int PWM_PB5;
 extern volatile int flagPote;
+extern volatile int flagDebug;
 
 /*Configuración del timer 0*/
 void setupTimer(){
@@ -29,9 +30,9 @@ void setupPines(){
 void setupADC(){
 	ADCSRA = 0;
 	ADCSRB = 0;
-	ADMUX |= (1 << REFS1); //set reference voltage
+	ADMUX |= (1 << REFS0); //set reference voltage 5V
 	ADMUX |= (1 << ADLAR); //left align the ADC value- so we can read highest 8 bits from ADCH register only //
-	ADCSRA |= (1 << ADPS2)|(1 << ADPS1)|(1 << ADPS0); //prescalador ADC 8
+	ADCSRA |= (1 << ADPS2)|(1 << ADPS1)|(1 << ADPS0); //prescalador ADC 128
 	ADCSRA |= (1 << ADATE); //enabble auto trigger
 	ADCSRA |= (1 << ADIE); //enable interrupts when measurement complete
 	ADCSRA |= (1 << ADEN); //enable ADC
@@ -89,11 +90,6 @@ ISR(USART_RX_vect){
 }
 
 ISR(ADC_vect) {//when new ADC value ready
-	/*
-	static int oldData=0;
-	oldData=pote; //tomo valor antiguo
-	pote = ADCH-oldData;//get value from A0	
-	*/
 	pote=ADCH;
 	flagPote=1;
 }

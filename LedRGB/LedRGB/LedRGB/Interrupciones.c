@@ -91,4 +91,5 @@ ISR(USART_RX_vect){
 
 ISR(ADC_vect) {//when new ADC value ready
 	pote=ADCH;
+	flagPote=1;
 }

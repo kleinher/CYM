@@ -26,6 +26,7 @@ void iniciar_Referencia();
 typedef enum{S0,S1,S2,S3,S4,S5,S6} state;
 state estado;
 
+volatile int ProcesarInstruccion=0;
 volatile int pote=0;
 char data[5];
 char BufferRX[32];
@@ -42,7 +43,6 @@ volatile int flagDebug=0;
 
 int main(void)
 {
-	setupPrescaler();
 	setupTimer();
 	setupPines();
 	setupSerialPort(103);
@@ -56,43 +56,42 @@ int main(void)
 		intensidad();
     }
 }
-void setupPrescaler(){
-	TCCR1B |= (1<<WGM12)|(1<<CS12)|(1<<CS10); 
-}
-void pwm(int pin,int num){
 
+void pwm(int pin,int num){
+	TCCR1B |= (1<<WGM12)|(1<<CS12)|(1<<CS10);//prescalar /1024
 	switch(pin){
 		case 'R':
 			if(num<8){
 				TCCR1A &= ~(1<<COM1A1);
 				TCCR1A &= ~(1<<COM1A0);
-				PORTB |= (1<<1);
+				PORTB|= (1<<1);
 			}
 			else{
 				TCCR1A |= (1<<WGM10)|(1<<COM1A1)|(1<<COM1A0);//fast pwm, inverted
-				OCR1A = num;
+				OCR1A=num;
 			}
+
 		break;
 		case 'G':
 			if(num<8){
 				TCCR1A &= ~(1<<COM1B1);
 				TCCR1A &= ~(1<<COM1B0);
-				PORTB |= (1<<2);
+				PORTB|= (1<<2);
 			}
 			else{
 				TCCR1A |= (1<<WGM10)|(1<<COM1B1)|(1<<COM1B0);//fast pwm, inverted
-				OCR1B = num;
+				OCR1B=num;
 			}
 		break;
 		case 'B':
-			PWM_PB5 = 1;
-			OCR0_PB5 = num;
+			PWM_PB5=1;
+			OCR0_PB5=num;
 		break;
 	}
 }
 
 void iniciar_MEF(){
-	estado = S0;
+	estado=S0;
 	//PWM manual entre 7 y 248 anda joya (simulador)
 	pwm('R',0);
 	pwm('G',0);
@@ -107,12 +106,12 @@ void actualizar_MEF(){
 		case S1:
 			if(ProcesarInstruccion){
 				procesarEntrada(&condicion,0);
-				ProcesarInstruccion = 0;
+				ProcesarInstruccion=0;
 				if(condicion){
-					estado = S2;
+					estado=S2;
 				}
 				else{
-					estado = S0;
+					estado=S0;
 				}
 			}
 		break;
@@ -123,10 +122,10 @@ void actualizar_MEF(){
 				procesarEntrada(&condicion,1);
 				ProcesarInstruccion=0;
 				if(condicion){
-					estado = S4;
+					estado=S4;
 				}
 				else{
-					estado = S2;
+					estado=S2;
 				}
 			}
 		break;
@@ -137,27 +136,27 @@ void actualizar_MEF(){
 				procesarEntrada(&condicion,2);
 				ProcesarInstruccion=0;
 				if(condicion){
-					estado = S6;
+					estado=S6;
 				}
 				else{
-					estado = S4;
+					estado=S4;
 				}
 			}
 		break;
-		case S6: pwm('R',RGB[0]); pwm('G',RGB[1]); pwm('B',RGB[2]); estado = S0;
+		case S6: pwm('R',RGB[0]); pwm('G',RGB[1]); pwm('B',RGB[2]); estado=S0;
 		break;
 	}
 }
 
 void intensidad(){
-	int potenciometro = (pote * 100)/(255);     // Valor porcentual potenciometro
-	int finalR=(int)(RGB[0]*potenciometro/100); // Valor de intensidad led Rojo, acorde a la intencidad del potenciometro
-	int finalG=(int)(RGB[1]*potenciometro/100); // Valor de intensidad led Verde, acorde a la intencidad del potenciometro
-	int finalB=(int)(RGB[2]*potenciometro/100); // Valor de intensidad led Azul, acorde a la intencidad del potenciometro
+	int test = (pote * 100)/(255);
+	int finalR=(int)(RGB[0]*test/100);
+	int finalG=(int)(RGB[1]*test/100);
+	int finalB=(int)(RGB[2]*test/100);
 	
-	pwm('R',finalR); //Seteo de los valores PWM para el led rojo
-	pwm('G',finalG); //Seteo de los valores PWM para el led verde
-	pwm('B',finalB); //Seteo de los valores PWM para el led azul
+	pwm('R',finalR);
+	pwm('G',finalG);
+	pwm('B',finalB);
 }
 
 void procesarEntrada(int *condicion, int cont){

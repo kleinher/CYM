@@ -79,7 +79,15 @@ void SerialPort_Send_String(char * msg){ //msg -> "Hola como andan hoy?" 20 ASCI
 		i++;
 	}
 }
-
+/*
+*Configuración de la terminal serie
+*/
+void setupSerialPort(int cod){
+	SerialPort_Init(cod);
+	SerialPort_TX_Enable();
+	SerialPort_RX_Enable();
+	SerialPort_RX_Interrupt_Enable();
+}
 
 // Recepción
 
@@ -251,14 +259,5 @@ void startSerialPort(){
 		 UBRR0L = 103;						//baud rate = 9600bps@16MHz
 		 while (! (UCSR0A & (1<<UDRE0)));   //wait until UDR0 is empty
 }
-/*
-*Configuración de la terminal serie
-*/
-void setupSerialPort(int cod){
-	SerialPort_Init(cod);
-	SerialPort_TX_Enable();
-	SerialPort_RX_Enable();
-	SerialPort_RX_Interrupt_Enable();
-	
-}
+
 

@@ -6,5 +6,11 @@ Interrupciones.c
 
 main.c
 
+potenciometro.c
+
+pwm.c
+
 serialPort.c
+
+USART.c
 

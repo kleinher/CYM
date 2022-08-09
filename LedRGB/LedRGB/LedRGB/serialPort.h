@@ -4,7 +4,6 @@
  * Created: 07/10/2020 03:02:42 p. m.
  *  Author: vfperri
  */ 
-
 #ifndef SERIALPORT_H_
 	#define SERIALPORT_H_
 
@@ -52,7 +51,6 @@
 	char SerialPort_Receive_data (char * dato);
 	
 	//TP
-	void displayMenu();
 	void startSerialPort();
 	void setupSerialPort(int cod);
 
